@@ -32,6 +32,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { putTransactions } from "../BridgeCalls";
 import { PUPPYNET_CHAIN_ID } from "app/config/constant";
+import useTransactionCount from "app/hooks/useTransactionCount";
 
 const StepThree: React.FC<any> = ({
   withdrawTokenInput,
@@ -52,6 +53,7 @@ const StepThree: React.FC<any> = ({
   inclusion,
 }) => {
   const [txState, setTxState] = useLocalStorageState<any>("txState");
+  const { getTransactionsCount } = useTransactionCount();
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
@@ -120,6 +122,7 @@ const StepThree: React.FC<any> = ({
               },
             })
           );
+          getTransactionsCount();
           setProcessing((processing: any) => [...processing, "Completed"]);
           setCompleted(true);
           let body = {
@@ -336,6 +339,7 @@ const StepThree: React.FC<any> = ({
               },
             })
           );
+          getTransactionsCount();
           setProcessing((processing: any) => [...processing, "Completed"]);
           setStep("Completed");
           setCompleted(true);

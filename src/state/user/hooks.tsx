@@ -41,7 +41,8 @@ import {
   updateValInfo,
   updateEpochDyna,
   updateMigrateData,
-  updateTotalValCount
+  updateTotalValCount,
+  updatePendingTransactionCount
 } from "./actions";
 
 
@@ -347,7 +348,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   )
 
   // pairs saved by users
-  const savedSerializedPairs = useAppSelector(({ user: { pairs } }) => pairs)
+  const savedSerializedPairs = useAppSelector(({ user: { pairs } }:any) => pairs)
 
   const userPairs: [Token, Token][] = useMemo(() => {
     if (!chainId || !savedSerializedPairs) return []
@@ -489,4 +490,25 @@ export function useValCount(): [object, (newUseUserType: number) => object] {
   )
 
   return [totalValCount, setTotalValCount]
+}
+export function usePendingTransactionCount(): [object, (newUseUserType: number) => object] {
+  const dispatch = useAppDispatch();
+
+  const pendingTransactionCount = useSelector<
+    AppState,
+    // @ts-ignore TYPE NEEDS FIXING
+    AppState["pendingTransactionCount"]["setPendingTransactionCount"]
+  >((state) => state.user.pendingTransactionCount);
+
+  const setPendingTransactionCount = useCallback(
+    (count: number) =>
+      dispatch(
+        updatePendingTransactionCount({
+          pendingTransactionCount: count,
+        })
+      ),
+    [dispatch]
+  );
+
+  return [pendingTransactionCount, setPendingTransactionCount];
 }

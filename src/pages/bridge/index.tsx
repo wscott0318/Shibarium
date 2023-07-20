@@ -26,8 +26,6 @@ import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
 import Loader from "app/components/Loader";
-import { burnStatus } from "../../exit/burn";
-import { getClient } from "client/shibarium";
 
 export default function Withdraw() {
   const { chainId = 1, account } = useActiveWeb3React();
@@ -446,13 +444,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800 w-100">
                                           <span className="lite-800 fw-bold wrap_selected_token">
-                                            {selectedToken?.parentName ||
-                                            selectedToken?.symbol
-                                              ? chainId == GOERLI_CHAIN_ID
-                                                ? selectedToken?.parentName ||
-                                                  selectedToken?.symbol
-                                                : selectedToken?.childName ||
-                                                  selectedToken?.childSymbol
+                                            {selectedToken?.key
+                                              ? selectedToken?.key
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -512,8 +505,17 @@ export default function Withdraw() {
                                 </div>
                                 <div className="botom-spcing">
                                   <div>
-                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                    <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between">
                                       To
+                                      {selectedToken?.key && values.amount ? (
+                                        <span className="grey-txts">
+                                          You will receive {values.amount}{" "}
+                                          {selectedToken.key} on the Puppy Net
+                                          Chain.
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
@@ -716,13 +718,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800 w-100">
                                           <span className="lite-800 fw-bold  wrap_selected_token">
-                                            {selectedToken?.parentName ||
-                                            selectedToken?.symbol
-                                              ? chainId == GOERLI_CHAIN_ID
-                                                ? selectedToken?.parentName ||
-                                                  selectedToken?.symbol
-                                                : selectedToken?.childName ||
-                                                  selectedToken?.childSymbol
+                                            {selectedToken?.key
+                                              ? selectedToken?.key
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -783,8 +780,19 @@ export default function Withdraw() {
                                 </div>
                                 <div className="botom-spcing">
                                   <div>
-                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                    <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between">
                                       To
+                                      {selectedToken?.key &&
+                                      values.withdrawAmount ? (
+                                        <span className="grey-txts">
+                                          You will receive{" "}
+                                          {values.withdrawAmount}{" "}
+                                          {selectedToken.key} on the Goerli Chain
+                                          Chain.
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">

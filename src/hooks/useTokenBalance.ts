@@ -110,6 +110,7 @@ export const getTokenBalance = async (
             .decimals()
             .call()
             .then((d: number) => {
+              console.log("balance , ", address, res);
               balance = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
               // balance = web3.utils.fromWei(res, 'ether')
             });

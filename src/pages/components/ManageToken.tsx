@@ -165,6 +165,7 @@ export default function ManageToken({
             chainId === GOERLI_CHAIN_ID ? x?.parentContract : x?.childContract;
           await getTokenBalance(lib, account, tokenAddress)
             .then((res: any) => {
+              console.log("token address ", tokenAddress, res);
               x.balance = res > 0 ? res : "00.00";
             })
             .catch((err: any) => {
@@ -203,7 +204,7 @@ export default function ManageToken({
     try {
       setmodalKeyword(key);
       if (key.length) {
-        let combinedList = [...tokenModalList, ...importedTokens];
+        let combinedList = [...tokenModalList];
         let newData = combinedList.filter((item: any, i: number) => {
           let found = false;
           Object.keys(item).forEach((k: any) => {

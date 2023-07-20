@@ -1,6 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit'
-import { DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
-import { updateVersion } from '../../state/global/actions'
+import { createReducer } from "@reduxjs/toolkit";
+import { DEFAULT_DEADLINE_FROM_NOW } from "../../constants";
+import { updateVersion } from "../../state/global/actions";
 
 import {
   addSerializedPair,
@@ -20,10 +20,11 @@ import {
   updateValInfo,
   updateEpochDyna,
   updateMigrateData,
-  updateTotalValCount
+  updateTotalValCount,
 } from "./actions";
+import { updatePendingTransactionCount } from "../user/actions";
 
-const currentTimestamp = () => new Date().getTime()
+const currentTimestamp = () => new Date().getTime();
 
 export interface UserState {
   // the timestamp of the last updateVersion action
@@ -59,13 +60,14 @@ export interface UserState {
   valInfo: object;
   valInfoContract: object;
   epochDyna: object;
-  migrateData:object;
-  stake:number;
-  totalValCount:number;
+  migrateData: object;
+  stake: number;
+  totalValCount: number;
+  pendingTransactionCount: number;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
-  return `${token0Address};${token1Address}`
+  return `${token0Address};${token1Address}`;
 }
 
 export const initialState: UserState = {
@@ -82,9 +84,10 @@ export const initialState: UserState = {
   valInfo: {},
   valInfoContract: {},
   epochDyna: {},
-  migrateData:{},
+  migrateData: {},
   stake: 0,
-  totalValCount:0,
+  totalValCount: 0,
+  pendingTransactionCount: 0,
 };
 
 export default createReducer(initialState, (builder) =>
@@ -175,5 +178,8 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateTotalValCount, (state, action) => {
       state.totalValCount = action.payload.totalValCount;
+    })
+    .addCase(updatePendingTransactionCount, (state, action) => {
+      state.pendingTransactionCount = action.payload.pendingTransactionCount;
     })
 );

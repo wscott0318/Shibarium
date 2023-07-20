@@ -1,154 +1,169 @@
-.menu-btn{
-    display: none;
-    max-width: 30px;
-    @media #{$max-xl}{
-        display: inline-block;
-        max-width: 25px;
-    }
+.menu-btn {
+  display: none;
+  max-width: 30px;
+  @media #{$max-xl} {
+    display: inline-block;
+    max-width: 25px;
+  }
 }
 
-.cmn_dashbord_main_outr{
-    background-color: $body-bg-800;
-    margin: 32px 20px 32px auto;
-    border-radius: 40px;
-    padding: 20px;
-    width: calc(100% - 275px);
-    min-height: calc(100vh - 64px);
-    position: relative;
-    @media #{$max-xl}{
-        margin: 22px 22px 22px auto;
-        width:calc(100% - 30px);
-        padding: 15px;
-        border-radius: 12px;
-    }
-    @media #{$max-lg}{
-        margin: 15px 15px 15px auto;
-        width:calc(100% - 15px);
-        margin-left: auto;
-        margin-right: auto;
-        padding: 12px;
-        border-radius: 10px;
-    }
+span.pendingCountSpan {
+  margin-left:8px;
+  background: #000;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 50px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+}
+span.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cmn_dashbord_main_outr {
+  background-color: $body-bg-800;
+  margin: 32px 20px 32px auto;
+  border-radius: 40px;
+  padding: 20px;
+  width: calc(100% - 275px);
+  min-height: calc(100vh - 64px);
+  position: relative;
+  @media #{$max-xl} {
+    margin: 22px 22px 22px auto;
+    width: calc(100% - 30px);
+    padding: 15px;
+    border-radius: 12px;
+  }
+  @media #{$max-lg} {
+    margin: 15px 15px 15px auto;
+    width: calc(100% - 15px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+    border-radius: 10px;
+  }
 }
 .sidebar-toggle {
-    position: absolute;
-    top: 32px;
-    z-index: 99;
-    left: 30px;
-    cursor: pointer;
-    display: none;
-    @media #{$max-xl}{
-        display: flex;
-        align-items: center;
+  position: absolute;
+  top: 32px;
+  z-index: 99;
+  left: 30px;
+  cursor: pointer;
+  display: none;
+  @media #{$max-xl} {
+    display: flex;
+    align-items: center;
+  }
+  @media #{$max-xsm} {
+    left: 15px;
+  }
+  .sidebar-logo {
+    .sidelogo-link {
+      width: 50%;
+      margin-left: 10px;
+      @media #{$max-sm} {
+        width: 40%;
+      }
     }
-    @media #{$max-xsm}{
-        left: 15px;
-    }
-    .sidebar-logo {
-        .sidelogo-link {
-            width: 50%;
-            margin-left: 10px;
-        @media #{$max-sm}{
-            width: 40%;
-        }
-        }
-    }
+  }
 }
-@media (max-width:360px){
-    .sidebar-toggle .sidebar-logo .sidelogo-link{
-        display: none;
-    }
+@media (max-width: 360px) {
+  .sidebar-toggle .sidebar-logo .sidelogo-link {
+    display: none;
+  }
 }
 .sidebar {
-    background: $body-bg;
-    position: fixed;
-    top: 0;
-    width: 237px;
-    left: 0;
-    bottom: 0;
-    min-height: 100vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 99;
+  background: $body-bg;
+  position: fixed;
+  top: 0;
+  width: 237px;
+  left: 0;
+  bottom: 0;
+  min-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 99;
+  transition: transform 0.5s;
+
+  @media #{$max-xl} {
+    transform: translateX(-237px);
+    opacity: 0;
     transition: transform 0.5s;
-    
-    @media #{$max-xl}{
-        transform: translateX(-237px);
-        opacity: 0;
-        transition: transform 0.5s;
+  }
+  &.sidebar-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.5s;
+    z-index: 111111;
+  }
+  .sidebar-logo {
+    position: relative;
+    padding: 30px 20px 70px;
+    @media #{$max-xxl} {
+      padding: 22px 15px 40px;
     }
-    &.sidebar-active{
-        transform: translateX(0);
-        opacity: 1;
-        transition: transform 0.5s;
-        z-index: 111111;
+    @media #{$max-xl} {
+      padding: 15px 15px 30px;
     }
-    .sidebar-logo {
-        position: relative;
-        padding: 30px 20px 70px;
-        @media #{$max-xxl}{
-            padding: 22px 15px 40px;
-        }
-        @media #{$max-xl}{
-            padding: 15px 15px 30px;
-        }
-        @media #{$max-lg}{
-            padding: 40px 15px 30px;
-        }
-        .close-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            max-width: 14px;
-            display: none;
-            @media #{$max-xl}{
-                display: block;
-            }
-        }
+    @media #{$max-lg} {
+      padding: 40px 15px 30px;
     }
-     
-    .side-menu {
-        padding: 0 20px;
-        @media #{$max-xxl}{
-            padding: 0 9px;
-        }
-        .side-menu-item {
-            margin-bottom: 12px;
-        }
+    .close-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      max-width: 14px;
+      display: none;
+      @media #{$max-xl} {
+        display: block;
+      }
+    }
+  }
 
-        .side-link {
-            display: block;
-            position: relative;
-            text-align: left;
-            padding-left: 40px;
-            font-weight: 600;
-            color: $grey-color;
-            cursor: pointer;
-            border: 0;
-            box-shadow: none;
-            outline: none;
-            @media #{$max-xxl}{
-                padding-right: 10px;
-            }
-            &:hover{
-                border: 0;
-                box-shadow: none;
-                outline: none;
-            }
-        }
-        .primary-btn{
-            color: $white;
-        }
-        .side-ico {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            max-width: 22px;
-        }
-        
+  .side-menu {
+    padding: 0 20px;
+    @media #{$max-xxl} {
+      padding: 0 9px;
     }
+    .side-menu-item {
+      margin-bottom: 12px;
+    }
+
+    .side-link {
+      display: block;
+      position: relative;
+      text-align: left;
+      padding-left: 40px;
+      font-weight: 600;
+      color: $grey-color;
+      cursor: pointer;
+      border: 0;
+      box-shadow: none;
+      outline: none;
+      @media #{$max-xxl} {
+        padding-right: 10px;
+      }
+      &:hover {
+        border: 0;
+        box-shadow: none;
+        outline: none;
+      }
+    }
+    .primary-btn {
+      color: $white;
+    }
+    .side-ico {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 22px;
+    }
+  }
 }
-

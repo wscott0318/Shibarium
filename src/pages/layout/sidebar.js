@@ -3,6 +3,10 @@ import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { Navbar } from "react-bootstrap";
 import { useRouter } from "next/router";
+import { getTransactions } from "pages/components/BridgeCalls";
+import { useActiveWeb3React } from "app/services/web3";
+import Loader from "app/components/Loader";
+import useTransactionCount from "app/hooks/useTransactionCount";
 
 export default function Sidebar({
   menuState,
@@ -11,8 +15,9 @@ export default function Sidebar({
 }) {
   const wrapperRef = useRef(null);
   const router = useRouter();
+  const { account } = useActiveWeb3React();
   const [width, setWidth] = useState();
-
+  const { pendingTransactionCount } = useTransactionCount();
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       onClickOutside && onClickOutside();
@@ -39,7 +44,7 @@ export default function Sidebar({
       img: "../../assets/images/sidebar/bridge.png",
     },
     {
-      name: "Transactions",
+      name: `Transactions`,
       route: "/transactions",
       isSelected: router.asPath == "/transactions" ? true : false,
       img: "../../assets/images/sidebar/bridge.png",
@@ -175,11 +180,23 @@ export default function Sidebar({
                   }
                   onClick={() => handelClick(x, "top")}
                 >
-                  <span>
+                  <span className="buttonWrapper">
                     <span className="side-ico">
                       <img className="img-fluid" src={x.img} alt="side-icon" />
                     </span>
                     <span>{x.name}</span>
+                    {account ? (
+                      x.name == "Transactions" &&
+                      pendingTransactionCount != 0 ? (
+                        <span className="pendingCountSpan">
+                          <Loader /> {pendingTransactionCount}
+                        </span>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
                   </span>
                 </button>
               </li>

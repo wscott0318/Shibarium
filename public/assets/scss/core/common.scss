@@ -184,6 +184,12 @@ span.transactionLoader.failed {
     padding-top: 113px !important;
   }
 }
+small.errorMsg {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    color: red;
+}
 .right_block ul.pagination li {
   width: 55px;
   text-align: center;

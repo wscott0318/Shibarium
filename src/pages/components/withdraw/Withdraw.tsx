@@ -37,6 +37,7 @@ import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
+import useTransactionCount from "app/hooks/useTransactionCount";
 
 const WithdrawModal: React.FC<{
   // transaction:object,
@@ -63,6 +64,8 @@ const WithdrawModal: React.FC<{
   const webL1 = L1Block();
   // console.log("library ", library);
   console.log("chainId ", chainId);
+
+  const { getTransactionsCount } = useTransactionCount();
   const dispatch = useAppDispatch();
   const [hashLink, setHashLink] = useState("");
   const [allowance, setAllowance] = useState(0);
@@ -77,6 +80,7 @@ const WithdrawModal: React.FC<{
   const [buttonloader, setButtonLoader] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [inclusion, setInclusion] = useState({});
+  const [error, setError] = useState<any>(null);
   const [withModalState, setWidModState] = useState({
     step0: true,
     step1: false,
@@ -88,30 +92,33 @@ const WithdrawModal: React.FC<{
     title: "Please Note",
   });
   const switchNetwork = async () => {
-    let key = chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID;
-    console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
-    const params = SUPPORTED_NETWORKS[key];
-    cookie.set("chainId", key, params);
-    try {
-      await library?.send("wallet_switchEthereumChain", [
-        { chainId: `0x${key.toString(16)}` },
-        account,
-      ]);
-    } catch (switchError) {
-      // This error code indicates that the chain has not been added to MetaMask.
-      // @ts-ignore TYPE NEEDS FIXING
-      if (switchError.code === 4902) {
-        try {
-          console.log({ params, account });
-          await library?.send("wallet_addEthereumChain", [params, account]);
-        } catch (addError) {
-          // handle "add" error
-          console.error(`Add chain error ${addError}`);
+    if (error === null) {
+      let key =
+        chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID;
+      console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
+      const params = SUPPORTED_NETWORKS[key];
+      cookie.set("chainId", key, params);
+      try {
+        await library?.send("wallet_switchEthereumChain", [
+          { chainId: `0x${key.toString(16)}` },
+          account,
+        ]);
+      } catch (switchError) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        // @ts-ignore TYPE NEEDS FIXING
+        if (switchError.code === 4902) {
+          try {
+            console.log({ params, account });
+            await library?.send("wallet_addEthereumChain", [params, account]);
+          } catch (addError) {
+            // handle "add" error
+            console.error(`Add chain error ${addError}`);
+          }
         }
+        console.error(`Switch chain error ${switchError}`);
+        // handle other "switch" errors
+        setButtonLoader(false);
       }
-      console.error(`Switch chain error ${switchError}`);
-      // handle other "switch" errors
-      setButtonLoader(false);
     }
   };
   const callWithdrawContract = async () => {
@@ -122,7 +129,9 @@ const WithdrawModal: React.FC<{
           if (+allowance > 0) {
             await approveWithdraw();
           }
-          await switchNetwork();
+          if (error === null) {
+            await switchNetwork();
+          }
           setButtonLoader(false);
         }
         if (chainId === PUPPYNET_CHAIN_ID) {
@@ -130,16 +139,18 @@ const WithdrawModal: React.FC<{
             await approveWithdraw();
           }
           setButtonLoader(true);
-          setWidModState({
-            ...withModalState,
-            step2: false,
-            step3: true,
-            title: "Transaction Pending",
-          });
-          setStep("Initialized");
-          setTimeout(() => {
-            submitWithdraw();
-          }, 2000);
+          if (error === null) {
+            setWidModState({
+              ...withModalState,
+              step2: false,
+              step3: true,
+              title: "Transaction Pending",
+            });
+            setStep("Initialized");
+            setTimeout(() => {
+              submitWithdraw();
+            }, 2000);
+          }
         }
       }
     } catch (err: any) {
@@ -176,6 +187,7 @@ const WithdrawModal: React.FC<{
             );
             let link = getExplorerLink(chainId, res, "transaction");
             setHashLink(link);
+            setError(null);
           })
           .on("receipt", async (res: any) => {
             dispatch(
@@ -198,136 +210,146 @@ const WithdrawModal: React.FC<{
           })
           .on("error", (res: any) => {
             console.log("on error", res);
+            setError("You need to give approval first.");
           });
       }
     } catch (err: any) {
       Sentry.captureMessage("approvewithdraw ", err);
       console.log("error => ", err);
+      setError("You need to give approval first.");
     }
   };
 
   const submitWithdraw = async () => {
     try {
-      setHashLink("");
-      setButtonLoader(false);
-      let user: any = account;
-      let amount = web3.utils.toWei(withdrawTokenInput, "ether");
-      let abi: any;
-      let sendData;
-      if (selectedToken?.parentName === "BONE") {
-        // amount =
-        abi = MRC20;
-        sendData = { from: user, gas: 100000, value: amount };
-      } else {
-        abi = ChildERC20;
-        sendData = { from: user };
-      }
-      console.log("amount", amount);
-      let hash: any;
-      const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
-      await instance.methods
-        .withdraw(amount)
-        .send(sendData)
-        .on("transactionHash", async (res: any) => {
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
-          );
-          console.log("transaction hash ", res);
-          let link = getExplorerLink(PUPPYNET_CHAIN_ID, res, "transaction");
-          setHashLink(link);
-          hash = res;
-          let body = {
-            transactionType: 2,
-            bridgeType: selectedToken.bridgetype,
-            stepPoint: "",
-            from: user,
-            to: "",
-            amount: +withdrawTokenInput,
-            usdValue: +withdrawTokenInput * boneUSDValue,
-            txHash: res,
-            status: 0,
-            walletAddress: account,
-            token: selectedToken,
-            checkpointSigned: false,
-            challengePeriod: false,
-            processExit: false,
-            txData: "",
-            fromChain: chainId,
-            toChain:
-              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
-            checkChallengePeriodStatus: false,
-            checkProcessExitStatus: false,
-          };
-          await postTransactions(body);
-        })
-        .on("receipt", async (res: any) => {
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1,
-              },
-            })
-          );
-          setProcessing((processing: any) => [...processing, "Initialized"]);
-          setStep("Checkpoint");
-          setTxState({
-            checkpointSigned: false,
-            challengePeriod: false,
-            processExit: false,
-            amount: withdrawTokenInput,
-            token: selectedToken,
-            txHash: res,
-          });
-          let step =
-            selectedToken.bridgetype == "plasma" ? "2 steps" : "1 step";
-          let body = {
-            stepPoint: step,
-            to: res.to,
-            txHash: res.transactionHash,
-            txData: res.events,
-          };
-          await putTransactions(body);
-        })
-        .on("error", async (res: any) => {
-          if (res.code === 4001) {
-            setWithdrawModalOpen(false);
-            setWidModState({
-              step0: true,
-              step1: false,
-              step2: false,
-              step3: false,
-              step4: false,
-              step5: false,
-              step6: false,
-              title: "Initialize Withdraw",
-            });
-            setStep("Initialized");
-            setProcessing([]);
-          }
-          if (res.code != 4001) {
+      if (error === null) {
+        setHashLink("");
+        setButtonLoader(false);
+        let user: any = account;
+        let amount = web3.utils.toWei(withdrawTokenInput, "ether");
+        let abi: any;
+        let sendData;
+        if (selectedToken?.parentName === "BONE") {
+          // amount =
+          abi = MRC20;
+          sendData = { from: user, gas: 100000, value: amount };
+        } else {
+          abi = ChildERC20;
+          sendData = { from: user };
+        }
+        console.log("amount", amount);
+        let hash: any;
+        const instance = new web3.eth.Contract(
+          abi,
+          selectedToken?.childContract
+        );
+        await instance.methods
+          .withdraw(amount)
+          .send(sendData)
+          .on("transactionHash", async (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            console.log("transaction hash ", res);
+            let link = getExplorerLink(PUPPYNET_CHAIN_ID, res, "transaction");
+            setHashLink(link);
+            hash = res;
             let body = {
-              stepPoint: "Failed",
-              status: -1,
-              txHash: hash,
+              transactionType: 2,
+              bridgeType: selectedToken.bridgetype,
+              stepPoint: "",
+              from: user,
+              to: "",
+              amount: +withdrawTokenInput,
+              usdValue: +withdrawTokenInput * boneUSDValue,
+              txHash: res,
+              status: 0,
+              walletAddress: account,
+              token: selectedToken,
+              checkpointSigned: false,
+              challengePeriod: false,
+              processExit: false,
+              txData: "",
+              fromChain: chainId,
+              toChain:
+                chainId == GOERLI_CHAIN_ID
+                  ? PUPPYNET_CHAIN_ID
+                  : GOERLI_CHAIN_ID,
+              checkChallengePeriodStatus: false,
+              checkProcessExitStatus: false,
+            };
+            await postTransactions(body);
+          })
+          .on("receipt", async (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            getTransactionsCount();
+            setProcessing((processing: any) => [...processing, "Initialized"]);
+            setStep("Checkpoint");
+            setTxState({
+              checkpointSigned: false,
+              challengePeriod: false,
+              processExit: false,
+              amount: withdrawTokenInput,
+              token: selectedToken,
+              txHash: res,
+            });
+            let step =
+              selectedToken.bridgetype == "plasma" ? "2 steps" : "1 step";
+            let body = {
+              stepPoint: step,
+              to: res.to,
+              txHash: res.transactionHash,
+              txData: res.events,
             };
             await putTransactions(body);
-          }
-          console.log("error ", res);
-        });
+          })
+          .on("error", async (res: any) => {
+            if (res.code === 4001) {
+              setWithdrawModalOpen(false);
+              setWidModState({
+                step0: true,
+                step1: false,
+                step2: false,
+                step3: false,
+                step4: false,
+                step5: false,
+                step6: false,
+                title: "Initialize Withdraw",
+              });
+              setStep("Initialized");
+              setProcessing([]);
+            }
+            if (res.code != 4001) {
+              let body = {
+                stepPoint: "Failed",
+                status: -1,
+                txHash: hash,
+              };
+              await putTransactions(body);
+            }
+            console.log("error ", res);
+          });
+      }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("submitWithdraw ", err);
@@ -361,21 +383,20 @@ const WithdrawModal: React.FC<{
     setLoader(true);
     setEstGas(0);
     let user: any = account;
-    const amountWei = web3.utils.toBN(
-      fromExponential(10000 * Math.pow(10, 18))
-    );
-    let currentprice: any = await currentGasPrice(web3);
     let instance = new webL1.eth.Contract(
       ERC20abi,
       selectedToken?.parentContract
     );
+    let decimal = await instance.methods.decimals().call();
+    let format = getToWeiUnitFromDecimal(decimal);
+    let amount = web3.utils.toWei(withdrawTokenInput, format);
+    const amountWei = web3.utils.toBN(amount);
+    let currentprice: any = await currentGasPrice(web3);
+
     let allowance = await instance.methods
-      .allowance(
-        account,
-        dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY
-      )
+      .allowance(account, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY)
       .call({ from: account });
-    let allowanceForExit = parseInt(allowance) / 10 ** 18;
+    let allowanceForExit = +allowance / Math.pow(10, decimal);
     let approvalInstance = new webL1.eth.Contract(
       ERC20,
       selectedToken?.parentContract
@@ -384,13 +405,13 @@ const WithdrawModal: React.FC<{
     let processExitAllowance: any = 0;
     if (+allowanceForExit < +withdrawTokenInput) {
       await approvalInstance.methods
-        .approve(
-          dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY,
-          amountWei
-        )
+        .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
         .estimateGas({ from: user })
         .then((gas: any) => {
-          processExitAllowance = +(+gas * +currentprice) / Math.pow(10, 18);
+          processExitAllowance = web3.eth.toWei(
+            String(+gas * +currentprice),
+            "ether"
+          );
           setAllowance(+processExitAllowance);
           setLoader(false);
         })
@@ -405,7 +426,7 @@ const WithdrawModal: React.FC<{
         .processExits(selectedToken?.parentContract)
         .estimateGas({ from: user })
         .then((gas: any) => {
-          let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+          let gasFee = web3.eth.toWei(String(+gas * +currentprice), "ether");
           setEstGas(+gasFee);
           setLoader(false);
         })
@@ -746,7 +767,10 @@ const WithdrawModal: React.FC<{
                           />
                         </span>
                         <h6>
-                          {withdrawTokenInput + " " + selectedToken.parentName}
+                          {withdrawTokenInput}{" "}
+                          {chainId == GOERLI_CHAIN_ID
+                            ? selectedToken.parentName
+                            : selectedToken.childName}
                         </h6>
                         <p>
                           <NumberFormat
@@ -765,26 +789,12 @@ const WithdrawModal: React.FC<{
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={
-                              NETWORK_ICON[
-                                chainId == GOERLI_CHAIN_ID
-                                  ? PUPPYNET_CHAIN_ID
-                                  : GOERLI_CHAIN_ID
-                              ]
-                            }
+                            src={NETWORK_ICON[PUPPYNET_CHAIN_ID]}
                             onError={imageOnErrorHandler}
                             alt=""
                           />
                         </div>
-                        <p>
-                          {
-                            NETWORK_LABEL[
-                              chainId == GOERLI_CHAIN_ID
-                                ? PUPPYNET_CHAIN_ID
-                                : GOERLI_CHAIN_ID
-                            ]
-                          }
-                        </p>
+                        <p>{NETWORK_LABEL[PUPPYNET_CHAIN_ID]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -823,16 +833,12 @@ const WithdrawModal: React.FC<{
                           <img
                             className="img-fluid"
                             width="50"
-                            src={
-                              selectedToken.logo
-                                ? selectedToken.logo
-                                : "../../assets/images/eth_logo.png"
-                            }
+                            src={"../../assets/images/eth_logo.png"}
                             onError={imageOnErrorHandler}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId]}</p>
+                        <p>{NETWORK_LABEL[GOERLI_CHAIN_ID]}</p>
                       </div>
                     </div>
                     <hr />
@@ -866,6 +872,7 @@ const WithdrawModal: React.FC<{
                     </div>
                   </div>
                   <div className="pop-bottom">
+                    {error ? <small className="errorMsg">{error}</small> : ""}
                     <div>
                       <a
                         className={` d-flex align-items-center justify-content-center btn primary-btn w-100 relative ${
