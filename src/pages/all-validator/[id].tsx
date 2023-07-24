@@ -39,7 +39,7 @@ export default function ValidatorDetails() {
         getValidatorsDetail(id.toString())
           .then((res: any) => {
             console.log("delegators response ", res?.data?.data);
-            setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
+            setValidatorInfo(res?.data?.data?.validatorSet?.validatorInfo);
             setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
             setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || []);
             // console.log(res?.data?.data?.validatorSet)
@@ -91,6 +91,7 @@ export default function ValidatorDetails() {
     // amount delegatedAmount
   };
 
+  console.log("validator info ", validatorInfo);
   const getValCondition = (uptime: any) => {
     if (uptime >= 90) return "Good";
     else if (uptime >= 70) return "Okay";
@@ -195,7 +196,7 @@ export default function ValidatorDetails() {
                           Owner address
                         </h6>
                         <p className="mb-0 trs-3 ff-mos">
-                          {validatorInfo?.owner}
+                          {validatorInfo?.staker}
                         </p>
                       </li>
                       <li className="info-data-lst">

@@ -67,6 +67,9 @@ const StepThree: React.FC<any> = ({
 
   const processExit = async () => {
     try {
+       if (chainId === PUPPYNET_CHAIN_ID) {
+         await switchNetwork();
+       }
       setStep("Completed");
       let user: any = account;
       let instance = new web3.eth.Contract(
@@ -273,6 +276,9 @@ const StepThree: React.FC<any> = ({
 
   const posExit = async () => {
     try {
+      if (chainId === PUPPYNET_CHAIN_ID) {
+        await switchNetwork();
+      }
       console.log("entered pos exit");
       setStep("Completed");
       const user: any = account;

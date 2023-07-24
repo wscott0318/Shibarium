@@ -12,6 +12,7 @@ import Link from "next/link";
 import {
   getBoneUSDValue,
   getDefaultChain,
+  tokenDecimal,
   useStorage,
 } from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
@@ -20,6 +21,7 @@ import { useToken } from "app/hooks/Tokens";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
 import { getExplorerLink } from "app/functions";
+import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 
 export const Warning = ({
   listing,
@@ -88,7 +90,7 @@ export default function ManageToken({
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
-
+  const web3L1: any = L1Block();
   const [showTokenModal, setTokenModal] = useState(true);
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [newToken, addNewToken] = useState("");
@@ -160,18 +162,26 @@ export default function ManageToken({
     try {
       await getWalletTokenList().then((res) => {
         let list = [...localTokens, ...res.data.message.tokens];
+
         list.forEach(async (x: any) => {
           let tokenAddress =
             chainId === GOERLI_CHAIN_ID ? x?.parentContract : x?.childContract;
-          await getTokenBalance(lib, account, tokenAddress)
-            .then((res: any) => {
-              console.log("token address ", tokenAddress, res);
-              x.balance = res > 0 ? res : "00.00";
-            })
-            .catch((err: any) => {
-              // console.log("Error fetching balance => ", err);
-            });
+          if (x?.parentName == "Ether" && chainId == GOERLI_CHAIN_ID) {
+            let bal = await web3.eth.getBalance(account);
+            x.balance = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
+            // console.log("ether balance  => ", x.balance);
+          } else {
+            await getTokenBalance(lib, account, tokenAddress)
+              .then((res: any) => {
+                // console.log("token address ", tokenAddress, res);
+                x.balance = res > 0 ? res : "00.00";
+              })
+              .catch((err: any) => {
+                // console.log("Error fetching balance => ", err);
+              });
+          }
         });
+        console.log("list -> ", list);
         setTokenModalList([...list]);
         setTimeout(() => {
           setIsLoading(false);

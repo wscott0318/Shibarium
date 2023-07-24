@@ -67,45 +67,63 @@ const Deposit: React.FC<any> = ({
   const estGasFee = async () => {
     setAmountApproval(false);
     setEstGas(0);
-    let user: any = account;
-    let contract = GOERLI_CHAIN_ID
-      ? selectedToken.parentContract
-      : selectedToken.childContract;
-    let instanceContract: any;
-    let abi: any;
-    if (selectedToken?.bridgetype == "plasma") {
-      instanceContract = dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY;
-      abi = ERC20_ABI;
-    } else {
-      instanceContract = dynamicChaining[chainId].ERC20_PREDICATE;
-      abi = ERC20Predicate;
-    }
-    let amount = web3.utils.toWei(depositTokenInput, "ether");
-    const amountWei = web3.utils.toBN(amount);
     let currentprice: any = await currentGasPrice(web3);
-    let checkAllowance =
-      (await getAllowanceAmount(
-        library,
-        contract,
-        account,
-        instanceContract
-      )) ?? 0;
+    let user: any = account;
+    if (selectedToken.parentName !== "Ether") {
+      let contract = GOERLI_CHAIN_ID
+        ? selectedToken.parentContract
+        : selectedToken.childContract;
+      let instanceContract: any;
+      let abi: any;
+      if (selectedToken?.bridgetype == "plasma") {
+        instanceContract = dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY;
+        abi = ERC20_ABI;
+      } else {
+        instanceContract = dynamicChaining[chainId].ERC20_PREDICATE;
+        abi = ERC20Predicate;
+      }
+      let amount = web3.utils.toWei(depositTokenInput, "ether");
+      const amountWei = web3.utils.toBN(amount);
 
-    let allowanceGas: any = 0;
-    if (+checkAllowance < +depositTokenInput) {
-      console.log("amount is greater than allowance step 2");
-      allowanceGas = await getFeeForApproval(
-        instanceContract,
-        currentprice,
-        amountWei,
-        user
-      );
+      let checkAllowance =
+        (await getAllowanceAmount(
+          library,
+          contract,
+          account,
+          instanceContract
+        )) ?? 0;
+      let allowanceGas: any = 0;
+      if (+checkAllowance < +depositTokenInput) {
+        console.log("amount is greater than allowance step 2");
+        allowanceGas = await getFeeForApproval(
+          instanceContract,
+          currentprice,
+          amountWei,
+          user
+        );
+      } else {
+        setAllowance(0);
+        await getFeeForDeposit(allowanceGas, currentprice, user, amountWei);
+      }
     } else {
+      console.log("token is ether");
       setAllowance(0);
-      await getFeeForDeposit(allowanceGas, currentprice, user, amountWei);
+      await getFeeForEtherDeposit(currentprice, user);
     }
   };
 
+  const getFeeForEtherDeposit = async (currentprice: any, user: any) => {
+    let contract = dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+    let abi = RootChainManagerABI;
+    let instance = new web3.eth.Contract(abi, contract);
+    console.log("token instance created ", instance);
+    let gasFee = await instance.methods
+      .depositEtherFor(account)
+      .estimateGas({ from: account });
+    console.log("token instance created ", gasFee);
+    gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
+    setEstGas(gasFee);
+  };
   const getFeeForApproval = async (
     instanceContract: any,
     currentprice: any,
@@ -277,8 +295,6 @@ const Deposit: React.FC<any> = ({
     }
   };
 
-  
-
   const callDepositContract = async () => {
     try {
       if (account) {
@@ -328,7 +344,9 @@ const Deposit: React.FC<any> = ({
         selectedToken?.bridgetype == "plasma"
           ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
           : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
-      await approvalForDeposit(selectedToken?.parentContract, contract);
+      if (selectedToken.parentName != "Ether") {
+        await approvalForDeposit(selectedToken?.parentContract, contract);
+      }
     }
   };
 
@@ -358,178 +376,182 @@ const Deposit: React.FC<any> = ({
       return "Approved";
     }
   };
-const depositContract = async (user: any, amount: any) => {
-  // call deposit contract
-  try {
-    let contract =
-      selectedToken?.bridgetype == "plasma"
-        ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-        : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
-    let abi =
-      selectedToken?.bridgetype == "plasma"
-        ? depositManagerABI
-        : RootChainManagerABI;
-    let instance = new web3.eth.Contract(abi, contract);
-    let hash: any;
-    let gasFee: any;
-    let encodeABI: any;
-    let tokenInstance = new web3.eth.Contract(
-      ERC20,
-      selectedToken?.parentContract
-    );
-    let decimal = await tokenInstance.methods.decimals().call();
-    const format = getToWeiUnitFromDecimal(decimal);
-    const amm = web3.utils.toWei(depositTokenInput, format);
-    let data = web3.eth.abi.encodeParameter("uint256", amm);
+  const depositContract = async (user: any, amount: any) => {
+    // call deposit contract
+    try {
+      let contract =
+        selectedToken?.bridgetype == "plasma"
+          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+      let abi =
+        selectedToken?.bridgetype == "plasma"
+          ? depositManagerABI
+          : RootChainManagerABI;
+      let instance = new web3.eth.Contract(abi, contract);
+      let hash: any;
+      let gasFee: any;
+      let encodeABI: any;
+      let tokenInstance: any;
+      let decimal: any;
+      let format;
+      let amm;
+      let data;
+      if (selectedToken.parentName !== "Ether") {
+        tokenInstance = new web3.eth.Contract(
+          ERC20,
+          selectedToken?.parentContract
+        );
+        decimal = await tokenInstance.methods.decimals().call();
+        format = getToWeiUnitFromDecimal(decimal);
+        amm = web3.utils.toWei(depositTokenInput, format);
+        data = web3.eth.abi.encodeParameter("uint256", amm);
+      }
 
-    if (selectedToken.bridgetype == "plasma") {
-      gasFee = await instance.methods
-        .depositERC20ForUser(selectedToken?.parentContract, user, amount)
-        .estimateGas({ from: account });
-      encodeABI = await instance.methods
-        .depositERC20ForUser(selectedToken?.parentContract, user, amount)
-        .encodeABI();
-    } else if (selectedToken.parentName == "Ether") {
-      gasFee = await instance.methods
-        .depositEtherFor(user)
-        .estimateGas({ from: account });
-      encodeABI = await instance.methods
-        .depositEtherFor(user)
-        .encodeABI();
-    }
-    else {
-      gasFee = await instance.methods
-        .depositFor(user, selectedToken?.parentContract, data)
-        .estimateGas({ from: account });
-      encodeABI = await instance.methods
-        .depositFor(user, selectedToken?.parentContract, data)
-        .encodeABI();
-    }
-    let CurrentgasPrice: any = await currentGasPrice(web3);
-    await web3.eth
-      .sendTransaction({
-        from: account,
-        to: contract,
-        gas: (parseInt(gasFee) + 30000).toString(),
-        gasPrice: CurrentgasPrice,
-        value: selectedToken?.parentName == "Ether" ? +amount : 0,
-        data: encodeABI,
-      })
-      .on("transactionHash", async (res: any) => {
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        );
-        let link = getExplorerLink(chainId, res, "transaction");
-        setHashLink(link);
-        hash = res;
-        let body = {
-          transactionType: 1,
-          bridgeType: selectedToken.bridgetype,
-          stepPoint: "",
-          from: user,
-          to: "",
-          amount: +depositTokenInput,
-          usdValue: +depositTokenInput * boneUSDValue,
-          txHash: res,
-          status: 0,
-          walletAddress: account,
-          token: selectedToken,
-          checkpointSigned: false,
-          challengePeriod: false,
-          processExit: false,
-          txData: "",
-          fromChain: chainId,
-          toChain:
-            chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
-          checkChallengePeriodStatus: false,
-          checkProcessExitStatus: false,
-        };
-        await postTransactions(body);
-      })
-      .on("receipt", async (res: any) => {
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1,
-            },
-          })
-        );
-        setDepModState({
-          step0: false,
-          step1: false,
-          step2: false,
-          step3: false,
-          step4: true,
-          title: "Transaction Submitted",
-        });
-        let body = {
-          stepPoint: "Done",
-          to: res.to,
-          txData: res.events,
-          txHash: res.transactionHash,
-          status: 1,
-          checkpointSigned: true,
-          challengePeriod: true,
-          processExit: true,
-          checkChallengePeriodStatus: true,
-          checkProcessExitStatus: true,
-        };
-        await putTransactions(body);
-      })
-      .on("error", async (res: any) => {
-        console.log("error ", res);
-        setDepModState({
-          step0: false,
-          step1: false,
-          step2: true,
-          step3: false,
-          step4: false,
-          title: "Confirm Transfer",
-        });
-        setDepositModal(false);
-        setEstGas(0);
-        setAllowance(0);
-        if (res.code != 4001) {
+      if (selectedToken.bridgetype == "plasma") {
+        gasFee = await instance.methods
+          .depositERC20ForUser(selectedToken?.parentContract, user, amount)
+          .estimateGas({ from: account });
+        encodeABI = await instance.methods
+          .depositERC20ForUser(selectedToken?.parentContract, user, amount)
+          .encodeABI();
+      } else if (selectedToken.parentName == "Ether") {
+        gasFee = await instance.methods
+          .depositEtherFor(user)
+          .estimateGas({ from: account });
+        encodeABI = await instance.methods.depositEtherFor(user).encodeABI();
+      } else {
+        gasFee = await instance.methods
+          .depositFor(user, selectedToken?.parentContract, data)
+          .estimateGas({ from: account });
+        encodeABI = await instance.methods
+          .depositFor(user, selectedToken?.parentContract, data)
+          .encodeABI();
+      }
+      let CurrentgasPrice: any = await currentGasPrice(web3);
+      await web3.eth
+        .sendTransaction({
+          from: account,
+          to: contract,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          value: selectedToken?.parentName == "Ether" ? +amount : 0,
+          data: encodeABI,
+        })
+        .on("transactionHash", async (res: any) => {
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          );
+          let link = getExplorerLink(chainId, res, "transaction");
+          setHashLink(link);
+          hash = res;
           let body = {
-            stepPoint: "Failed",
-            status: -1,
-            txHash: hash,
+            transactionType: 1,
+            bridgeType: selectedToken.bridgetype,
+            stepPoint: "",
+            from: user,
+            to: "",
+            amount: +depositTokenInput,
+            usdValue: +depositTokenInput * boneUSDValue,
+            txHash: res,
+            status: 0,
+            walletAddress: account,
+            token: selectedToken,
+            checkpointSigned: false,
+            challengePeriod: false,
+            processExit: false,
+            txData: "",
+            fromChain: chainId,
+            toChain:
+              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
+            checkChallengePeriodStatus: false,
+            checkProcessExitStatus: false,
+          };
+          await postTransactions(body);
+        })
+        .on("receipt", async (res: any) => {
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1,
+              },
+            })
+          );
+          setDepModState({
+            step0: false,
+            step1: false,
+            step2: false,
+            step3: false,
+            step4: true,
+            title: "Transaction Submitted",
+          });
+          let body = {
+            stepPoint: "Done",
+            to: res.to,
+            txData: res.events,
+            txHash: res.transactionHash,
+            status: 1,
+            checkpointSigned: true,
+            challengePeriod: true,
+            processExit: true,
+            checkChallengePeriodStatus: true,
+            checkProcessExitStatus: true,
           };
           await putTransactions(body);
-        }
+        })
+        .on("error", async (res: any) => {
+          console.log("error ", res);
+          setDepModState({
+            step0: false,
+            step1: false,
+            step2: true,
+            step3: false,
+            step4: false,
+            title: "Confirm Transfer",
+          });
+          setDepositModal(false);
+          setEstGas(0);
+          setAllowance(0);
+          if (res.code != 4001) {
+            let body = {
+              stepPoint: "Failed",
+              status: -1,
+              txHash: hash,
+            };
+            await putTransactions(body);
+          }
+        });
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("depositContract", err);
+      }
+      console.log("error ", err);
+      setDepModState({
+        step0: false,
+        step1: false,
+        step2: true,
+        step3: false,
+        step4: false,
+        title: "Confirm Transfer",
       });
-  } catch (err: any) {
-    if (err.code !== USER_REJECTED_TX) {
-      Sentry.captureMessage("depositContract", err);
+      setDepositModal(false);
+      setEstGas(0);
+      setAllowance(0);
     }
-    console.log("error ", err);
-    setDepModState({
-      step0: false,
-      step1: false,
-      step2: true,
-      step3: false,
-      step4: false,
-      title: "Confirm Transfer",
-    });
-    setDepositModal(false);
-    setEstGas(0);
-    setAllowance(0);
-  }
-};
+  };
 
   return (
     <CommonModal

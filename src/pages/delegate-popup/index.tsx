@@ -1,24 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from "react";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { BONE_ID, SHIBARIUM_CHAIN_ID } from 'app/config/constant';
-import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
-import { getExplorerLink } from 'app/functions/explorer';
-import { ChainId } from 'shibarium-get-chains';
-import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
+import { BONE_ID, SHIBARIUM_CHAIN_ID } from "app/config/constant";
+import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
+import { getExplorerLink } from "app/functions/explorer";
+import { ChainId } from "shibarium-get-chains";
+import { useWalletTokenBalance } from "app/hooks/useTokenBalance";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
-import fromExponential from 'from-exponential';
-import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX, currentGasPrice, getBoneUSDValue } from "../../web3/commonFunctions";
-import ERC20 from "../../ABI/ERC20Abi.json"
-import CommonModal from 'pages/components/CommonModel';
+import fromExponential from "from-exponential";
+import {
+  getAllowanceAmount,
+  MAXAMOUNT,
+  toFixedPrecent,
+  USER_REJECTED_TX,
+  currentGasPrice,
+  getBoneUSDValue,
+} from "../../web3/commonFunctions";
+import ERC20 from "../../ABI/ERC20Abi.json";
+import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { addTransaction, finalizeTransaction } from "../../state/transactions/actions";
-import { useAppDispatch } from "../../state/hooks"
-import { dynamicChaining } from 'web3/DynamicChaining';
-import { Spinner } from 'react-bootstrap';
+import {
+  addTransaction,
+  finalizeTransaction,
+} from "../../state/transactions/actions";
+import { useAppDispatch } from "../../state/hooks";
+import { dynamicChaining } from "web3/DynamicChaining";
+import { Spinner } from "react-bootstrap";
 import * as Sentry from "@sentry/nextjs";
-import { setDelegatorData } from "../../services/apis/user/userApi"
-import { CircularProgress } from '@material-ui/core';
+import { setDelegatorData } from "../../services/apis/user/userApi";
+import { CircularProgress } from "@material-ui/core";
 
 const initialModalState = {
   step0: true,
@@ -26,7 +36,7 @@ const initialModalState = {
   step2: false,
   step3: false,
   title: "Delegate",
-}
+};
 
 const DelegatePopup: React.FC<any> = ({
   data,
@@ -36,7 +46,7 @@ const DelegatePopup: React.FC<any> = ({
   getDelegatorCardData,
   ...props
 }: any) => {
-  const amount = ""
+  const amount = "";
   const [explorerLink, setExplorerLink] = useState<string>("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
@@ -44,16 +54,19 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [delegateState, setdelegateState] = useState(initialModalState);
   const [loader, setLoader] = useState(false);
   const ethBalance = useEthBalance();
-  const { newBalance, updateBalance } = useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
+  const { newBalance, updateBalance } = useWalletTokenBalance(
+    dynamicChaining[chainId]?.BONE
+  );
   const [walletBalance, setWalletBalance] = useState<any>();
   const isLoading = walletBalance == -1;
   const [isMax, setIsMax] = useState(false);
 
+  console.log("data ", data);
   useEffect(() => {
     if (chainId === SHIBARIUM_CHAIN_ID) {
       setWalletBalance(ethBalance);
@@ -71,17 +84,13 @@ const DelegatePopup: React.FC<any> = ({
     }
   }, [account]);
 
-
   // console.log(data, "parent Data ==> ")
 
-
   const maxBal = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsMax(true);
-    setFieldValue("balance", `${walletBalance}`)
+    setFieldValue("balance", `${walletBalance}`);
   };
-
-
 
   const buyVouchers = async () => {
     try {
@@ -90,28 +99,30 @@ const DelegatePopup: React.FC<any> = ({
         validatorAddress: data.contractAddress,
         delegatorAddress: account,
         amount: values.balance,
-        valID: data.validatorContractId
+        valID: data.validatorContractId,
       };
-    
+
       if (account) {
         let lib: any = library;
         let allowance =
-          (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
+          (await getAllowanceAmount(
+            lib,
+            dynamicChaining[chainId].BONE,
+            account,
+            dynamicChaining[chainId].STAKE_MANAGER_PROXY
+          )) || 0;
 
         if (+requestBody.amount > allowance) {
-          APPROVE_BONE(requestBody)
+          APPROVE_BONE(requestBody);
           // BUY_VOUCHER(requestBody)
         } else {
-          BUY_VOUCHER(requestBody)
+          BUY_VOUCHER(requestBody);
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("buyVouchers ", err);
     }
   };
-
-
 
   const APPROVE_BONE = async (requestBody: any) => {
     let walletAddress: any = account;
@@ -122,20 +133,28 @@ const DelegatePopup: React.FC<any> = ({
         fromExponential(MAXAMOUNT * Math.pow(10, 18))
       );
       console.log("approvalAmount ", approvalAmount);
-      let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      let gasFee = await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({ from: walletAddress })
-      let encodedAbi = await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
-      let CurrentgasPrice: any = await currentGasPrice(web3)
+      let approvalInstance = new web3.eth.Contract(
+        ERC20,
+        dynamicChaining[chainId].BONE
+      );
+      let gasFee = await approvalInstance.methods
+        .approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount)
+        .estimateGas({ from: walletAddress });
+      let encodedAbi = await approvalInstance.methods
+        .approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount)
+        .encodeABI();
+      let CurrentgasPrice: any = await currentGasPrice(web3);
       // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-      await web3.eth.sendTransaction({
-        from: walletAddress,
-        to: dynamicChaining[chainId].BONE,
-        gas: (parseInt(gasFee) + 30000).toString(),
-        gasPrice: CurrentgasPrice,
-        // value : web3.utils.toHex(combinedFees),
-        data: encodedAbi
-      })
-        .on('transactionHash', (res: any) => {
+      await web3.eth
+        .sendTransaction({
+          from: walletAddress,
+          to: dynamicChaining[chainId].BONE,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value : web3.utils.toHex(combinedFees),
+          data: encodedAbi,
+        })
+        .on("transactionHash", (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -143,11 +162,11 @@ const DelegatePopup: React.FC<any> = ({
               chainId,
               summary: `${res}`,
             })
-          )
+          );
           setTransactionState({ state: true, title: "Submitted" });
           setFieldValue("balance", "");
         })
-        .on('receipt', (res: any) => {
+        .on("receipt", (res: any) => {
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -160,75 +179,79 @@ const DelegatePopup: React.FC<any> = ({
                 blockHash: res.blockHash,
                 transactionHash: res.transactionHash,
                 blockNumber: res.blockNumber,
-                status: 1
-              }
+                status: 1,
+              },
             })
-          )
-          BUY_VOUCHER(requestBody)
+          );
+          BUY_VOUCHER(requestBody);
         })
-        .on('error', (err: any) => {
-          setdelegateState(initialModalState)
+        .on("error", (err: any) => {
+          setdelegateState(initialModalState);
           setdelegatepop();
           setTransactionState({ state: false, title: "" });
           setFieldValue("balance", "");
           resetForm();
-        })
+        });
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("APPROVE_BONE ", err);
       }
       resetForm();
-      setdelegateState(initialModalState)
+      setdelegateState(initialModalState);
       setdelegatepop();
       setTransactionState({ state: false, title: "" });
       setFieldValue("balance", "");
     }
-
-  }
+  };
   const initialValues = {
     balance: 0,
   };
 
   let schema = yup.object().shape({
     balance: yup
-      .number().typeError("Only digits are allowed.")
-      .max(
-        walletBalance,
-        "Insufficient Balance."
-      )
-      .min(1,"Invalid amount.")
+      .number()
+      .typeError("Only digits are allowed.")
+      .max(walletBalance, "Insufficient Balance.")
+      .min(1, "Invalid amount.")
       .required("Balance is required."),
   });
 
   const callAPIforDelegator = async (requestBody: any) => {
     try {
-      const valID = requestBody.valID
-      const wallet: any = account
+      const valID = requestBody.valID;
+      const wallet: any = account;
       await setDelegatorData(wallet.toLowerCase(), valID).then((res: any) => {
         // console.log(res.data, "callAPIforDelegator data res ==> ")
-      })
+      });
     } catch (err: any) {
       // console.log(err)
     }
+  };
 
-
-  }
-
-  const { values, errors, handleBlur, handleChange, setFieldValue, handleSubmit, touched, setValues, resetForm }: any =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: schema,
-      onSubmit: (values) => {
-        console.log("Value", values);
-        setdelegateState({
-          step0: false,
-          step1: true,
-          step2: false,
-          step3: false,
-          title: "Delegate"
-        })
-      },
-    });
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+    touched,
+    setValues,
+    resetForm,
+  }: any = useFormik({
+    initialValues: initialValues,
+    validationSchema: schema,
+    onSubmit: (values) => {
+      console.log("Value", values);
+      setdelegateState({
+        step0: false,
+        step1: true,
+        step2: false,
+        step3: false,
+        title: "Delegate",
+      });
+    },
+  });
 
   const BUY_VOUCHER = async (requestBody: any) => {
     setTransactionState({ state: true, title: "Pending" });
@@ -261,7 +284,7 @@ const DelegatePopup: React.FC<any> = ({
             })
           );
           setLoader(true);
-          setFieldValue("balance", '')
+          setFieldValue("balance", "");
           const link = getExplorerLink(chainId, res, "transaction");
           setExplorerLink(link);
           setdelegateState({
@@ -294,7 +317,7 @@ const DelegatePopup: React.FC<any> = ({
           );
           setTimeout(async () => {
             await getDelegatorCardData(account);
-          }, 3000)
+          }, 3000);
           const link = getExplorerLink(
             chainId,
             res.transactionHash,
@@ -309,14 +332,14 @@ const DelegatePopup: React.FC<any> = ({
             step3: true,
             title: "Transaction Done",
           });
-          callAPIforDelegator(requestBody)
+          callAPIforDelegator(requestBody);
           setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+            window.location.reload();
+          }, 2000);
           resetForm();
         })
         .on("error", (err: any) => {
-          console.log(err)
+          console.log(err);
           setdelegateState(initialModalState);
           setdelegatepop();
           setFieldValue("balance", "");
@@ -347,19 +370,22 @@ const DelegatePopup: React.FC<any> = ({
     setdelegateState(initialModalState);
     setdelegatepop();
     setFieldValue("balance", 0);
-  }
+  };
 
-const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
+  const handleShow = useCallback(() => {
+    handleClose();
+    resetForm();
+  }, []);
 
-  const handleUserInput = (input : any) => {
-    if(isMax) {
-      return parseInt('' + (input * 100)) / 100
+  const handleUserInput = (input: any) => {
+    if (isMax) {
+      return parseInt("" + input * 100) / 100;
     } else if (input === 0) {
-      return null
+      return null;
     } else {
-      return input 
+      return input;
     }
-  }
+  };
 
   return (
     <>
@@ -411,7 +437,15 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                     <div className="my-3 info-box">
                       <div className="d-flex align-items-center justify-content-start">
                         <div>
-                          <span className="user-icon u_icon"><img src={data.image ? data.image : "../../assets/images/shiba-round-icon.png"} /></span>
+                          <span className="user-icon u_icon">
+                            <img
+                              src={
+                                data.logoUrl
+                                  ? data.logoUrl
+                                  : "../../assets/images/shiba-round-icon.png"
+                              }
+                            />
+                          </span>
                         </div>
                         <div className="fw-700">
                           <span className="vertical-align ft-22">
@@ -419,8 +453,9 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                           </span>
                           <p>
                             <span className="light-text">
-                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance <br />{data.commissionrate} %
-                              Commission
+                              {data?.uptimePercent?.toFixed(toFixedPrecent)}%
+                              Performance <br />
+                              {data.commissionrate} % Commission
                             </span>
                           </p>
                         </div>
@@ -435,11 +470,18 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                           autoComplete="off"
                           // value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance === 0 ? null : values.balance}
                           value={handleUserInput(values.balance)}
-                          onChange={(e) => { handleChange(e); setIsMax(false); }}
+                          onChange={(e) => {
+                            handleChange(e);
+                            setIsMax(false);
+                          }}
                           onBlur={handleBlur}
                         />
                       </div>
-                      <button disabled={walletBalance > 0 ? false : true} onClick={(e) => maxBal(e)} className="rt-chain">
+                      <button
+                        disabled={walletBalance > 0 ? false : true}
+                        onClick={(e) => maxBal(e)}
+                        className="rt-chain"
+                      >
                         <span className="orange-txt fw-bold">MAX</span>
                       </button>
                     </div>
@@ -457,7 +499,11 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                         /> */}
                       </span>
                       <span className="text-right">
-                        Balance: {isLoading ? 0.00 : (parseInt('' + (walletBalance * 100)) / 100)} BONE
+                        Balance:{" "}
+                        {isLoading
+                          ? 0.0
+                          : parseInt("" + walletBalance * 100) / 100}{" "}
+                        BONE
                       </span>
                     </p>
                   </div>
@@ -558,7 +604,11 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                         height="150"
                         width="150"
                       /> */}
-                      <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
+                      <CircularProgress
+                        color="inherit"
+                        size={120}
+                        style={{ color: "#f06500" }}
+                      />
                     </div>
                   </div>
                   <div className="mid_text row">
@@ -610,8 +660,8 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                     </div>
                     <div className="text-center col-12">
                       <p className="ff-mos">
-                        Your tokens are staked successfully on validator.
-                        Your delegation will take 4-5 mintues to reflect in your
+                        Your tokens are staked successfully on validator. Your
+                        delegation will take 4-5 mintues to reflect in your
                         account.
                       </p>
                     </div>

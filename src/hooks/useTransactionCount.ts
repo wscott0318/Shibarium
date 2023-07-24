@@ -10,8 +10,10 @@ const useTransactionCount = () => {
     usePendingTransactionCount();
   const getTransactionsCount = () => {
     getTransactions(account).then((res) => {
-      let pending = res.filter((e: any) => e.status === 0).length;
-      setPendingTransactionsCount(pending);
+      if (res?.length > 0) {
+        let pending = res?.filter((e: any) => e.status === 0).length;
+        setPendingTransactionsCount(pending);
+      }
     });
   };
   useEffect(() => {

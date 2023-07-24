@@ -33,8 +33,6 @@ const StakingHeader = (type: any) => {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          console.log("val status = ", res.data.message.val.status);
-          console.log("val ID = ", valId);
           setValInfo(info);
         }
       })
@@ -196,7 +194,6 @@ const StakingHeader = (type: any) => {
       return null;
     }
   };
-  console.log("val ifno", valInfo)
   return (
     <>
       <ValInfoModals

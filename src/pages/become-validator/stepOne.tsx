@@ -3,63 +3,80 @@ import CommonModal from "pages/components/CommonModel";
 import { useEffect, useState } from "react";
 import { Copy } from "react-feather";
 
-
 function StepOne({ stepHandler, stepState }: any) {
   const [check, setCheck] = useState({
     ansible: false,
-    binary: false
-  })
+    binary: false,
+  });
 
-  const [selectSecA, setSelectSecA] = useState(false)
-  const [selectSecB, setSelectSecB] = useState(false)
+  const [selectSecA, setSelectSecA] = useState(false);
+  const [selectSecB, setSelectSecB] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [checked, setChecked] = useState(false);
-  const ansible = "https://shiba-inu-ecosystem.gitbook.io/shibarium/staking/validator/validator-node-setup/add-new-validator-using-ansible";
+  const ansible =
+    "https://shiba-inu-ecosystem.gitbook.io/shibarium/staking/validator/validator-node-setup/add-new-validator-using-ansible";
   const binary = "";
   useEffect(() => {
     setCheck({
       ansible: false,
       binary: false,
     });
-  }, [])
+  }, []);
 
   const copyText = () => {
     let link = selectSecA ? ansible : binary;
-    navigator.clipboard
-      .writeText(link)
-      .then(
-        (success) => console.log("text copied"),
-        (err) => console.log("error copying text")
-      );
-  }
+    navigator.clipboard.writeText(link).then(
+      (success) => console.log("text copied"),
+      (err) => console.log("error copying text")
+    );
+  };
 
   return (
     <>
       <CommonModal
         title={"User Confirmation"}
         show={showConfirmation}
-        setshow={() => { setShowConfirmation(false); setChecked(false) }}
+        setshow={() => {
+          setShowConfirmation(false);
+          setChecked(false);
+        }}
         externalCls="faucet-pop no-lft"
       >
         <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
-            <div className="pop-top d-flex align-items-center"  >
-              <Checkbox checked={checked} onChange={() => { setChecked(!checked) }}
-                color="primary" />
+            <div className="pop-top d-flex align-items-center">
+              <Checkbox
+                checked={checked}
+                onChange={() => {
+                  setChecked(!checked);
+                }}
+                color="primary"
+                style={{ color: "white" }}
+              />
               <p>I verify that my heimdall and bor nodes are fully synced.</p>
             </div>
             <div className="d-flex align-items-center justify-content-center primary-text">
-              <a href={selectSecA ? ansible : binary} className="pe-2" id="doc_url" target={"_blank"}>
+              <a
+                href={selectSecA ? ansible : binary}
+                className="pe-2"
+                id="doc_url"
+                target={"_blank"}
+              >
                 Link to Doc
               </a>
-              <Copy onClick={copyText} className="cursor-pointer"/>
+              <Copy onClick={copyText} className="cursor-pointer" />
             </div>
           </div>
           <div className="pop-bottom">
-            <button onClick={() => stepHandler("next")} disabled={!checked} className="primary-btn btn w-100">Continue</button>
+            <button
+              onClick={() => stepHandler("next")}
+              disabled={!checked}
+              className="primary-btn btn w-100"
+            >
+              Continue
+            </button>
           </div>
         </div>
-
       </CommonModal>
       <div className="progress-tab">
         <h5 className="mb-2 fw-700 ff-mos">Setup a node</h5>
@@ -69,14 +86,18 @@ function StepOne({ stepHandler, stepState }: any) {
         <div
           // style={selectSec==="1"?{border : "1rem"}:null}
           className="box-alert -lg"
-          style={selectSecA ? { border: "0.2rem solid #F06500" } : { border: " 1px solid #575757" }}
+          style={
+            selectSecA
+              ? { border: "0.2rem solid #F06500" }
+              : { border: " 1px solid #575757" }
+          }
           onClick={() => {
             setCheck({
               ansible: true,
               binary: false,
             });
-            setSelectSecA(true)
-            setSelectSecB(false)
+            setSelectSecA(true);
+            setSelectSecB(false);
           }}
         >
           <div className="d-flex align-items-center">
@@ -135,4 +156,4 @@ function StepOne({ stepHandler, stepState }: any) {
   );
 }
 
-export default StepOne
+export default StepOne;

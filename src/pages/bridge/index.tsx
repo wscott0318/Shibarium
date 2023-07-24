@@ -103,6 +103,7 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
+
       if (chainId === GOERLI_CHAIN_ID) {
         address = selectedToken?.childContract || selectedToken?.address;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
@@ -112,19 +113,30 @@ export default function Withdraw() {
         contract = new web3.eth.Contract(ERC20_ABI, address);
         console.log("get l1 balance  => ", address, contract);
       }
-      await contract.methods
-        .balanceOf(account)
-        .call()
-        .then(async (res: any) => {
-          await contract.methods
-            .decimals()
-            .call()
-            .then((d: number) => {
-              console.log("l2 balance  => ", res, d);
-              bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
-              setLoader(false);
-            });
-        });
+      if (
+        selectedToken.parentName == "Ether" &&
+        chainId === PUPPYNET_CHAIN_ID
+      ) {
+        bal = await web3.eth.getBalance(account);
+        bal = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
+        console.log("balance ether ", bal);
+        setLoader(false);
+      } else {
+        await contract.methods
+          .balanceOf(account)
+          .call()
+          .then(async (res: any) => {
+            await contract.methods
+              .decimals()
+              .call()
+              .then((d: number) => {
+                console.log("l2 balance  => ", res, d);
+                bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
+                setLoader(false);
+              });
+          });
+      }
+      console.log("balance ", bal, address, selectedToken);
       setTokenBalanceL2(bal);
     }
   };
@@ -787,7 +799,7 @@ export default function Withdraw() {
                                         <span className="grey-txts">
                                           You will receive{" "}
                                           {values.withdrawAmount}{" "}
-                                          {selectedToken.key} on the Goerli Chain
+                                          {selectedToken.key} on the Goerli
                                           Chain.
                                         </span>
                                       ) : (

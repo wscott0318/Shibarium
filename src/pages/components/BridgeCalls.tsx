@@ -38,7 +38,7 @@ export const getTransactions = async (account: any) => {
         headers: headers,
       }
     );
-    return response.data.data;
+    return response?.data?.data;
   } catch (err) {
     return {};
   }

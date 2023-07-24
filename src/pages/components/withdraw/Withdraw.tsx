@@ -81,6 +81,7 @@ const WithdrawModal: React.FC<{
   const [completed, setCompleted] = useState(false);
   const [inclusion, setInclusion] = useState({});
   const [error, setError] = useState<any>(null);
+  const [decimalformat, setDecimalformat] = useState<any>(18);
   const [withModalState, setWidModState] = useState({
     step0: true,
     step1: false,
@@ -160,6 +161,7 @@ const WithdrawModal: React.FC<{
       }
     }
   };
+  console.log("selected token", selectedToken);
   const approveWithdraw = async () => {
     try {
       console.log("step 5");
@@ -220,13 +222,17 @@ const WithdrawModal: React.FC<{
     }
   };
 
+  console.log("decimalformat", decimalformat);
   const submitWithdraw = async () => {
     try {
       if (error === null) {
         setHashLink("");
         setButtonLoader(false);
         let user: any = account;
-        let amount = web3.utils.toWei(withdrawTokenInput, "ether");
+        let amount = web3.utils.toBN(
+          fromExponential(+withdrawTokenInput * Math.pow(10, decimalformat))
+        );
+
         let abi: any;
         let sendData;
         if (selectedToken?.parentName === "BONE") {
@@ -243,6 +249,12 @@ const WithdrawModal: React.FC<{
           abi,
           selectedToken?.childContract
         );
+        let gasFee = instance.methods
+          .withdraw(amount)
+          .estimateGas()
+          .then((res: any) => console.log("gas fetched ", res))
+          .catch((err: any) => console.log("error in fetching gas ", err));
+
         await instance.methods
           .withdraw(amount)
           .send(sendData)
@@ -383,58 +395,64 @@ const WithdrawModal: React.FC<{
     setLoader(true);
     setEstGas(0);
     let user: any = account;
-    let instance = new webL1.eth.Contract(
-      ERC20abi,
-      selectedToken?.parentContract
-    );
-    let decimal = await instance.methods.decimals().call();
-    let format = getToWeiUnitFromDecimal(decimal);
-    let amount = web3.utils.toWei(withdrawTokenInput, format);
-    const amountWei = web3.utils.toBN(amount);
-    let currentprice: any = await currentGasPrice(web3);
-
-    let allowance = await instance.methods
-      .allowance(account, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY)
-      .call({ from: account });
-    let allowanceForExit = +allowance / Math.pow(10, decimal);
-    let approvalInstance = new webL1.eth.Contract(
-      ERC20,
-      selectedToken?.parentContract
-    );
-    console.log("allowance ", allowanceForExit);
-    let processExitAllowance: any = 0;
-    if (+allowanceForExit < +withdrawTokenInput) {
-      await approvalInstance.methods
-        .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
-        .estimateGas({ from: user })
-        .then((gas: any) => {
-          processExitAllowance = web3.eth.toWei(
-            String(+gas * +currentprice),
-            "ether"
-          );
-          setAllowance(+processExitAllowance);
-          setLoader(false);
-        })
-        .catch((err: any) => console.log(err));
-    }
-    if (selectedToken?.bridgetype === "plasma") {
+    if (selectedToken.parentName !== "Ether") {
       let instance = new webL1.eth.Contract(
-        withdrawManagerABI,
-        dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY
+        ERC20abi,
+        selectedToken?.parentContract
       );
-      await instance.methods
-        .processExits(selectedToken?.parentContract)
-        .estimateGas({ from: user })
-        .then((gas: any) => {
-          let gasFee = web3.eth.toWei(String(+gas * +currentprice), "ether");
-          setEstGas(+gasFee);
-          setLoader(false);
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
+      let decimal = await instance.methods.decimals().call();
+      let format = getToWeiUnitFromDecimal(decimal);
+      setDecimalformat(decimal);
+      let amount = web3.utils.toWei(withdrawTokenInput, format);
+      const amountWei = web3.utils.toBN(amount);
+      let currentprice: any = await currentGasPrice(web3);
+
+      let allowance = await instance.methods
+        .allowance(account, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY)
+        .call({ from: account });
+      let allowanceForExit = +allowance / Math.pow(10, decimal);
+      let approvalInstance = new webL1.eth.Contract(
+        ERC20,
+        selectedToken?.parentContract
+      );
+      console.log("allowance ", allowanceForExit);
+      let processExitAllowance: any = 0;
+      if (+allowanceForExit < +withdrawTokenInput) {
+        await approvalInstance.methods
+          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
+          .estimateGas({ from: user })
+          .then((gas: any) => {
+            processExitAllowance = web3.eth.toWei(
+              String(+gas * +currentprice),
+              "ether"
+            );
+            setAllowance(+processExitAllowance);
+            setLoader(false);
+          })
+          .catch((err: any) => console.log(err));
+      }
+      if (selectedToken?.bridgetype === "plasma") {
+        let instance = new webL1.eth.Contract(
+          withdrawManagerABI,
+          dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY
+        );
+        await instance.methods
+          .processExits(selectedToken?.parentContract)
+          .estimateGas({ from: user })
+          .then((gas: any) => {
+            let gasFee = web3.eth.toWei(String(+gas * +currentprice), "ether");
+            setEstGas(+gasFee);
+            setLoader(false);
+          })
+          .catch((err: any) => {
+            console.log(err);
+          });
+      }
+      setLoader(false);
+    } else {
+      setAllowance(0);
+      setLoader(false);
     }
-    setLoader(false);
   };
 
   useEffect(() => {
