@@ -59,7 +59,7 @@ export default function Faucet() {
     console.log("entered faucet api", account);
     try {
       await axios
-        .post(`http://10.89.6.101:5000/api/getToken`, {
+        .post(`https://faucet.shib.io/api/getToken`, {
           address: account,
         })
         .then(async (res: any) => {
@@ -72,7 +72,7 @@ export default function Faucet() {
           };
           await axios
             .post(
-              `http://10.89.6.101:5000/api/getAuthToken`,
+              `https://faucet.shib.io/api/getAuthToken`,
               {},
               {
                 headers: headers,
@@ -81,7 +81,7 @@ export default function Faucet() {
             .then(async (res: any) => {
               await axios
                 .post(
-                  `http://10.89.6.101:5000/api/faucet`,
+                  `https://faucet.shib.io/api/faucet`,
                   {
                     type: selectedChain,
                   },
@@ -250,9 +250,8 @@ export default function Faucet() {
                                       Goerli BONE
                                     </div>
                                   }
-                                  className={`radioButtons ${
-                                    isActive == 1 && "active"
-                                  }`}
+                                  className={`radioButtons ${isActive == 1 && "active"
+                                    }`}
                                 />
                                 <FormControlLabel
                                   value="2"
@@ -271,9 +270,8 @@ export default function Faucet() {
                                       Puppy Net BONE
                                     </div>
                                   }
-                                  className={`radioButtons ${
-                                    isActive == 2 && "active"
-                                  }`}
+                                  className={`radioButtons ${isActive == 2 && "active"
+                                    }`}
                                 />
                               </RadioGroup>
                             </div>
@@ -300,7 +298,7 @@ export default function Faucet() {
                             <ReCAPTCHA
                               ref={recaptchaRef}
                               sitekey={siteKey}
-                              asyncScriptOnLoad={() => {}}
+                              asyncScriptOnLoad={() => { }}
                               onChange={handleCaptcha}
                               onExpired={() => {
                                 setClickedCaptcha(false);
