@@ -69,7 +69,7 @@ export default function Withdraw() {
     amount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0.001, "Invalid Amount.")
-      .max(selectedToken?.balance, "Insufficient Balance")
+      .max(balances.l1Balance, "Insufficient Balance")
       .required("Amount is required."),
   });
   const withdrawValidations: any = Yup.object({
@@ -78,7 +78,7 @@ export default function Withdraw() {
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0.001, "Invalid Amount.")
-      .max(tokenBalanceL2, "Insufficient Balance")
+      .max(balances.l2Balance, "Insufficient Balance")
       .required("Amount is required."),
   });
   const callDepositModal = (values: any, resetForm: any) => {
@@ -292,8 +292,8 @@ export default function Withdraw() {
                       <div className="txt-row">
                         <div className="row-hd">Withdraw Time:</div>
                         <p className="row-description">
-                          Moving your funds from Ethereum to Shibarium take up
-                          to 45 mins to 3 hours.
+                          Moving your funds from Shibarium to Ethereum take up
+                          to 60 mins to 3 hours.
                         </p>
                       </div>
                     )}
@@ -324,7 +324,7 @@ export default function Withdraw() {
                     }
                   </div>
                   <div className="blank-box"></div>
-                  <div className="box-bottom d-flex flex-column justify-content-end">
+                  {/* <div className="box-bottom d-flex flex-column justify-content-end">
                     <div className="sub-buttons-sec row buttons-fix">
                       <div className="mb-3 col-lg-6 mb-lg-0">
                         <Link href="how-it-works" passHref>
@@ -342,7 +342,7 @@ export default function Withdraw() {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {/* Left section end */}
