@@ -180,8 +180,7 @@ export default function Transaction() {
   }, [account]);
 
   useEffect(() => {
-    console.log("txState ", contTransaction.processExit);
-    if (contTransaction.processExit) fetchTransactions();
+    if (contTransaction && contTransaction?.processExit) fetchTransactions();
   }, [contTransaction]);
 
   const fetchTransactions = async () => {

@@ -18,14 +18,13 @@ const AppHeader = () => {
       } else if (asPath === "/faucet") {
         setTitle("Faucet");
         setUrl("/faucet");
+      } else if (asPath === "/bridge") {
+        setTitle("Bridge");
+        setUrl("/bridge");
+      } else if (asPath === "/transactions") {
+        setTitle("Bridge");
+        setUrl("/bridge");
       }
-      // else if (asPath === "/bridge") {
-      //   setTitle("Bridge");
-      //   setUrl("/bridge");
-      // } else if (asPath === "/transactions") {
-      //   setTitle("Transactions");
-      //   setUrl("/transactions");
-      // }
     }
   }, [asPath]);
 
@@ -81,7 +80,7 @@ const AppHeader = () => {
                     <span className="light-text">Earn Puppy Net Faucets</span>
                   </NavDropdown.Item>
                 </Link>
-                {/* <Link href="/bridge" passHref>
+                <Link href="/bridge" passHref>
                   <NavDropdown.Item>
                     <h6
                       className={
@@ -96,7 +95,7 @@ const AppHeader = () => {
                       Deposit and withdraw between networks
                     </span>
                   </NavDropdown.Item>
-                </Link> */}
+                </Link>
                 {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
                 <h6
                   className={
