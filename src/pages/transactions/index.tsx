@@ -173,45 +173,50 @@ export default function Transaction() {
   };
   useEffect(() => {
     if (account) {
-      console.log("step 1");
-      getTransactions(account).then((res) => {
-        console.log("respons", res);
-        if (res) {
-          setTokenCount(res?.length);
-          const slice = res?.slice(limit, limit + perPage);
-          setTransactions(slice);
-          setAllTransactions(res);
-          setPageCount(Math.ceil(res?.length / perPage));
-          if (onlyPending) filterPendingTransactions();
-          if (filterKey.key != 0) onFilter();
-        }
-        setTimeout(() => {
-          setLoader(false);
-        }, 200);
-      });
+      fetchTransactions();
     } else {
       setLoader(false);
     }
-  }, [txState, account]);
+  }, [account]);
 
+  useEffect(() => {
+    console.log("txState ", contTransaction.processExit);
+    if (contTransaction.processExit) fetchTransactions();
+  }, [contTransaction]);
+
+  const fetchTransactions = async () => {
+    let trans = await getTransactions(account);
+    if (trans != null) {
+      setTokenCount(trans?.length);
+      const slice = trans?.slice(limit, limit + perPage);
+      setTransactions(slice);
+      setAllTransactions(trans);
+      setPageCount(Math.ceil(trans?.length / perPage));
+      if (onlyPending) filterPendingTransactions();
+      if (filterKey.key != 0) onFilter();
+      setTimeout(() => {
+        setLoader(false);
+      }, 200);
+    }
+    return trans;
+  };
   const filterPendingTransactions = () => {
-    setCurrentPage(0);
-    setLimit(0);
     let filtered;
     if (onlyPending) {
-      console.log("step 2");
+      setCurrentPage(0);
+      setLimit(0);
       filtered = allTransactions?.filter((e: any) => e.status == 0);
     } else {
-      console.log("step 3");
       filtered = allTransactions;
     }
     setPageCount(Math.ceil(filtered?.length / perPage));
     let slice = filtered?.slice(limit, limit + perPage);
     setTransactions(slice);
   };
+
   useEffect(() => {
     filterPendingTransactions();
-  }, [onlyPending, txState]);
+  }, [onlyPending]);
 
   const ChangePagination = (e: any) => {
     const selectedPage = e.selected;
@@ -220,6 +225,7 @@ export default function Transaction() {
     setCurrentPage(selectedPage);
   };
 
+  console.log("currentpage ", currentPage);
   useEffect(() => {
     onFilter();
   }, [filterKey, limit, currentPage]);
@@ -230,7 +236,7 @@ export default function Transaction() {
 
     if (filterKey.key != 0) {
       if (onlyPending) {
-        setCurrentPage(0);
+        // setCurrentPage(0);
         filtered = allTransactions?.filter(
           (item: any) =>
             item.transactionType == filterKey.key && item.status == 0
@@ -257,7 +263,7 @@ export default function Transaction() {
         slice = filtered?.slice(limit, limit + perPage);
         setPageCount(Math.ceil(filtered?.length / perPage));
         setTransactions(slice);
-        setCurrentPage(0);
+        // setCurrentPage(0);
       } else {
         slice = allTransactions?.slice(limit, limit + perPage);
         setPageCount(Math.ceil(allTransactions?.length / perPage));

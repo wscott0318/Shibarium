@@ -17,7 +17,8 @@ export default function Sidebar({
   const router = useRouter();
   const { account } = useActiveWeb3React();
   const [width, setWidth] = useState();
-  const { pendingTransactionCount } = useTransactionCount();
+  const { pendingTransactionCount, getTransactionsCount } =
+    useTransactionCount();
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       onClickOutside && onClickOutside();
@@ -37,18 +38,18 @@ export default function Sidebar({
       isSelected: router.asPath == "/wallet" ? true : false,
       img: "../../assets/images/sidebar/wallet.png",
     },
-    // {
-    //   name: "Bridge",
-    //   route: "/bridge",
-    //   isSelected: router.asPath == "/bridge" ? true : false,
-    //   img: "../../assets/images/sidebar/bridge.png",
-    // },
-    // {
-    //   name: `Transactions`,
-    //   route: "/transactions",
-    //   isSelected: router.asPath == "/transactions" ? true : false,
-    //   img: "../../assets/images/sidebar/bridge.png",
-    // },
+    {
+      name: "Bridge",
+      route: "/bridge",
+      isSelected: router.asPath == "/bridge" ? true : false,
+      img: "../../assets/images/sidebar/bridge.png",
+    },
+    {
+      name: `Transactions`,
+      route: "/transactions",
+      isSelected: router.asPath == "/transactions" ? true : false,
+      img: "../../assets/images/sidebar/bridge.png",
+    },
     // {
     //   name: "Swap token",
     //   route: "/swap-token",
@@ -71,6 +72,9 @@ export default function Sidebar({
     };
   }, []);
 
+  useEffect(() => {
+    getTransactionsCount();
+  }, [account]);
   const bottomList = [
     // {
     //   name: "FAQs",
@@ -186,8 +190,7 @@ export default function Sidebar({
                     </span>
                     <span>{x.name}</span>
                     {account ? (
-                      x.name == "Transactions" &&
-                        pendingTransactionCount != 0 ? (
+                      x.name == "Transactions" && pendingTransactionCount ? (
                         <span className="pendingCountSpan">
                           <Loader /> {pendingTransactionCount}
                         </span>

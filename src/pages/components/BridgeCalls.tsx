@@ -40,7 +40,7 @@ export const getTransactions = async (account: any) => {
     );
     return response?.data?.data;
   } catch (err) {
-    return {};
+    return null;
   }
 };
 
