@@ -1,45 +1,49 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import { useActiveWeb3React } from "../../services/web3"
+import { useActiveWeb3React } from "../../services/web3";
 import { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import UserAccount from "./UserAccount";
 import ValidatorAccount from "./ValidatorAccount";
 import { getBoneUSDValue } from "../../web3/commonFunctions";
-import { BONE_ID } from '../../config/constant';
-import {useTokenBalance} from '../../hooks/useTokenBalance';
+import { BONE_ID } from "../../config/constant";
+import { useTokenBalance } from "../../hooks/useTokenBalance";
 import { dynamicChaining } from "web3/DynamicChaining";
-import {web3Decimals} from "../../web3/commonFunctions"
-import axios from 'axios';
+import { web3Decimals } from "../../web3/commonFunctions";
+import axios from "axios";
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
   const [userType, setUserType] = useUserType(); //NOSONAR
-  const [boneUSDValue,setBoneUSDValue] = useState(0);
+  const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [valId, setValId] = useValId(); //NOSONAR
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
-  const availBalance = tokenBal ;
+  const availBalance = tokenBal;
   let isloading = availBalance == -1;
   useEffect(() => {
-    if(account){
-      if(userType === 'Validator' && valId <= 0){
-        router.back()   
-      } else {
-        getBoneUSDValue().then((res) => {
-          setBoneUSDValue(res);
-        });
+    if (account) {
+      if (userType === "Validator" && valId <= 0) {
+        router.back();
       }
     } else {
-      router.back()
+      router.back();
     }
-  },[account])
+  }, [account]);
+
+  useEffect(() => {
+    getBoneUSDValue().then((res) => {
+      setBoneUSDValue(res);
+    });
+  }, []);
 
   const getDelegatorAmount = (data) => {
-    setDelegatorData({stakes: (data.totalStake) / 10 ** web3Decimals, rewards: data.totalReward / 10 ** web3Decimals})
-  }
-  
+    setDelegatorData({
+      stakes: data.totalStake / 10 ** web3Decimals,
+      rewards: data.totalReward / 10 ** web3Decimals,
+    });
+  };
 
   return (
     <>
@@ -53,15 +57,25 @@ export default function MyAcount() {
                   {userType === "Delegator" && (
                     <div className="balance_wrapper">
                       <div className="balance_card">
-                        <span>{isloading ? 0.00 : availBalance} BONES</span>
+                        <span>{isloading ? 0.0 : availBalance} BONES</span>
                         <h4 className="heading-sm">Wallet Balance</h4>
                       </div>
                       <div className="balance_card">
-                        <span>{delegatorData.stakes ? +(delegatorData.stakes).toFixed(2) : "0.00"} BONES</span>
+                        <span>
+                          {delegatorData.stakes
+                            ? +delegatorData.stakes.toFixed(2)
+                            : "0.00"}{" "}
+                          BONES
+                        </span>
                         <h4 className="heading-sm">Total Staked</h4>
                       </div>
                       <div className="balance_card">
-                        <span>{delegatorData.rewards ? +(delegatorData.rewards).toFixed(2) : "0.00"} BONES</span>
+                        <span>
+                          {delegatorData.rewards
+                            ? +delegatorData.rewards.toFixed(2)
+                            : "0.00"}{" "}
+                          BONES
+                        </span>
                         <h4 className="heading-sm">Total reward</h4>
                       </div>
                       {/* <div className="balance_card">
@@ -106,6 +120,4 @@ export default function MyAcount() {
       </main>
     </>
   );
-
-  
 }

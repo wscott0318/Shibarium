@@ -42,6 +42,7 @@ const StakingHeader = (type: any) => {
   }
 
   useEffect(() => {
+    console.log("called once")
     if (account) {
       getValInfoApi(account);
     }

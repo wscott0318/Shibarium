@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
-import {
-  getDelegatorData
-} from "../../services/apis/user/userApi";
+import { getDelegatorData } from "../../services/apis/user/userApi";
 import LoadingSpinner from "pages/components/Loading";
 import NumberFormat from "react-number-format";
 import { Formik } from "formik";
@@ -26,7 +24,7 @@ import {
   getAllowanceAmount,
   USER_REJECTED_TX,
   tokenDecimal,
-  web3Decimals
+  web3Decimals,
 } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from "app/functions";
@@ -36,7 +34,13 @@ import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useEpochDyna, useMigrateStake, useValInfoContract, useValInfo } from 'app/state/user/hooks';
+import {
+  useValId,
+  useEpochDyna,
+  useMigrateStake,
+  useValInfoContract,
+  useValInfo,
+} from "app/state/user/hooks";
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 
@@ -44,18 +48,18 @@ const initialModalState = {
   show: false,
   onHash: false,
   onReceipt: false,
-  title: ""
-}
+  title: "",
+};
 const ValidatorAccount = ({
   userType,
   boneUSDValue,
   availBalance,
-  getDelegatorAmount
+  getDelegatorAmount,
 }: {
   userType: any;
   boneUSDValue: any;
   availBalance: any;
-  getDelegatorAmount: any
+  getDelegatorAmount: any;
 }) => {
   const router = useRouter();
   const [showUnboundClaim, setUnStakePop] = useState(false);
@@ -69,11 +73,11 @@ const ValidatorAccount = ({
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
   const [valInfo, setValInfo] = useValInfo();
-  const [valId, setValId] = useValId();  //NOSONAR
+  const [valId, setValId] = useValId(); //NOSONAR
   const isLoading = availBalance === -1;
-  const [valInfoContract, setValInfoContract] = useValInfoContract()  //NOSONAR
+  const [valInfoContract, setValInfoContract] = useValInfoContract(); //NOSONAR
   const [transactionState, setTransactionState] = useState(initialModalState);
-  const [hashLink, setHashLink] = useState('');
+  const [hashLink, setHashLink] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
@@ -101,7 +105,7 @@ const ValidatorAccount = ({
     id: "",
     stakeAmount: 0,
     image: "",
-    valid: ""
+    valid: "",
   });
   const [comissionHandle, setComissionHandle] = useState({
     dynasty: "",
@@ -112,23 +116,10 @@ const ValidatorAccount = ({
     if (userType === "Validator" && (+valId == 0 || valId == null)) {
       router.push("/");
     } else {
-      getValInfo()
+      // @ts-ignore
+      setValidatorInfo(valInfo?.valInfo);
     }
   }, []);
-
-  const getValInfo = () => {
-    try { //NOSONAR
-      let id: any = account
-      getValidatorInfo(id).then((res: any) => {
-        // setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
-        setValidatorInfo(res?.data?.message?.val)
-      })
-    } catch (err: any) {
-      setValidatorInfo({})
-      Sentry.captureMessage("getValCount", err);
-    }
-  }
-
 
   const getValidatorData = async (valId: any) => {
     try {
@@ -150,26 +141,32 @@ const ValidatorAccount = ({
 
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
-      setValInfoContract(valFromContract)
+      setValInfoContract(valFromContract);
       setValidatorTotalReward(reward);
-      setEpochDyna({ epoch, dynasty })
+      setEpochDyna({ epoch, dynasty });
       console.log(valFromContract, "val info ===> ");
-      console.log(epochDyna, 'epochDyna');
-
+      console.log(epochDyna, "epochDyna");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
   };
 
-
   useEffect(() => {
     if (stakeAmounts.length) {
-      let totalStake = stakeAmounts.map((x: any) => +(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
-      let totalReward = delegationsList.map((x: any) => +(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
-      console.log({ stakeAmounts })
-      getDelegatorAmount({ totalReward, totalStake })
+      let totalStake = stakeAmounts
+        .map((x: any) => +x.tokens)
+        .reduce(
+          (accumulator: any, currentValue: any) => accumulator + currentValue
+        );
+      let totalReward = delegationsList
+        .map((x: any) => +x.reward)
+        .reduce(
+          (accumulator: any, currentValue: any) => accumulator + currentValue
+        );
+      console.log({ stakeAmounts });
+      getDelegatorAmount({ totalReward, totalStake });
     }
-  }, [stakeAmounts, delegationsList])
+  }, [stakeAmounts, delegationsList]);
 
   const getDelegatorCardData = async (accountAddress: any) => {
     setLoading(true);
@@ -178,7 +175,7 @@ const ValidatorAccount = ({
         .then((res: any) => {
           if (res.data) {
             let sortedData = res.data.data.validators
-              .filter((x: any) => +(x.stake) > 0)
+              .filter((x: any) => +x.stake > 0)
               .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
             sortedData.forEach(async (x: any) => {
               let stakeData = await getStakeAmountDelegator(
@@ -189,7 +186,7 @@ const ValidatorAccount = ({
             });
             setDelegationsList(sortedData);
             setLoading(false);
-            console.log("new delegation list", sortedData)
+            console.log("new delegation list", sortedData);
           }
         })
         .catch((e: any) => {
@@ -199,9 +196,6 @@ const ValidatorAccount = ({
       Sentry.captureException("getDelegatorCardData ", err);
     }
   };
-
-  console.log("val info ", validatorInfo, validatorInfoContract);
-
 
   const handleModal = (
     btn: string,
@@ -272,9 +266,10 @@ const ValidatorAccount = ({
 
   const restakeValidation: any = Yup.object({
     amount: Yup.number()
-      .typeError('Amount should be a number.')
+      .typeError("Amount should be a number.")
       .min(0, "Invalid Amount")
-      .max(availBalance, "Insufficient Balance.").moreThan(0, "You must enter valid amount.")
+      .max(availBalance, "Insufficient Balance.")
+      .moreThan(0, "You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
@@ -294,7 +289,8 @@ const ValidatorAccount = ({
 
   const comissionValidation: any = Yup.object({
     comission: Yup.number()
-      .min(0).moreThan(0, "You must enter valid amount.")
+      .min(0)
+      .moreThan(0, "You must enter valid amount.")
       .max(100)
       .required("Comission is required."),
   });
@@ -302,7 +298,12 @@ const ValidatorAccount = ({
   //  COMMISSION CONTRACT
   const callComission = async (value: any) => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({
+        show: true,
+        onHash: false,
+        onReceipt: false,
+        title: "Pending",
+      });
       let user: any = account;
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
@@ -335,7 +336,12 @@ const ValidatorAccount = ({
           let link = getExplorerLink(chainId, res, "transaction");
           setCommiModal({ value: false, address: "" });
           setHashLink(link);
-          setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+          setTransactionState({
+            show: true,
+            onHash: true,
+            onReceipt: false,
+            title: "Submitted",
+          });
         })
         .on("receipt", (res: any) => {
           dispatch(
@@ -354,10 +360,15 @@ const ValidatorAccount = ({
               },
             })
           );
-          setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+          setTransactionState({
+            show: true,
+            onHash: true,
+            onReceipt: true,
+            title: "Completed",
+          });
           setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+            window.location.reload();
+          }, 2000);
         })
         .on("error", (res: any) => {
           setTransactionState(initialModalState);
@@ -378,7 +389,12 @@ const ValidatorAccount = ({
   const callRestakeValidators = async (values: any) => {
     try {
       if (account) {
-        setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+        setTransactionState({
+          show: true,
+          onHash: false,
+          onReceipt: false,
+          title: "Pending",
+        });
         let walletAddress: any = account;
         let ID = valId;
         //@ts-ignore
@@ -425,7 +441,12 @@ const ValidatorAccount = ({
                 })
               );
               let link = getExplorerLink(chainId, res, "transaction");
-              setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+              setTransactionState({
+                show: true,
+                onHash: true,
+                onReceipt: false,
+                title: "Submitted",
+              });
               setHashLink(link);
               setRestakeModal({ value1: false, value2: false, address: "" });
             })
@@ -448,7 +469,12 @@ const ValidatorAccount = ({
               );
               router.push("/my-account", "/my-account", { shallow: false });
               setHashLink("");
-              setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+              setTransactionState({
+                show: true,
+                onHash: true,
+                onReceipt: true,
+                title: "Completed",
+              });
             })
             .on("error", (res: any) => {
               setTransactionState(initialModalState);
@@ -539,7 +565,7 @@ const ValidatorAccount = ({
                 }
               });
           })
-          .catch((err: any) => { });
+          .catch((err: any) => {});
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -553,7 +579,12 @@ const ValidatorAccount = ({
 
   const withdrawRewardValidator = async () => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({
+        show: true,
+        onHash: false,
+        onReceipt: false,
+        title: "Pending",
+      });
       if (account) {
         let walletAddress = account;
         let valID = valId;
@@ -588,7 +619,12 @@ const ValidatorAccount = ({
             let link = getExplorerLink(chainId, res, "transaction");
             setWithdrawModal({ value: false, address: "" });
             setHashLink(link);
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -607,10 +643,15 @@ const ValidatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Completed",
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             setTransactionState(initialModalState);
@@ -631,7 +672,12 @@ const ValidatorAccount = ({
 
   const withdrawRewardDelegator = async (address: any, id: any) => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Withdraw Rewards" });
+      setTransactionState({
+        show: true,
+        onHash: false,
+        onReceipt: false,
+        title: "Withdraw Rewards",
+      });
       if (account) {
         let walletAddress = account;
         let instance = new web3.eth.Contract(ValidatorShareABI, address);
@@ -661,7 +707,12 @@ const ValidatorAccount = ({
               let link = getExplorerLink(chainId, res, "transaction");
               setWithdrawModal({ value: false, address: "" });
               setHashLink(link);
-              setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+              setTransactionState({
+                show: true,
+                onHash: true,
+                onReceipt: false,
+                title: "Submitted",
+              });
             })();
           })
           .on("receipt", (res: any) => {
@@ -681,10 +732,15 @@ const ValidatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Completed",
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             setTransactionState(initialModalState);
@@ -706,7 +762,12 @@ const ValidatorAccount = ({
   const unStakeClaimValidator = async () => {
     try {
       if (account) {
-        setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+        setTransactionState({
+          show: true,
+          onHash: false,
+          onReceipt: false,
+          title: "Pending",
+        });
         let walletAddress: any = account;
         let ID = valId;
         let instance = new web3.eth.Contract(
@@ -736,7 +797,12 @@ const ValidatorAccount = ({
               })
             );
             let link = getExplorerLink(chainId, res, "transaction");
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
             setHashLink(link);
             setUnStakePop(false);
           })
@@ -757,10 +823,15 @@ const ValidatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Completed",
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             console.log(res, "error");
@@ -784,7 +855,12 @@ const ValidatorAccount = ({
   const unStakeValidator = async () => {
     try {
       if (account) {
-        setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+        setTransactionState({
+          show: true,
+          onHash: false,
+          onReceipt: false,
+          title: "Pending",
+        });
         let walletAddress: any = account;
         let ID = valId;
         let instance = new web3.eth.Contract(
@@ -814,7 +890,12 @@ const ValidatorAccount = ({
               })
             );
             let link = getExplorerLink(chainId, res, "transaction");
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
             setHashLink(link);
             setUnStakePop(false);
           })
@@ -835,10 +916,15 @@ const ValidatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Completed",
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             setTransactionState(initialModalState);
@@ -860,7 +946,12 @@ const ValidatorAccount = ({
   const restakeDelegator = async () => {
     try {
       if (account) {
-        setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+        setTransactionState({
+          show: true,
+          onHash: false,
+          onReceipt: false,
+          title: "Pending",
+        });
         let walletAddress: any = account;
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
@@ -889,7 +980,12 @@ const ValidatorAccount = ({
               })
             );
             let link = getExplorerLink(chainId, res, "transaction");
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
             setHashLink(link);
             setRestakeModal({ value1: false, value2: false, address: "" });
           })
@@ -910,10 +1006,15 @@ const ValidatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Submitted",
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             setTransactionState(initialModalState);
@@ -940,7 +1041,12 @@ const ValidatorAccount = ({
         startValue: false,
       });
       setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }));
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({
+        show: true,
+        onHash: false,
+        onReceipt: false,
+        title: "Pending",
+      });
       let data = {
         delegatorAddress: account,
         validatorContract: unboundModal.id,
@@ -968,7 +1074,12 @@ const ValidatorAccount = ({
               })
             );
             let link = getExplorerLink(chainId, res, "transaction");
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
             setHashLink(link);
             setUnboundModal({
               startValue: false,
@@ -976,7 +1087,7 @@ const ValidatorAccount = ({
               id: "",
               stakeAmount: 0,
               image: "",
-              valid: ""
+              valid: "",
             });
             setUnboundInput("");
           })
@@ -999,11 +1110,16 @@ const ValidatorAccount = ({
             );
             setTimeout(async () => {
               await getDelegatorCardData(account);
-              setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
-            }, 3000)
+              setTransactionState({
+                show: true,
+                onHash: true,
+                onReceipt: true,
+                title: "Completed",
+              });
+            }, 3000);
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           })
           .on("error", (res: any) => {
             setUnboundInput("");
@@ -1019,7 +1135,7 @@ const ValidatorAccount = ({
                 id: "",
                 stakeAmount: 0,
                 image: "",
-                valid: ""
+                valid: "",
               });
               setTransactionState(initialModalState);
             }
@@ -1036,7 +1152,7 @@ const ValidatorAccount = ({
         id: "",
         stakeAmount: 0,
         image: "",
-        valid: ""
+        valid: "",
       });
       setTransactionState(initialModalState);
     }
@@ -1044,7 +1160,7 @@ const ValidatorAccount = ({
 
   const getStakeAmountDelegator = async (id: any, account: any) => {
     try {
-      console.log("stake data id  == ", id, ' account ==> ', account)
+      console.log("stake data id  == ", id, " account ==> ", account);
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
@@ -1057,7 +1173,7 @@ const ValidatorAccount = ({
   const getStake = (id: string) => {
     try {
       let item = stakeAmounts?.length
-        ? stakeAmounts.filter((x: any) => +(x.validatorId) === +id)[0]?.tokens
+        ? stakeAmounts.filter((x: any) => +x.validatorId === +id)[0]?.tokens
         : 0;
       return item > 0
         ? addDecimalValue(parseInt(item) / 10 ** web3Decimals)
@@ -1069,17 +1185,13 @@ const ValidatorAccount = ({
   const handleMigrateClick = (data: any) => {
     let stake = getStake(data.id);
     setMigrateData(data, stake);
-    router.push(
-      `/migrate-stake`,
-      `/migrate-stake`,
-      { shallow: true }
-    )
-  }
+    router.push(`/migrate-stake`, `/migrate-stake`, { shallow: true });
+  };
   const reloadOnHash = () => {
     if (transactionState.onHash) {
-      window.location.reload()
+      window.location.reload();
     }
-  }
+  };
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -1092,7 +1204,9 @@ const ValidatorAccount = ({
       <DelegatePopup
         data={selectedRow}
         showdelegatepop={stakeMore}
-        setdelegatepop={() => { setStakeMoreModal(false); }}
+        setdelegatepop={() => {
+          setStakeMoreModal(false);
+        }}
         getDelegatorCardData={getDelegatorCardData}
       />
       <div className="main-content dark-bg-800 full-vh cmn-input-bg">
@@ -1166,10 +1280,7 @@ const ValidatorAccount = ({
                             disabled={availBalance <= 0}
                             className="orange-txt fw-bold"
                             onClick={() => {
-                              setFieldValue(
-                                "amount",
-                                (availBalance)
-                              );
+                              setFieldValue("amount", availBalance);
                             }}
                           >
                             MAX
@@ -1303,7 +1414,7 @@ const ValidatorAccount = ({
           title={"Withdraw rewards"}
           show={withdrawModal.value}
           setshow={() => {
-            setWithdrawModal({ value: false, address: "" })
+            setWithdrawModal({ value: false, address: "" });
             reloadOnHash();
           }}
           externalCls="stak-pop del-pop ffms-inherit"
@@ -1358,8 +1469,7 @@ const ValidatorAccount = ({
           setshow={() => {
             setRestakeModal({ value1: false, value2: false, address: "" });
             reloadOnHash();
-          }
-          }
+          }}
           externalCls="stak-pop del-pop ffms-inherit"
         >
           <>
@@ -1538,7 +1648,7 @@ const ValidatorAccount = ({
                   publickey: "",
                 }}
                 validationSchema={signersAddress}
-                onSubmit={(values, actions) => { }}
+                onSubmit={(values, actions) => {}}
               >
                 {({
                   errors,
@@ -1575,7 +1685,7 @@ const ValidatorAccount = ({
                           value={values.address}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                        // onChange={handleChange("amount")}
+                          // onChange={handleChange("amount")}
                         />
                         {touched.address && errors.address ? (
                           <p className="pt-1 pl-2 primary-text">
@@ -1583,7 +1693,10 @@ const ValidatorAccount = ({
                           </p>
                         ) : null}
                       </div>
-                      <div style={{ marginTop: "20px" }} className="form-control">
+                      <div
+                        style={{ marginTop: "20px" }}
+                        className="form-control"
+                      >
                         <label className="mb-2 text-white mb-md-2">
                           Signer’s Public key
                         </label>
@@ -1631,8 +1744,7 @@ const ValidatorAccount = ({
             setUnboundModal({ ...unboundModal, startValue: false });
             reloadOnHash();
             setUnboundInput(0);
-          }
-          }
+          }}
           externalCls="stak-pop del-pop ffms-inherit"
         >
           <>
@@ -1658,15 +1770,15 @@ const ValidatorAccount = ({
                   <div className="form-group float-group sec-format">
                     <div className="flex-wrap d-flex justify-content-between">
                       <h6 className="mb-1">Withdraw Stake</h6>
-                      <h6 className="mb-1">
-                        {unboundModal.stakeAmount} Bone
-                      </h6>
+                      <h6 className="mb-1">{unboundModal.stakeAmount} Bone</h6>
                     </div>
                     <div className="mb-0 cmn_inpt_row max-input inpt-bg">
                       <div className="max-input dark-bg-800">
                         <input
                           value={unboundInput}
-                          onChange={(e) => { setUnboundInput(e.target.value) }}
+                          onChange={(e) => {
+                            setUnboundInput(e.target.value);
+                          }}
                           type="number"
                           className="w-100 form-control"
                           placeholder="Enter amount"
@@ -1681,11 +1793,9 @@ const ValidatorAccount = ({
                           MAX
                         </span>
                       </div>
-                      {unboundInput > unboundModal.stakeAmount ?
-                        (
-                          <p className="primary-text">Insufficient Amount</p>
-                        )
-                        : null}
+                      {unboundInput > unboundModal.stakeAmount ? (
+                        <p className="primary-text">Insufficient Amount</p>
+                      ) : null}
                     </div>
                   </div>
                   <p className="mt-1 mb-0 info-txt">
@@ -1695,7 +1805,11 @@ const ValidatorAccount = ({
                 </div>
                 <button
                   onClick={() => unboundDelegator()}
-                  disabled={unboundInput > 0 && unboundInput <= unboundModal.stakeAmount ? false : true}
+                  disabled={
+                    unboundInput > 0 && unboundInput <= unboundModal.stakeAmount
+                      ? false
+                      : true
+                  }
                   type="button"
                   className="mt-3 btn primary-btn mt-sm-4 w-100"
                 >
@@ -1714,9 +1828,8 @@ const ValidatorAccount = ({
           show={transactionState.show}
           setshow={() => {
             reloadOnHash();
-            setTransactionState(initialModalState)
-          }
-          }
+            setTransactionState(initialModalState);
+          }}
           externalCls="stak-pop del-pop ffms-inherit"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
@@ -1732,7 +1845,7 @@ const ValidatorAccount = ({
                   </div>
                   <div className="step-title">Approved</div>
                 </li>
-                <li className={`step ${(transactionState.onHash) && "active"}`}>
+                <li className={`step ${transactionState.onHash && "active"}`}>
                   <div className="step-ico">
                     <img
                       className="img-fluid"
@@ -1742,7 +1855,9 @@ const ValidatorAccount = ({
                   </div>
                   <div className="step-title">Submitted</div>
                 </li>
-                <li className={`step ${(transactionState.onReceipt) && "active"}`}>
+                <li
+                  className={`step ${transactionState.onReceipt && "active"}`}
+                >
                   <div className="step-ico">
                     <img
                       className="img-fluid"
@@ -1753,64 +1868,26 @@ const ValidatorAccount = ({
                   <div className="step-title">Completed</div>
                 </li>
               </ul>
-              {
-                transactionState.show && transactionState.title == "Pending" && (
-                  <div className="step_content fl-box">
-                    <div className="ax-top">
-                      <div className="image_area row">
-                        <div className="text-center col-12 watch-img-sec">
-                          <img
-                            className="img-fluid img-wdth"
-                            src="../../assets/images/progrs-img.png"
-                            width="150"
-                            height="150"
-                          />
-                        </div>
-                      </div>
-                      <div className="mid_text row">
-                        <div className="text-center col-12">
-                          <h4 className="ff-mos">Processing Transaction</h4>
-                        </div>
-                        <div className="text-center col-12">
-                          <p className="ff-mos">
-                            Approve the transaction in Metamask to proceed.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="ax-bottom">
-                      <div className="mt-3 pop_btns_area row form-control">
-                        <div className="col-12">
-                          <button
-                            className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
-                            disabled={hashLink ? false : true}
-                            onClick={() => window.open(hashLink)}
-                          >
-                            <span>View on Block Explorer</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              }
-              {transactionState.onHash && transactionState.title == "Submitted" && (
+              {transactionState.show && transactionState.title == "Pending" && (
                 <div className="step_content fl-box">
                   <div className="ax-top">
                     <div className="image_area row">
                       <div className="text-center col-12 watch-img-sec">
-                        <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../assets/images/progrs-img.png"
+                          width="150"
+                          height="150"
+                        />
                       </div>
                     </div>
                     <div className="mid_text row">
                       <div className="text-center col-12">
-                        <h4 className="ff-mos">Transaction Submitted</h4>
+                        <h4 className="ff-mos">Processing Transaction</h4>
                       </div>
                       <div className="text-center col-12">
                         <p className="ff-mos">
-                          BONE transactions can take longer time to complete
-                          based upon network congestion. Please wait or increase
-                          the gas price of the transaction.
+                          Approve the transaction in Metamask to proceed.
                         </p>
                       </div>
                     </div>
@@ -1830,8 +1907,49 @@ const ValidatorAccount = ({
                   </div>
                 </div>
               )}
-              {
-                transactionState.onReceipt && transactionState.title == "Completed" && (
+              {transactionState.onHash &&
+                transactionState.title == "Submitted" && (
+                  <div className="step_content fl-box">
+                    <div className="ax-top">
+                      <div className="image_area row">
+                        <div className="text-center col-12 watch-img-sec">
+                          <CircularProgress
+                            color="inherit"
+                            size={120}
+                            style={{ color: "#f06500" }}
+                          />
+                        </div>
+                      </div>
+                      <div className="mid_text row">
+                        <div className="text-center col-12">
+                          <h4 className="ff-mos">Transaction Submitted</h4>
+                        </div>
+                        <div className="text-center col-12">
+                          <p className="ff-mos">
+                            BONE transactions can take longer time to complete
+                            based upon network congestion. Please wait or
+                            increase the gas price of the transaction.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ax-bottom">
+                      <div className="mt-3 pop_btns_area row form-control">
+                        <div className="col-12">
+                          <button
+                            className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
+                            disabled={hashLink ? false : true}
+                            onClick={() => window.open(hashLink)}
+                          >
+                            <span>View on Block Explorer</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              {transactionState.onReceipt &&
+                transactionState.title == "Completed" && (
                   <div className="step_content fl-box">
                     <div className="ax-top">
                       <div className="image_area row">
@@ -1871,577 +1989,643 @@ const ValidatorAccount = ({
                       </div>
                     </div>
                   </div>
-                )
-              }
+                )}
             </div>
           </div>
           {/* Transaction Pending popup version 2 end*/}
         </CommonModal>
         {/* pending & submit modal end */}
 
-        {
-          userType === "Validator" ? (
-            <section className="mid_cnt_area acct">
-              <div className="container">
-                <div className="col-xl-12 col-lg-12 side-auto">
-                  <div className="val_del_outr">
-                    <div className="row ff-mos">
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{isLoading ? "0.00" : addDecimalValue(availBalance)}</span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={isLoading ? "0.00" : (addDecimalValue(
-                                    (availBalance || 0.0) * boneUSDValue))}
-                                />
-                              </span>
-                            </div>
+        {userType === "Validator" ? (
+          <section className="mid_cnt_area acct">
+            <div className="container">
+              <div className="col-xl-12 col-lg-12 side-auto">
+                <div className="val_del_outr">
+                  <div className="row ff-mos">
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {isLoading
+                                ? "0.00"
+                                : addDecimalValue(availBalance)}
+                            </span>{" "}
+                            BONE
                           </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={
+                                  isLoading
+                                    ? "0.00"
+                                    : addDecimalValue(
+                                        (availBalance || 0.0) * boneUSDValue
+                                      )
+                                }
+                              />
+                            </span>
+                          </div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">Wallet Balance</span>
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              {validatorInfoContract?.commissionRate
-                                ? addDecimalValue(
+                    </div>
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            {validatorInfoContract?.commissionRate
+                              ? addDecimalValue(
                                   +validatorInfoContract?.commissionRate
                                 )
-                                : 0.0}{" "}
-                              %
-                            </div>
-                            <div className="mid-head">
-                            </div>
+                              : 0.0}{" "}
+                            %
                           </div>
+                          <div className="mid-head"></div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">
-                                Commission Percentage
-                              </span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Commission Percentage
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              {validatorTotalReward
-                                ? addDecimalValue(+validatorTotalReward)
-                                : "0.00"}{" "}
-                              BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={addDecimalValue(
-                                    +validatorTotalReward * boneUSDValue
-                                  )}
-                                />
-                              </span>
-                            </div>
+                    </div>
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            {validatorTotalReward
+                              ? addDecimalValue(+validatorTotalReward)
+                              : "0.00"}{" "}
+                            BONE
                           </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={addDecimalValue(
+                                  +validatorTotalReward * boneUSDValue
+                                )}
+                              />
+                            </span>
+                          </div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">
-                                Withdrawal reward balance
-                              </span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Withdrawal reward balance
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>
-                                {validatorInfoContract?.amount
-                                  ? addDecimalValue(
+                    </div>
+                    <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.amount
+                                ? addDecimalValue(
                                     +validatorInfoContract?.amount /
-                                    10 ** web3Decimals
+                                      10 ** web3Decimals
                                   )
-                                  : "0.00"}
-                              </span>{" "}
-                              BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={addDecimalValue(
-                                    (+validatorInfoContract?.amount /
-                                      10 ** web3Decimals) *
-                                    boneUSDValue
-                                  )}
-                                />
-                              </span>
-                            </div>
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
                           </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={addDecimalValue(
+                                  (+validatorInfoContract?.amount /
+                                    10 ** web3Decimals) *
+                                    boneUSDValue
+                                )}
+                              />
+                            </span>
+                          </div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Self Stake</span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">Self Stake</span>
                           </div>
                         </div>
                       </div>
-                      <div className="text-center col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>
-                                {validatorInfoContract?.delegatedAmount
-                                  ? addDecimalValue(
+                    </div>
+                    <div className="text-center col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.delegatedAmount
+                                ? addDecimalValue(
                                     +validatorInfoContract?.delegatedAmount /
-                                    Math.pow(10, web3Decimals)
+                                      Math.pow(10, web3Decimals)
                                   )
-                                  : "0.00"}
-                              </span>{" "}
-                              BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={addDecimalValue(
-                                    (+validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, web3Decimals)) *
-                                    boneUSDValue
-                                  )}
-
-                                />
-                              </span>
-                            </div>
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
                           </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">
-                                Total Delegators Amount
-                              </span>
-                            </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={addDecimalValue(
+                                  (+validatorInfoContract?.delegatedAmount /
+                                    Math.pow(10, web3Decimals)) *
+                                    boneUSDValue
+                                )}
+                              />
+                            </span>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>
-                                {validatorInfoContract?.delegatorsReward
-                                  ? addDecimalValue(
-                                    parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, 18)
-                                  )
-                                  : "0.00"}
-                              </span>{" "}
-                              BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={addDecimalValue(
-                                    (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) *
-                                    boneUSDValue
-                                  )}
-                                />
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">
-                                Total Delegators Reward
-                              </span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Total Delegators Amount
+                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* grid sec end */}
-                    <div className="mt-3 btns_sec val_all_bts row actions-btn">
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className="cus-tooltip d-inline-block ps-0">
-                          <button
-                            disabled={
-                              parseInt(validatorInfoContract?.status) > 1 ||
-                                parseInt(validatorInfoContract?.deactivationEpoch) > 0 || //@ts-ignore
-                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
-                                ? true
-                                : false
-                            }
-                            onClick={() => handleModal("Restake", account)}
-                            className="ff-mos btn black-btn w-100 d-block tool-ico"
-                          >
-                            Restake
-                          </button>
-                          <div className="tool-desc">
-                            {/* @ts-ignore */}
-                            {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Restake"}</div>
+                    <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.delegatorsReward
+                                ? addDecimalValue(
+                                    parseInt(
+                                      validatorInfoContract?.delegatorsReward
+                                    ) / Math.pow(10, 18)
+                                  )
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
+                          </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={addDecimalValue(
+                                  (parseInt(
+                                    validatorInfoContract?.delegatorsReward
+                                  ) /
+                                    Math.pow(10, web3Decimals)) *
+                                    boneUSDValue
+                                )}
+                              />
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Total Delegators Reward
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className="cus-tooltip d-inline-block ps-0">
-                          <button
-                            disabled={
-                              parseInt(validatorInfoContract?.status) > 1 ||
-                                parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0 || parseInt(
-                                  validatorInfoContract?.lastCommissionUpdate
-                                ) +
-                                parseInt(comissionHandle?.dynasty) >=
-                                parseInt(comissionHandle?.epoch) //@ts-ignore
-                                || valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
-                                ? true
-                                : false
-                            }
-                            onClick={() =>
-                              handleModal("Change Commission Rate", account)
-                            }
-                            className="ff-mos btn black-btn w-100 d-block tool-ico"
-                          >
-                            Change Commission Rate
-                          </button>
-                          {parseInt(validatorInfoContract?.status) > 1 ||
+                    </div>
+                  </div>
+
+                  {/* grid sec end */}
+                  <div className="mt-3 btns_sec val_all_bts row actions-btn">
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ||
                             parseInt(validatorInfoContract?.deactivationEpoch) >
-                            0 || parseInt(
+                              0 || //@ts-ignore
+                            (validatorInfo?.signer != validatorInfo?.staker &&
+                              validatorInfo?.signer == account)
+                              ? true
+                              : false
+                          }
+                          onClick={() => handleModal("Restake", account)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Restake
+                        </button>
+                        <div className="tool-desc">
+                          {/* @ts-ignore */}
+                          {validatorInfo?.signer != validatorInfo?.staker &&
+                          validatorInfo?.signer == account
+                            ? "Switch to your staker account"
+                            : "Restake"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ||
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0 ||
+                            parseInt(
                               validatorInfoContract?.lastCommissionUpdate
                             ) +
-                            parseInt(comissionHandle?.dynasty) >
-                            parseInt(comissionHandle?.epoch) ? null :
-                            (<div className="tool-desc">
-                              {/* @ts-ignore */}
-                              {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Change your commission rate"}
-                            </div>)}
-
+                              parseInt(comissionHandle?.dynasty) >=
+                              parseInt(comissionHandle?.epoch) || //@ts-ignore
+                            (validatorInfo?.signer != validatorInfo?.staker &&
+                              validatorInfo?.signer == account)
+                              ? true
+                              : false
+                          }
+                          onClick={() =>
+                            handleModal("Change Commission Rate", account)
+                          }
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Change Commission Rate
+                        </button>
+                        {parseInt(validatorInfoContract?.status) > 1 ||
+                        parseInt(validatorInfoContract?.deactivationEpoch) >
+                          0 ||
+                        parseInt(validatorInfoContract?.lastCommissionUpdate) +
+                          parseInt(comissionHandle?.dynasty) >
+                          parseInt(comissionHandle?.epoch) ? null : (
+                          <div className="tool-desc">
+                            {/* @ts-ignore */}
+                            {validatorInfo?.signer != validatorInfo?.staker &&
+                            validatorInfo?.signer == account
+                              ? "Switch to your staker account"
+                              : "Change your commission rate"}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          onClick={() => {
+                            withdrawRewardValidator();
+                          }}
+                          disabled={
+                            //@ts-ignore
+                            parseInt(validatorInfoContract?.status) > 1 ||
+                            (validatorInfo?.signer != validatorInfo?.staker &&
+                              validatorInfo?.signer == account)
+                              ? true
+                              : validatorTotalReward <= 0
+                          }
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Withdraw Rewards
+                        </button>{" "}
+                        {/*@ts-ignore*/}
+                        <div className="tool-desc">
+                          {validatorInfo?.signer != validatorInfo?.staker &&
+                          validatorInfo?.signer == account
+                            ? "Switch to your staker account"
+                            : "Withdraw rewards"}
                         </div>
                       </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className="cus-tooltip d-inline-block ps-0">
-                          <button
-                            onClick={() => { withdrawRewardValidator() }}
-                            disabled={ //@ts-ignore
-                              parseInt(validatorInfoContract?.status) > 1 || valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
-                                ? true
-                                : (validatorTotalReward <= 0)
-                            }
-                            className="ff-mos btn black-btn w-100 d-block tool-ico"
-                          >
-                            Withdraw Rewards
-                          </button> {/*@ts-ignore*/}
-                          <div className="tool-desc">{valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Withdraw rewards"}</div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0 ||
+                            validatorInfo?.fundamental === 1 ||
+                            // @ts-ignore
+                            (validatorInfo?.signer != validatorInfo?.staker &&
+                              validatorInfo?.signer == account)
+                              ? true
+                              : false
+                          }
+                          onClick={() => setUnStakePop(true)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Unstake
+                        </button>
+                        <div className="tool-desc-grid tool-desc">
+                          {/*@ts-ignore*/}
+                          {validatorInfo?.signer != validatorInfo?.staker &&
+                          validatorInfo?.signer == account
+                            ? "Switch to your staker account"
+                            : "Unstake from network"}
                         </div>
                       </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className="cus-tooltip d-inline-block ps-0">
-                          <button
-                            disabled={
-                              parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0 ||
-                                validatorInfo?.fundamental === 1 ||
-                                // @ts-ignore
-                               (valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account) ? true
-                                : false
-                            }
-                            onClick={() => setUnStakePop(true)}
-                            className="ff-mos btn black-btn w-100 d-block tool-ico"
-                          >
-                            Unstake
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className={`cus-tooltip d-inline-block ps-0`}>
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0 &&
+                            parseInt(validatorInfoContract?.status) === 2 && //@ts-ignore
+                            validatorInfo?.signer != validatorInfo?.staker &&
+                            validatorInfo?.signer != account &&
+                            validatorInfo?.fundamental === 2
+                              ? false
+                              : true
+                          }
+                          onClick={() => setUnStakeClaimPop(true)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Unstake Claim
+                        </button>
+                        {parseInt(validatorInfoContract?.deactivationEpoch) >=
+                        0 ? (
+                          <div className="tool-desc">
+                            {/*@ts-ignore*/}
+                            {validatorInfo?.signer != validatorInfo?.staker &&
+                            validatorInfo?.signer == account
+                              ? "Switch to your staker account"
+                              : "You need to unstake first."}
+                          </div>
+                        ) : (
+                          <div className="tool-desc">
+                            {/*@ts-ignore*/}
+                            {validatorInfo?.signer != validatorInfo?.staker &&
+                            validatorInfo?.signer == account
+                              ? "Switch to your staker account"
+                              : "Claim your self stake"}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 d-none">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <Link href="/profile-update" passHref>
+                          <button className="ff-mos btn black-btn w-100 d-block tool-ico">
+                            Update Profile
                           </button>
-                          <div className="tool-desc-grid tool-desc">{/*@ts-ignore*/}
-                            {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Unstake from network"}</div>
-                        </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className={`cus-tooltip d-inline-block ps-0`}>
-                          <button
-                            disabled={
-                              ((parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0 &&
-                                parseInt(validatorInfoContract?.status) === 2 && //@ts-ignore
-                                (valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer != account)) &&
-                                validatorInfo?.fundamental === 2)
-
-                                ? false
-                                : true
-                            }
-                            onClick={() => setUnStakeClaimPop(true)}
-                            className="ff-mos btn black-btn w-100 d-block tool-ico"
-                          >
-                            Unstake Claim
-                          </button>
-                          {parseInt(validatorInfoContract?.deactivationEpoch) >= 0 ?
-                            (
-
-                              <div className="tool-desc">
-                                {/*@ts-ignore*/}
-                                {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "You need to unstake first."}
-                              </div>
-                            ) : (
-                              <div className="tool-desc">
-                                {/*@ts-ignore*/}
-                                {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Claim your self stake"}</div>
-                            )}
-
-                        </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 d-none">
-                        <div className="cus-tooltip d-inline-block ps-0">
-                          <Link href="/profile-update" passHref>
-                            <button className="ff-mos btn black-btn w-100 d-block tool-ico">
-                              Update Profile
-                            </button>
-                          </Link>
-                          <div className="tool-desc">Update Profile</div>
-                        </div>
+                        </Link>
+                        <div className="tool-desc">Update Profile</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
-          ) : (
-            <section className="del-grid-section bottom-pad ffms-inherit top-pad">
-              <div className="container">
-                <div className="row">
-                  {delegationsList.length > 0 ? (
-                    delegationsList.map((item: any, index: any) => (
-                      getStake(item.id) >= 1 &&
-                      (<div
-                        className="col-lg-4 col-md-6 col-12 bs-col"
-                        key={item.id}
-                      >
-                        <div className="border-sec">
-                          <div className="top-sec">
-                            <div className="info-block">
-                              <div className="image-blk">
-                                <div>
-                                  <img
-                                    className="img-fluid"
-                                    src={
-                                      item.image
-                                        ? item.image
-                                        : "../../assets/images/Shib-Logo.png"
-                                    }
-                                    onError={imageOnErrorHandler}
-                                    width="69"
-                                    height="70"
-                                    alt="coin-icon"
-                                  />
-                                </div>
-                              </div>
-                              <div className="grid-info text-start">
-                                <div className="fw-bold">{item.name}</div>
-                                <div className="info-row">
-                                  <span>
-                                    <span className="fw-bold">
-                                      {addDecimalValue(
-                                        parseInt(item.checkpointSignedPercent)
-                                      )}
-                                      %
-                                    </span>{" "}
-                                    Checkpoints Signed
-                                  </span>
-                                </div>
-                                <div className="info-row">
-                                  <span>
-                                    <span className="fw-bold">
-                                      {addDecimalValue(+item.commission)}%
-                                    </span>{" "}
-                                    Commission
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="h-auto mid-sec bs-card">
-                            <div className="block-container">
-                              <div className="cus-width">
-                                <div className="text-center">
-                                  <div>Your Stake</div>
-                                  <div className="fw-bold">
-                                    {getStake(item.id)}
+            </div>
+          </section>
+        ) : (
+          <section className="del-grid-section bottom-pad ffms-inherit top-pad">
+            <div className="container">
+              <div className="row">
+                {delegationsList.length > 0
+                  ? delegationsList.map(
+                      (item: any, index: any) =>
+                        getStake(item.id) >= 1 && (
+                          <div
+                            className="col-lg-4 col-md-6 col-12 bs-col"
+                            key={item.id}
+                          >
+                            <div className="border-sec">
+                              <div className="top-sec">
+                                <div className="info-block">
+                                  <div className="image-blk">
+                                    <div>
+                                      <img
+                                        className="img-fluid"
+                                        src={
+                                          item.image
+                                            ? item.image
+                                            : "../../assets/images/Shib-Logo.png"
+                                        }
+                                        onError={imageOnErrorHandler}
+                                        width="69"
+                                        height="70"
+                                        alt="coin-icon"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="grid-info text-start">
+                                    <div className="fw-bold">{item.name}</div>
+                                    <div className="info-row">
+                                      <span>
+                                        <span className="fw-bold">
+                                          {addDecimalValue(
+                                            parseInt(
+                                              item.checkpointSignedPercent
+                                            )
+                                          )}
+                                          %
+                                        </span>{" "}
+                                        Checkpoints Signed
+                                      </span>
+                                    </div>
+                                    <div className="info-row">
+                                      <span>
+                                        <span className="fw-bold">
+                                          {addDecimalValue(+item.commission)}%
+                                        </span>{" "}
+                                        Commission
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="cus-width">
-                                <div className="text-center">
-                                  <div>Reward</div>
-                                  <div className="fw-bold orange-color">
-                                    {+item.reward > 0
-                                      ? (
+                              <div className="h-auto mid-sec bs-card">
+                                <div className="block-container">
+                                  <div className="cus-width">
+                                    <div className="text-center">
+                                      <div>Your Stake</div>
+                                      <div className="fw-bold">
+                                        {getStake(item.id)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="cus-width">
+                                    <div className="text-center">
+                                      <div>Reward</div>
+                                      <div className="fw-bold orange-color">
+                                        {+item.reward > 0
+                                          ? (
+                                              parseInt(item.reward) /
+                                              10 ** web3Decimals
+                                            ).toFixed(tokenDecimal)
+                                          : "0.00"}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <ul className="btn-grp mg-grid">
+                                  <li className="btn-grp-lst">
+                                    <div className="cus-tooltip d-inline-block">
+                                      <button
+                                        disabled={
+                                          parseInt(item.commission) ==
+                                            comissionVal ||
+                                          item.checkpointSignedPercent <
+                                            checkpointVal ||
+                                          parseInt(item.reward) /
+                                            10 ** web3Decimals <
+                                            1 ||
+                                          item.deactivationepoch === "true"
+                                        }
+                                        onClick={() =>
+                                          handleModal(
+                                            "Restake",
+                                            item.contractAddress
+                                          )
+                                        }
+                                        className="btn grey-btn btn-small tool-ico"
+                                      >
+                                        Restake
+                                      </button>
+                                      <div className="tool-desc">
+                                        {parseInt(item.commission) ==
+                                          comissionVal ||
+                                        item.checkpointSignedPercent <
+                                          checkpointVal ||
                                         parseInt(item.reward) /
-                                        10 ** web3Decimals
-                                      ).toFixed(tokenDecimal)
-                                      : "0.00"}
-                                  </div>
-                                </div>
+                                          10 ** web3Decimals <
+                                          1
+                                          ? "Restaking is disabled."
+                                          : "Restake your total rewards"}
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="btn-grp-lst">
+                                    <div className="cus-tooltip d-inline-block">
+                                      <button
+                                        disabled={
+                                          parseInt(item.reward) /
+                                            10 ** web3Decimals <
+                                          1
+                                        }
+                                        onClick={() =>
+                                          withdrawRewardDelegator(
+                                            item.contractAddress,
+                                            item.id
+                                          )
+                                        }
+                                        className="btn black-btn btn-small tool-ico"
+                                      >
+                                        Withdraw Rewards
+                                      </button>
+                                      <div className="tool-desc">
+                                        {parseInt(item.reward) /
+                                          10 ** web3Decimals <
+                                        1
+                                          ? "Withdrawal is disabled."
+                                          : "withdraw you total reward"}
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li className="btn-grp-lst">
+                                    <div className="cus-tooltip d-inline-block">
+                                      <button
+                                        disabled={
+                                          parseInt(getStake(item.id)) < 1
+                                        }
+                                        onClick={() => {
+                                          handleModal(
+                                            "Unbound",
+                                            item.validatorAddress,
+                                            item.contractAddress,
+                                            item.image,
+                                            item.id,
+                                            parseInt(getStake(item.id))
+                                          );
+                                        }}
+                                        className="btn black-btn btn-small tool-ico"
+                                      >
+                                        Unbound
+                                      </button>
+                                      <div className="tool-desc">
+                                        unbound and withdraw rewards
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li className="btn-grp-lst">
+                                    <div className="cus-tooltip d-inline-block">
+                                      <button
+                                        onClick={() => {
+                                          handleMigrateClick(item);
+                                        }}
+                                        className="btn black-btn btn-small tool-ico"
+                                      >
+                                        Migrate Stake
+                                      </button>
+                                      <div className="tool-desc">
+                                        migrate your stake
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li className="btn-grp-lst">
+                                    <div className="cus-tooltip d-inline-block">
+                                      <button
+                                        onClick={() => {
+                                          setSelectedRow({
+                                            owner: item.contractAddress,
+                                            contractAddress:
+                                              item.contractAddress,
+                                            commissionrate: item.commission,
+                                            name: item.name,
+                                            uptimePercent:
+                                              item.checkpointSignedPercent,
+                                            validatorContractId: item.id,
+                                            image: item.image,
+                                          });
+                                          setStakeMoreModal(true);
+                                        }}
+                                        className="btn black-btn btn-small tool-ico"
+                                      >
+                                        Stake More
+                                      </button>
+                                      <div className="tool-desc">
+                                        stake more
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
-
-                            <ul className="btn-grp mg-grid">
-                              <li className="btn-grp-lst">
-                                <div className="cus-tooltip d-inline-block">
-                                  <button
-                                    disabled={
-                                      parseInt(item.commission) == comissionVal ||
-                                      item.checkpointSignedPercent <
-                                      checkpointVal ||
-                                      parseInt(item.reward) / 10 ** web3Decimals <
-                                      1 ||
-                                      item.deactivationepoch === "true"
-                                    }
-                                    onClick={() =>
-                                      handleModal("Restake", item.contractAddress)
-                                    }
-                                    className="btn grey-btn btn-small tool-ico"
-                                  >
-                                    Restake
-                                  </button>
-                                  <div className="tool-desc">
-                                    {parseInt(item.commission) == comissionVal ||
-                                      item.checkpointSignedPercent <
-                                      checkpointVal ||
-                                      parseInt(item.reward) / 10 ** web3Decimals <
-                                      1 ? "Restaking is disabled." : "Restake your total rewards"}
-
-                                  </div>
-                                </div>
-                              </li>
-                              <li className="btn-grp-lst">
-                                <div className="cus-tooltip d-inline-block">
-                                  <button
-                                    disabled={
-                                      parseInt(item.reward) / 10 ** web3Decimals <
-                                      1
-                                    }
-                                    onClick={() =>
-                                      withdrawRewardDelegator(
-                                        item.contractAddress,
-                                        item.id
-                                      )
-                                    }
-                                    className="btn black-btn btn-small tool-ico"
-                                  >
-                                    Withdraw Rewards
-                                  </button>
-                                  <div className="tool-desc">
-                                    {parseInt(item.reward) / 10 ** web3Decimals <
-                                      1 ? "Withdrawal is disabled." : "withdraw you total reward"}
-
-                                  </div>
-                                </div>
-                              </li>
-
-                              <li className="btn-grp-lst">
-                                <div className="cus-tooltip d-inline-block">
-                                  <button
-                                    disabled={parseInt(getStake(item.id)) < 1}
-                                    onClick={() => {
-                                      handleModal(
-                                        "Unbound",
-                                        item.validatorAddress,
-                                        item.contractAddress,
-                                        item.image,
-                                        item.id,
-                                        parseInt(getStake(item.id))
-                                      )
-                                    }
-                                    }
-                                    className="btn black-btn btn-small tool-ico"
-                                  >
-                                    Unbound
-                                  </button>
-                                  <div className="tool-desc">
-                                    unbound and withdraw rewards
-                                  </div>
-                                </div>
-                              </li>
-
-                              <li className="btn-grp-lst">
-                                <div className="cus-tooltip d-inline-block">
-                                  <button
-                                    onClick={() => {
-                                      handleMigrateClick(item);
-                                    }}
-                                    className="btn black-btn btn-small tool-ico"
-                                  >
-                                    Migrate Stake
-                                  </button>
-                                  <div className="tool-desc">
-                                    migrate your stake
-                                  </div>
-                                </div>
-                              </li>
-
-                              <li className="btn-grp-lst">
-                                <div className="cus-tooltip d-inline-block">
-                                  <button
-                                    onClick={() => {
-                                      setSelectedRow({
-                                        owner: item.contractAddress,
-                                        contractAddress: item.contractAddress,
-                                        commissionrate: item.commission,
-                                        name: item.name,
-                                        uptimePercent:
-                                          item.checkpointSignedPercent,
-                                        validatorContractId: item.id,
-                                        image: item.image
-                                      });
-                                      setStakeMoreModal(true);
-                                    }}
-                                    className="btn black-btn btn-small tool-ico"
-                                  >
-                                    Stake More
-                                  </button>
-                                  <div className="tool-desc">stake more</div>
-                                </div>
-                              </li>
-                            </ul>
                           </div>
+                        )
+                    )
+                  : !loading &&
+                    delegationsList.length === 0 && (
+                      <div className="txt-emp">
+                        <div className="no-fount-txt">
+                          <img
+                            className="mb-3 d-inline-block"
+                            src="../../assets/images/no-record.png"
+                          />
                         </div>
-                      </div>)
-                    ))
-                  ) : !loading && delegationsList.length === 0 && (
-                    <div className="txt-emp">
-                      <div className="no-fount-txt">
-                        <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
               </div>
-            </section>
-          )
-        }
-      </div >
+            </div>
+          </section>
+        )}
+      </div>
     </>
   );
 };
