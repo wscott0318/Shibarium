@@ -180,8 +180,9 @@ export default function Transaction() {
   }, [account]);
 
   useEffect(() => {
-    if (contTransaction && contTransaction?.processExit) fetchTransactions();
-  }, [contTransaction]);
+    let state: any = txState;
+    if (state && state?.processExit) fetchTransactions();
+  }, [txState]);
 
   const fetchTransactions = async () => {
     let trans = await getTransactions(account);

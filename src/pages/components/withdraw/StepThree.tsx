@@ -137,12 +137,12 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-          if (postResp) {
-            toast.success("Withdraw data updated successfully.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
-          }
+          // if (postResp) {
+          //   toast.success("Withdraw data updated successfully.", {
+          //     position: toast.POSITION.TOP_RIGHT,
+          //     autoClose: 5000,
+          //   });
+          // }
           setTxState({ ...txState, processExit: true, finalHash: res });
         })
         .on("error", (res: any) => {
