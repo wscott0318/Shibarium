@@ -26,9 +26,11 @@ import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
 import Loader from "app/components/Loader";
-
+import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
+// @ts-ignore TYPE NEEDS FIXING
+import cookie from "cookie-cutter";
 export default function Withdraw() {
-  const { chainId = 1, account } = useActiveWeb3React();
+  const { chainId = 1, account, library } = useActiveWeb3React();
   const web3L2 = PUPPYNET517();
   const web3 = L1Block();
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
@@ -48,6 +50,10 @@ export default function Withdraw() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [openManageToken, setOpenManageToken] = useState(false);
+  const [balances, setBalances] = useState({
+    l1Balance: 0,
+    l2Balance: 0,
+  });
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -77,10 +83,39 @@ export default function Withdraw() {
   });
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      setDepositTokenInput(values.amount);
-      setDepositModal(true);
+      if (chainId == GOERLI_CHAIN_ID) {
+        setDepositTokenInput(values.amount);
+        setDepositModal(true);
+      } else {
+        switchNetwork();
+      }
     } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
+    }
+  };
+  const switchNetwork = async () => {
+    let key = GOERLI_CHAIN_ID;
+    console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
+    const params = SUPPORTED_NETWORKS[key];
+    cookie.set("chainId", key, params);
+    try {
+      await library?.send("wallet_switchEthereumChain", [
+        { chainId: `0x${key.toString(16)}` },
+        account,
+      ]);
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      // @ts-ignore TYPE NEEDS FIXING
+      if (switchError.code === 4902) {
+        try {
+          console.log({ params, account });
+          await library?.send("wallet_addEthereumChain", [params, account]);
+        } catch (addError) {
+          // handle "add" error
+          console.error(`Add chain error ${addError}`);
+        }
+      }
+      console.error(`Switch chain error ${switchError}`);
     }
   };
   const callWithdrawModal = (values: any, resetForm: any) => {
@@ -153,6 +188,20 @@ export default function Withdraw() {
 
   const handleClickOutside = useCallback(() => setMenuState(false), []);
 
+  useEffect(() => {
+    setBalances({
+      ...balances,
+      l1Balance: selectedToken?.balance || 0,
+      l2Balance: tokenBalanceL2,
+    });
+    if (chainId == PUPPYNET_CHAIN_ID) {
+      setBalances({
+        ...balances,
+        l1Balance: tokenBalanceL2,
+        l2Balance: selectedToken?.balance || 0,
+      });
+    }
+  }, [selectedToken, tokenBalanceL2]);
   return (
     <>
       <ToastContainer />
@@ -236,7 +285,7 @@ export default function Withdraw() {
                         <div className="row-hd">Transfer Time:</div>
                         <p className="row-description">
                           Moving your funds from Ethereum to Shibarium take up
-                          to 10 - 15 Minutes.
+                          to 20 - 30 Minutes.
                         </p>
                       </div>
                     ) : (
@@ -244,7 +293,7 @@ export default function Withdraw() {
                         <div className="row-hd">Withdraw Time:</div>
                         <p className="row-description">
                           Moving your funds from Ethereum to Shibarium take up
-                          to 60 mins to 3 hours.
+                          to 45 mins to 3 hours.
                         </p>
                       </div>
                     )}
@@ -375,15 +424,7 @@ export default function Withdraw() {
                                           ) : ( */}
                                           <img
                                             className="img-fluid w-100"
-                                            src={
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? NETWORK_ICON[GOERLI_CHAIN_ID]
-                                                : NETWORK_ICON[
-                                                    PUPPYNET_CHAIN_ID
-                                                  ]
-                                              // ? "../../assets/images/eth_logo.png"
-                                              // : "../../assets/images/shib-borderd-icon.png"
-                                            }
+                                            src="../../assets/images/eth_logo.png"
                                             // src={
                                             //   NETWORK_ICON[
                                             //     chainId == GOERLI_CHAIN_ID
@@ -400,7 +441,7 @@ export default function Withdraw() {
                                         <input
                                           className="w-100"
                                           type="text"
-                                          value={NETWORK_LABEL[chainId]}
+                                          value={NETWORK_LABEL[GOERLI_CHAIN_ID]}
                                           disabled={true}
                                           // placeholder="Ethereum chain"
                                         />
@@ -413,9 +454,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {selectedToken?.balance
-                                              ? selectedToken?.balance
-                                              : "00.00"}{" "}
+                                            {balances.l1Balance}{" "}
                                             {selectedToken?.key ||
                                               selectedToken?.symbol}
                                           </span>
@@ -434,6 +473,11 @@ export default function Withdraw() {
                                           setOpenManageToken(!openManageToken);
                                           setTokenBalanceL2(0);
                                           setSelectedToken({});
+                                          // setBalances({
+                                          //   ...balances,
+                                          //   l1Balance: 0,
+                                          //   l2Balance: 0,
+                                          // });
                                           // }
                                         }}
                                       >
@@ -517,7 +561,7 @@ export default function Withdraw() {
                                 </div>
                                 <div className="botom-spcing">
                                   <div>
-                                    <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between">
+                                    <label className="mb-2 mb-xxl-3 mb-md-2 wrapped-label">
                                       To
                                       {selectedToken?.key && values.amount ? (
                                         <span className="grey-txts">
@@ -542,9 +586,7 @@ export default function Withdraw() {
                                             //   ]
                                             // }
                                             src={
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? "../../assets/images/shib-borderd-icon.png"
-                                                : "../../assets/images/eth_logo.png"
+                                              "../../assets/images/shib-borderd-icon.png"
                                             }
                                             onError={imageOnErrorHandler}
                                             alt=""
@@ -558,11 +600,7 @@ export default function Withdraw() {
                                           disabled={true}
                                           placeholder="Shibarium chain"
                                           value={
-                                            NETWORK_LABEL[
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? PUPPYNET_CHAIN_ID
-                                                : GOERLI_CHAIN_ID
-                                            ]
+                                            NETWORK_LABEL[PUPPYNET_CHAIN_ID]
                                           }
                                         />
                                       </div>
@@ -574,9 +612,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2
-                                              ? tokenBalanceL2
-                                              : "00.00"}{" "}
+                                            {balances.l2Balance}{" "}
                                             {selectedToken?.key ||
                                               selectedToken?.symbol}
                                           </span>
@@ -592,7 +628,7 @@ export default function Withdraw() {
                                     onClick={() => {
                                       handleSubmit();
                                     }}
-                                    disabled={chainId == PUPPYNET_CHAIN_ID}
+                                    // disabled={chainId == PUPPYNET_CHAIN_ID}
                                     type="button"
                                     className="btn primary-btn w-100"
                                   >
@@ -656,11 +692,7 @@ export default function Withdraw() {
                                             //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
-                                            src={
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? "../../assets/images/shib-borderd-icon.png"
-                                                : "../../assets/images/eth_logo.png"
-                                            }
+                                            src="../../assets/images/shib-borderd-icon.png"
                                             onError={imageOnErrorHandler}
                                             alt=""
                                           />
@@ -672,11 +704,7 @@ export default function Withdraw() {
                                           type="text"
                                           // placeholder="Shibarium Mainnet"
                                           value={
-                                            NETWORK_LABEL[
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? PUPPYNET_CHAIN_ID
-                                                : GOERLI_CHAIN_ID
-                                            ]
+                                            NETWORK_LABEL[PUPPYNET_CHAIN_ID]
                                           }
                                           disabled={true}
                                         />
@@ -689,9 +717,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2
-                                              ? tokenBalanceL2
-                                              : "00.00"}{" "}
+                                            {balances.l2Balance}{" "}
                                             {selectedToken?.key ||
                                               selectedToken?.symbol}
                                           </span>
@@ -706,6 +732,11 @@ export default function Withdraw() {
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
                                           // setLoader(true);
+                                          // setBalances({
+                                          //   ...balances,
+                                          //   l1Balance: 0,
+                                          //   l2Balance: 0,
+                                          // });
                                           setTokenBalanceL2(0);
                                           setSelectedToken({});
                                         }}
@@ -792,7 +823,7 @@ export default function Withdraw() {
                                 </div>
                                 <div className="botom-spcing">
                                   <div>
-                                    <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between">
+                                    <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between wrapped-label">
                                       To
                                       {selectedToken?.key &&
                                       values.withdrawAmount ? (
@@ -832,11 +863,7 @@ export default function Withdraw() {
                                             //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
-                                            src={
-                                              chainId == GOERLI_CHAIN_ID
-                                                ? "../../assets/images/eth_logo.png"
-                                                : "../../assets/images/shib-borderd-icon.png"
-                                            }
+                                            src="../../assets/images/eth_logo.png"
                                             alt=""
                                             onError={imageOnErrorHandler}
                                           />
@@ -847,7 +874,7 @@ export default function Withdraw() {
                                         <input
                                           className="w-100"
                                           type="text"
-                                          value={NETWORK_LABEL[chainId]}
+                                          value={NETWORK_LABEL[GOERLI_CHAIN_ID]}
                                           disabled={true}
                                         />
                                       </div>
@@ -859,9 +886,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {selectedToken?.balance
-                                              ? selectedToken?.balance
-                                              : "00.00"}{" "}
+                                            {balances.l1Balance}{" "}
                                             {selectedToken?.key ||
                                               selectedToken?.symbol}
                                           </span>

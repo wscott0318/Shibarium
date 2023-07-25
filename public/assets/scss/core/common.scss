@@ -184,11 +184,23 @@ span.transactionLoader.failed {
     padding-top: 113px !important;
   }
 }
+.wrapped-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    font-size: 12px;
+  }
+  @media #{$max-xsm} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 small.errorMsg {
-    display: inline-block;
-    text-align: center;
-    width: 100%;
-    color: red;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  color: red;
 }
 .right_block ul.pagination li {
   width: 55px;
