@@ -174,6 +174,9 @@ export default function Transaction() {
   useEffect(() => {
     if (account) {
       fetchTransactions();
+      setTimeout(() => {
+        setLoader(false);
+      }, 200);
     } else {
       setLoader(false);
     }
@@ -194,11 +197,9 @@ export default function Transaction() {
       setPageCount(Math.ceil(trans?.length / perPage));
       if (onlyPending) filterPendingTransactions();
       if (filterKey.key != 0) onFilter();
-      setTimeout(() => {
-        setLoader(false);
-      }, 200);
+    } else {
+      setTransactions(null);
     }
-    return trans;
   };
   const filterPendingTransactions = () => {
     let filtered;
