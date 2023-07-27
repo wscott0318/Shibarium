@@ -1,53 +1,72 @@
 .faucet-form {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // height: calc(100vh - 76px);
-    // margin-top: 76px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // height: calc(100vh - 76px);
+  // margin-top: 76px;
 }
-.black-sel{
-    .form-select{
-        background: $body-bg;
-        color: $white;
-        padding: 15px 20px;
-        border: 0;
-    }
-    .cus-sel{
-        position: relative;
-    }
+.black-sel {
+  .form-select {
+    background: $body-bg;
+    color: $white;
+    padding: 15px 20px;
+    border: 0;
+  }
+  .cus-sel {
+    position: relative;
+  }
 }
-
+.selectTokenWrapper {
+  * {
+    color: #fff !important;
+  }
+  .MuiInputBase-root {
+    width: 100%;
+    color: #fff;
+  }
+  .MuiSelect-icon {
+    color: #fff !important;
+  }
+  .MuiInput-underline:after,
+  .MuiInput-underline:before {
+    display: none;
+  }
+  .MuiInputBase-input {
+    padding: 0px;
+  }
+}
 .form-section {
-    // max-width: 650px;
-    margin: 0 auto;
+  // max-width: 650px;
+  margin: 0 auto;
 }
 .faucet-form .mid-chain {
-    padding: 0;
-    .orange-btn {
-        background: #f07501;
-        padding:2px 8px;
-        font-size: 14px;
-        position: absolute;
-        right: 0px;
-        border-radius: 10px;
-        line-height: normal;
-        @media #{$max-sm }{
-            font-size: 12px;
-        }
+  padding: 0;
+  .orange-btn {
+    background: #f07501;
+    padding: 2px 8px;
+    font-size: 14px;
+    position: absolute;
+    right: 0px;
+    border-radius: 10px;
+    line-height: normal;
+    @media #{$max-sm } {
+      font-size: 12px;
     }
-    input[type="text"], input[type="number"]{
-        padding-right: 10px;
-    }
+  }
+  input[type="text"],
+  input[type="number"] {
+    padding-right: 10px;
+  }
 }
 .faucet-form {
-    .cus-sel select {
-        border: 0;
-        background: #0c0f17;
-        color:#E9E9EC;
-        padding: 0 4px;
-    }
-    .arrow-down{
-        right: 0;
-        top: 5px;
-    }
+  .cus-sel select {
+    border: 0;
+    background: #0c0f17;
+    color: #e9e9ec;
+    padding: 0 4px;
+  }
+  .arrow-down {
+    right: 0;
+    top: 5px;
+  }
 }

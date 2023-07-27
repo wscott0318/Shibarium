@@ -608,16 +608,8 @@ const Deposit: React.FC<any> = ({
                         Moving funds from Goerli to Puppy Net
                       </h6>
                       <p className="text-sm">
-                        Here you can move frunds from the{" "}
-                        {NETWORK_LABEL[chainId]} network to{" "}
-                        {
-                          NETWORK_LABEL[
-                            chainId == GOERLI_CHAIN_ID
-                              ? PUPPYNET_CHAIN_ID
-                              : GOERLI_CHAIN_ID
-                          ]
-                        }{" "}
-                        network on the Puppy Net Chain. This will take 20-30
+                        Here you can move funds from the{" "}
+                        Goerli network to Puppy Net network on the Shibarium Chain. This will take 20-30
                         minutes.
                       </p>
                     </div>

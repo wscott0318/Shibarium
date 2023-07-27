@@ -566,9 +566,8 @@ const WithdrawModal: React.FC<{
                             Moving funds from Puppy Net to Goerli
                           </h6>
                           <p className="text-sm">
-                            Here you can move frunds from the Puppy Net network
-                            to Goerli network on the Puppy Net Chain. This will
-                            take 20-30 minutes.
+                            Here you can move funds from the Puppy Net to the
+                            Goerli chain. This will take 60 minutes - 3 hours.
                           </p>
                         </div>
                       </div>

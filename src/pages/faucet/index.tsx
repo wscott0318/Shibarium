@@ -11,8 +11,10 @@ import { useRouter } from "next/router";
 import {
   CircularProgress,
   FormControlLabel,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
 } from "@material-ui/core";
 import { getExplorerLink } from "app/functions";
 import { ChainId } from "shibarium-get-chains";
@@ -34,10 +36,49 @@ export default function Faucet() {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [isActive, setIsActive] = useState(1);
   const { chainId = 1, account } = useActiveWeb3React();
+  const [token, setToken] = useState<string>("BONE");
+  const [tokenAddress, setTokenAddress] = useState(
+    "0x76C2BA387d39A2B3A214E0Ba1819782369F684c1"
+  );
   const url = process.env.NEXT_PUBLIC_FAUCET_API_URL;
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
+  const tokenList = [
+    {
+      name: "BONE",
+      1: "0x76C2BA387d39A2B3A214E0Ba1819782369F684c1",
+      2: "0x0000000000000000000000000000000000001010",
+    },
+    {
+      name: "LEASH",
+      1: "0xF03a16A00E2Bd4de22aBf8d9b6261c0d2eBb1b70",
+      2: "0x83990e7CFd6037555CFb5BC692d2e0b2893055E5",
+    },
+    {
+      name: "SHIB",
+      1: "0x24DC7E3Dee8F69465F73402211093190777BD4D4",
+      2: "0x7e001F857cC89F44eb3D53b2cbFa436fABB70E39",
+    },
+  ];
+  const handleTokenChange = (event: any) => {
+    let faucetToken = tokenList.filter(
+      (token: any) => token.name === event.target.value
+    );
+    setToken(event.target.value);
+    setTokenAddress(
+      faucetToken[0][selectedChain as keyof typeof faucetToken[0]]
+    );
+  };
+
+  useEffect(() => {
+    let faucetToken = tokenList.filter((item: any) => item.name === token);
+    setTokenAddress(
+      faucetToken[0][selectedChain as keyof typeof faucetToken[0]]
+    );
+  }, [selectedChain]);
+  
+  console.log("selectedchain ", selectedChain, " token ", token, tokenAddress);
   const handleChange = (e: any) => {
     setSelectedChain(e.target.value);
     console.log("value inside e", e.target.value);
@@ -84,6 +125,7 @@ export default function Faucet() {
                   `${url}/faucet`,
                   {
                     type: selectedChain,
+                    tokenAddress: tokenAddress,
                   },
                   { headers: headers }
                 )
@@ -247,7 +289,7 @@ export default function Faucet() {
                                         className="me-2"
                                         onError={imageOnErrorHandler}
                                       />{" "}
-                                      Goerli BONE
+                                      Goerli
                                     </div>
                                   }
                                   className={`radioButtons ${
@@ -268,7 +310,7 @@ export default function Faucet() {
                                         className="me-2"
                                         onError={imageOnErrorHandler}
                                       />{" "}
-                                      Puppy Net BONE
+                                      Puppy Net
                                     </div>
                                   }
                                   className={`radioButtons ${
@@ -279,6 +321,40 @@ export default function Faucet() {
                             </div>
                             {/* </div>
                             </div> */}
+                            <div className="form-group">
+                              <div className="form-field dark-input mb-2">
+                                <div className="mid-chain w-100 position-relative selectTokenWrapper">
+                                  <Select
+                                    labelId="select-token-for-faucet"
+                                    id="selectToken"
+                                    value={token}
+                                    label="Select Token"
+                                    onChange={handleTokenChange}
+                                  >
+                                    <MenuItem value={"BONE"}>
+                                      BONE{"  "}
+                                      <small style={{ color: "red" }}>
+                                        (Plasma)
+                                      </small>
+                                    </MenuItem>
+                                    <MenuItem value={"SHIB"}>
+                                      SHIB{"  "}
+                                      <small style={{ color: "red" }}>
+                                        (Pos)
+                                      </small>
+                                    </MenuItem>
+                                    <MenuItem value={"LEASH"}>
+                                      LEASH{"  "}
+                                      <small style={{ color: "red" }}>
+                                        {" "}
+                                        (Pos)
+                                      </small>
+                                    </MenuItem>
+                                  </Select>
+                                  {/* <a href="javascript:void(0);" className="orange-btn">Paste</a> */}
+                                </div>
+                              </div>
+                            </div>
                             <div className="form-group">
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
