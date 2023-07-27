@@ -93,9 +93,8 @@ const BoneStaking = () => {
                   onClick={() => {
                     router.push("/become-validator");
                   }}
-                  className={`${
-                    +valCount >= +valMaxCount ? "d-none" : ""
-                  } btn primary-btn`}
+                  className={`${+valCount >= +valMaxCount ? "d-none" : ""
+                    } btn primary-btn`}
                 >
                   Become a Validator
                 </button>
@@ -133,9 +132,8 @@ const BoneStaking = () => {
                 onClick={() => {
                   router.push("/become-validator");
                 }}
-                className={`${
-                  +valCount >= +valMaxCount ? "d-none" : ""
-                } btn primary-btn`}
+                className={`${+valCount >= +valMaxCount ? "d-none" : ""
+                  } btn primary-btn`}
               >
                 Become a Validator
               </button>
@@ -178,7 +176,7 @@ const BoneStaking = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">
-                    Secure the Network <br />& Earn Rewards with <br />
+                    Secure the Network <br />& Earn Reward with <br />
                     <span className="white-bg">Shibarium Staking</span>
                   </h1>
                   {renderButtons()}
