@@ -548,7 +548,7 @@ const StepThree: React.FC<any> = ({
                       />
                       <h5 className="pt-4 pb-2">Checkpoint Arrived</h5>
                       <p className="pb-3">
-                        Your transaction has been checkpointed on the Goerli
+                        Your transaction has been checkpointed on the Sepolia
                         network. Please proceed to the next transaction.
                       </p>
                       <a
@@ -619,7 +619,7 @@ const StepThree: React.FC<any> = ({
                       />
                       <h5 className="pt-3 pb-2">Challenge period completed</h5>
                       <p className="pb-2 ps-2 pe-2">
-                        Your token is ready to move from Puppy Net to Goerli
+                        Your token is ready to move from Puppy Net to Sepolia
                         Network. Complete the last transaction and you're done.
                       </p>
                       <a
@@ -656,7 +656,7 @@ const StepThree: React.FC<any> = ({
                     <div className="text-center">
                       <h5 className="pt-4 pb-2">Transaction in process</h5>
                       <p className="pb-3 ps-2 pe-2">
-                        Goerli transactions can take longer time to complete
+                        Sepolia transactions can take longer time to complete
                         based upon network congestion. Please wait or increase
                         the gas price of the transaction.
                       </p>
@@ -696,7 +696,7 @@ const StepThree: React.FC<any> = ({
                     <div className="text-center">
                       <h5 className="pt-4 pb-2">Transaction in process</h5>
                       <p className="pb-3 ps-2 pe-2">
-                        Goerli transactions can take longer time to complete
+                        Sepolia transactions can take longer time to complete
                         based upon network congestion. Please wait or increase
                         the gas price of the transaction.
                       </p>

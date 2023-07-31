@@ -47,7 +47,7 @@ export default function Faucet() {
   const tokenList = [
     {
       name: "BONE",
-      1: "0x76C2BA387d39A2B3A214E0Ba1819782369F684c1",
+      1: process.env.BONE as string,
       2: "0x0000000000000000000000000000000000001010",
     },
     {
@@ -77,7 +77,7 @@ export default function Faucet() {
       faucetToken[0][selectedChain as keyof typeof faucetToken[0]]
     );
   }, [selectedChain]);
-  
+
   console.log("selectedchain ", selectedChain, " token ", token, tokenAddress);
   const handleChange = (e: any) => {
     setSelectedChain(e.target.value);
@@ -289,7 +289,7 @@ export default function Faucet() {
                                         className="me-2"
                                         onError={imageOnErrorHandler}
                                       />{" "}
-                                      Goerli
+                                      Sepolia
                                     </div>
                                   }
                                   className={`radioButtons ${

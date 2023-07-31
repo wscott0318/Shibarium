@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/nextjs";
 import { useActiveWeb3React } from '../../services/web3'
 // @ts-ignore
 import cookie from 'cookie-cutter'
+import { GOERLI_CHAIN_ID } from 'app/config/constant';
 
 interface Props {
     show: boolean;
@@ -17,13 +18,16 @@ const ChainWarning: React.FC<Props> = ({ show, setshow, title, externalCls }) =>
 
     const { library, account } = useActiveWeb3React()
     const switchNetwork = async () => {
-        console.debug(`Switching to chain 5`, 5)
+        console.debug(`Switching to chain 5`, GOERLI_CHAIN_ID);
         // toggleNetworkModal() 
-        const params = 5
-        cookie.set('chainId', 5, params)
+        const params = GOERLI_CHAIN_ID
+        cookie.set("chainId", GOERLI_CHAIN_ID, params);
 
         try {
-            await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${(5).toString(16)}` }, account])
+            await library?.send("wallet_switchEthereumChain", [
+              { chainId: `0x${GOERLI_CHAIN_ID.toString(16)}` },
+              account,
+            ]);
         } catch (switchError:any) {
             // This error code indicates that the chain has not been added to MetaMask.
             // @ts-ignore TYPE NEEDS FIXING
@@ -71,7 +75,7 @@ const handleShow = useCallback(()=>{setshow(false)},[])
                             <div className="dark-bg-800 h-100 status-sec sec-ht position-relative text-center">
                                 <img src="../../assets/images/shib-switch.png" className="m-auto mb-5" style={{ width: 400 }} />
                                 {/* <h3 className="ff-mos small_warning_heading">Approve your network change in Metamask</h3> */}
-                                <p className="small_warning_text ff-mos mt-4">To use Shibarium Staking change your Metamask network to Goerli Testnet.</p>
+                                <p className="small_warning_text ff-mos mt-4">To use Shibarium Staking change your Metamask network to Sepolia Testnet.</p>
                             </div>
                         </div>
                         <div className="pop-bottom">
@@ -82,7 +86,7 @@ const handleShow = useCallback(()=>{setshow(false)},[])
                                     // disabled={hashLink ? false : true}
                                     onClick={() => switchNetwork()}
                                 >
-                                    Switch to Goerli Testnet
+                                    Switch to Sepolia Testnet
                                 </button>
                             </div>
                         </div>

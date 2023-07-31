@@ -478,9 +478,7 @@ const ValidatorAccount = ({
             })
             .on("error", (res: any) => {
               setTransactionState(initialModalState);
-              if (res.code === 4001) {
-                setRestakeModal({ value1: false, value2: false, address: "" });
-              }
+              setRestakeModal({ value1: false, value2: false, address: "" });
             });
         }
       }
@@ -492,7 +490,12 @@ const ValidatorAccount = ({
       setTransactionState(initialModalState);
     }
   };
-
+  console.log(
+    "restakemodal ",
+    restakeModal,
+    " transactionState ",
+    transactionState
+  );
   // Approve BONE
   const approveAmount = async (id: any, amounts: any, reward: boolean) => {
     try {
@@ -562,16 +565,30 @@ const ValidatorAccount = ({
               .on("error", (res: any) => {
                 if (res.code === 4001) {
                   setCommiModal({ value: false, address: "" });
+                  setRestakeModal({
+                    value1: false,
+                    value2: false,
+                    address: "",
+                  });
+                  setTransactionState(initialModalState);
                 }
               });
           })
-          .catch((err: any) => {});
+          .catch((err: any) => {
+            setTransactionState(initialModalState);
+            setRestakeModal({
+              value1: false,
+              value2: false,
+              address: "",
+            });
+          });
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("approveAmount", err);
       }
       setCommiModal({ value: false, address: "" });
+      setTransactionState(initialModalState);
     }
   };
 
@@ -2582,6 +2599,7 @@ const ValidatorAccount = ({
                                     <div className="cus-tooltip d-inline-block">
                                       <button
                                         onClick={() => {
+                                          console.log("item ", item);
                                           setSelectedRow({
                                             owner: item.contractAddress,
                                             contractAddress:

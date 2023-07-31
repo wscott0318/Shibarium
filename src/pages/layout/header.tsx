@@ -113,7 +113,7 @@ export default function Header() {
   return (
     <>
       <ChainWarning
-        title={"Switch to Goerli Testnet"}
+        title={"Switch to Sepolia Testnet"}
         show={showWarning}
         setshow={() => {
           setShowWarning(true);
@@ -302,7 +302,7 @@ export default function Header() {
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item
-                            href={`https://goreli.etherscan.io/address/${account}`}
+                            href={`https://sepolia.etherscan.io/address/${account}`}
                             target="blank"
                           >
                             <div className="custum-row">
@@ -314,7 +314,7 @@ export default function Header() {
                               </div>
                               <div className="center-txt">
                                 <span className="text-wrap">
-                                  View on Goerli Etherscan
+                                  View on Sepolia Etherscan
                                 </span>
                               </div>
                               <div className="rt-image">

@@ -21,7 +21,6 @@ const useTransactionCount = () => {
       getTransactionsCount();
     }
   }, [account]);
-  console.log("pending transaction ", pendingTransactionCount);
   return { pendingTransactionCount, getTransactionsCount };
 };
 

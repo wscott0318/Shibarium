@@ -1,4 +1,5 @@
 import { ChainId } from "shibarium-get-chains";
+import { PUPPYNET_CHAIN_ID } from "./constant";
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const Arbitrum =
@@ -52,6 +53,7 @@ export const NETWORK_ICON = {
   [ChainId.ROPSTEN]: Ropsten,
   [ChainId.RINKEBY]: Rinkeby,
   [ChainId.GÖRLI]: Goerli,
+  [ChainId.SEPOLIA]: Goerli,
   [ChainId.KOVAN]: Kovan,
   [ChainId.FANTOM]: Fantom,
   [ChainId.FANTOM_TESTNET]: Fantom,
@@ -80,6 +82,7 @@ export const NETWORK_ICON = {
   [ChainId.PUPPYNET517]: PUPPYNET,
   [ChainId.PUPPYNET917]: PUPPYNET,
   [ChainId.PUPPYNET719]: PUPPYNET,
+  [ChainId.PUPPYNET]: PUPPYNET,
 };
 // enum SHIBARIUM{
 //   SHIBARIUM = SHIBARIUM_CHAINID
@@ -119,6 +122,8 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.PUPPYNET517]: "Puppy Net 517",
   [ChainId.PUPPYNET917]: "Puppy Net 917",
   [ChainId.PUPPYNET719]: "Puppy Net",
+  [PUPPYNET_CHAIN_ID]: "Puppy Net",
+  [ChainId.SEPOLIA]: "Sepolia",
 };
 export const CHAINS = {
   Mainnet: "0x1",

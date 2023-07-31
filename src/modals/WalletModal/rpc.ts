@@ -1,5 +1,5 @@
-import { PUPPYNET_CHAIN_ID } from 'app/config/constant';
-import { ChainId } from 'shibarium-get-chains'
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
+import { ChainId } from "shibarium-get-chains";
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const RPC = {
@@ -40,6 +40,7 @@ const RPC = {
   [ChainId.SHIBARIUM]: "https://3.145.115.238:8545",
   [ChainId.PUPPYNET917]: process.env.RPC_517 as any,
   [PUPPYNET_CHAIN_ID]: process.env.RPC_517 as any,
+  [ChainId.SEPOLIA]: "https://sepolia.infura.io/v3/",
 };
 
-export default RPC
+export default RPC;

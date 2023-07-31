@@ -165,7 +165,7 @@ const InnerHeader = () => {
                         </div>
                       </NavDropdown.Item>
                       <NavDropdown.Item
-                        href={`https://goerli.etherscan.io/address/${account}`}
+                        href={`https://sepolia.etherscan.io//address/${account}`}
                         target="blank"
                       >
                         <div className="custum-row">

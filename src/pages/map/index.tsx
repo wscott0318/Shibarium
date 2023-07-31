@@ -53,11 +53,11 @@ function Map() {
                     value="css"
                     checked
                   />
-                  <span>Goerli Testnet - Mumbai Testnet </span>
+                  <span>Sepolia Testnet - Puppy Net </span>
                 </label>
                 <label>
                   <input type="radio" name="radio-button-1" value="no" />
-                  <span>Ethereum mainnet - Polygon PoS </span>
+                  <span>Ethereum mainnet - Shibarium Mainnet </span>
                 </label>
               </div>
             </div>

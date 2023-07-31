@@ -131,6 +131,10 @@ const chains: ChainObject = {
     link: "https://goerli.etherscan.io",
     builder: explorers.etherscan,
   },
+  [ChainId.PUPPYNET]: {
+    link: process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL as string,
+    builder: explorers.etherscan,
+  },
   [ChainId.PUPPYNET517]: {
     link: "https://shibascan-517.hailshiba.com",
     builder: explorers.etherscan,
@@ -237,6 +241,10 @@ const chains: ChainObject = {
   },
   [ChainId.SHIBARIUM]: {
     link: "https://shibascan-517.hailshiba.com",
+    builder: explorers.etherscan,
+  },
+  [ChainId.SEPOLIA]: {
+    link: "https://sepolia.etherscan.io/",
     builder: explorers.etherscan,
   },
 };

@@ -440,8 +440,8 @@ const DelegatePopup: React.FC<any> = ({
                           <span className="user-icon u_icon">
                             <img
                               src={
-                                data.logoUrl
-                                  ? data.logoUrl
+                                data.logoUrl || data?.image
+                                  ? data.logoUrl || data?.image
                                   : "../../assets/images/shiba-round-icon.png"
                               }
                             />

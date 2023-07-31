@@ -1,15 +1,17 @@
-
 // import { ChainId } from 'shibarium-get-chains'
 import { ChainId } from "shibarium-get-chains";
-import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
-import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
-import { useActiveWeb3React } from '../../services/web3'
-import { ApplicationModal } from '../../state/application/actions'
-import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
+import HeadlessUiModal from "../../components/Modal/HeadlessUIModal";
+import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
+import { useActiveWeb3React } from "../../services/web3";
+import { ApplicationModal } from "../../state/application/actions";
+import {
+  useModalOpen,
+  useNetworkModalToggle,
+} from "../../state/application/hooks";
 // @ts-ignore TYPE NEEDS FIXING
-import cookie from 'cookie-cutter'
-import Image from 'next/image'
-import React, { FC } from 'react'
+import cookie from "cookie-cutter";
+import Image from "next/image";
+import React, { FC } from "react";
 import { ETHEREUM_CHAIN_ID } from "app/config/constant";
 
 export const SUPPORTED_NETWORKS: {
@@ -58,17 +60,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ["https://rpcapi.fantom.network"],
     blockExplorerUrls: ["https://ftmscan.com"],
   },
-  // [ChainId.PUPPYNET]: {
-  //   chainId: '0x1a1',
-  //   chainName: 'Puppy Net',
-  //   nativeCurrency: {
-  //     name: 'BONE',
-  //     symbol: 'BONE',
-  //     decimals: 18,
-  //   },
-  //   rpcUrls: ['https://puppytestnet.hailshiba.com'],
-  //   blockExplorerUrls: ['https://bscscan.com'],
-  // },
+  [ChainId.PUPPYNET]: {
+    chainId: "0x1a1",
+    chainName: "Puppy Net",
+    nativeCurrency: {
+      name: "BONE",
+      symbol: "BONE",
+      decimals: 18,
+    },
+    rpcUrls: [process.env.RPC_517 as any],
+    blockExplorerUrls: [process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL as string],
+  },
   [ChainId.PUPPYNET917]: {
     chainId: "0x395",
     chainName: "Puppy Net-917",
@@ -244,16 +246,25 @@ export const SUPPORTED_NETWORKS: {
 };
 
 const NetworkModal: FC = () => {
-  const { chainId, library, account } = useActiveWeb3React()
-  const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
-  const toggleNetworkModal = useNetworkModalToggle()
+  const { chainId, library, account } = useActiveWeb3React();
+  const networkModalOpen = useModalOpen(ApplicationModal.NETWORK);
+  const toggleNetworkModal = useNetworkModalToggle();
 
-  if (!chainId) return null
+  if (!chainId) return null;
 
   return (
-    <HeadlessUiModal.Controlled isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-      <div className="flex flex-col gap-4 wallet-network" style={{ maxHeight: '90vh', overflow: 'auto' }}>
-        <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
+    <HeadlessUiModal.Controlled
+      isOpen={networkModalOpen}
+      onDismiss={toggleNetworkModal}
+    >
+      <div
+        className="flex flex-col gap-4 wallet-network"
+        style={{ maxHeight: "90vh", overflow: "auto" }}
+      >
+        <HeadlessUiModal.Header
+          header={`Select a network`}
+          onClose={toggleNetworkModal}
+        />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
             // ChainId.SHIBARIUM,
@@ -290,23 +301,27 @@ const NetworkModal: FC = () => {
                     width="32px"
                     height="32px"
                   />
-                  <p className="text-high-emphesis">
-                    {NETWORK_LABEL[key]}
-                  </p>
+                  <p className="text-high-emphesis">{NETWORK_LABEL[key]}</p>
                 </div>
-              )
+              );
             }
             return (
               <button
                 key={i}
                 onClick={async () => {
-                  console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key])
-                  toggleNetworkModal()
-                  const params = SUPPORTED_NETWORKS[key]
-                  cookie.set('chainId', key, params)
-                  console.log("params => " , key);
+                  console.debug(
+                    `Switching to chain ${key}`,
+                    SUPPORTED_NETWORKS[key]
+                  );
+                  toggleNetworkModal();
+                  const params = SUPPORTED_NETWORKS[key];
+                  cookie.set("chainId", key, params);
+                  console.log("params => ", key);
                   try {
-                    await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
+                    await library?.send("wallet_switchEthereumChain", [
+                      { chainId: `0x${key.toString(16)}` },
+                      account,
+                    ]);
                     // await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
                   } catch (switchError) {
                     // This error code indicates that the chain has not been added to MetaMask.
@@ -314,30 +329,37 @@ const NetworkModal: FC = () => {
                     if (switchError.code === 4902) {
                       try {
                         console.log({ params, account });
-                        await library?.send('wallet_addEthereumChain', [params, account])
+                        await library?.send("wallet_addEthereumChain", [
+                          params,
+                          account,
+                        ]);
                       } catch (addError) {
                         // handle "add" error
-                        console.error(`Add chain error ${addError}`)
+                        console.error(`Add chain error ${addError}`);
                       }
                     }
-                    console.error(`Switch chain error ${switchError}`)
+                    console.error(`Switch chain error ${switchError}`);
                     // handle other "switch" errors
                   }
                 }}
                 className=""
               >
-                {/*@ts-ignore TYPE NEEDS FIXING*/}
-                <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
-                <p className="text-high-emphesis">
-                  {NETWORK_LABEL[key]}
-                </p>
+                <Image
+                // {/*@ts-ignore TYPE NEEDS FIXING*/}
+                  src={NETWORK_ICON[key]}
+                  alt="Switch Network"
+                  className="rounded-md"
+                  width="32px"
+                  height="32px"
+                />
+                <p className="text-high-emphesis">{NETWORK_LABEL[key]}</p>
               </button>
-            )
+            );
           })}
         </div>
       </div>
     </HeadlessUiModal.Controlled>
-  )
-}
+  );
+};
 
-export default NetworkModal
+export default NetworkModal;

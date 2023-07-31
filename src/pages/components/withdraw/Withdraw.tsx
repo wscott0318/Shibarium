@@ -287,11 +287,8 @@ const WithdrawModal: React.FC<{
               challengePeriod: false,
               processExit: false,
               txData: "",
-              fromChain: chainId,
-              toChain:
-                chainId == GOERLI_CHAIN_ID
-                  ? PUPPYNET_CHAIN_ID
-                  : GOERLI_CHAIN_ID,
+              fromChain: PUPPYNET_CHAIN_ID,
+              toChain: GOERLI_CHAIN_ID,
               checkChallengePeriodStatus: false,
               checkProcessExitStatus: false,
             };
@@ -563,11 +560,11 @@ const WithdrawModal: React.FC<{
                         </div>
                         <div className="col-11">
                           <h6 className="text-sm ff-mos pb-1">
-                            Moving funds from Puppy Net to Goerli
+                            Moving funds from Puppy Net to Sepolia
                           </h6>
                           <p className="text-sm">
                             Here you can move funds from the Puppy Net to the
-                            Goerli chain. This will take 60 minutes - 3 hours.
+                            Sepolia chain. This will take 60 minutes - 3 hours.
                           </p>
                         </div>
                       </div>

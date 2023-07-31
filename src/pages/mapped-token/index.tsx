@@ -128,7 +128,7 @@ function MappedToken() {
                       <Nav.Link eventKey="first">Ethereum - Shibarium</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="second">Goerli - PuppyNet</Nav.Link>
+                      <Nav.Link eventKey="second">Sepolia - PuppyNet</Nav.Link>
                     </Nav.Item>
                   </Nav>
                 </div>

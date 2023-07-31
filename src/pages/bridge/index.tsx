@@ -2,14 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useCallback } from "react";
-import { ChainId } from "shibarium-get-chains";
 import { useRouter } from "next/router";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "../../services/web3";
 import {
-  BONE_ID,
   GOERLI_CHAIN_ID,
   PUPPYNET_CHAIN_ID,
 } from "../../config/constant";
@@ -376,11 +374,8 @@ export default function Withdraw() {
                       <Formik
                         initialValues={{
                           amount: "",
-                          fromChain: chainId,
-                          toChain:
-                            chainId == GOERLI_CHAIN_ID
-                              ? PUPPYNET_CHAIN_ID
-                              : GOERLI_CHAIN_ID,
+                          fromChain: GOERLI_CHAIN_ID,
+                          toChain:PUPPYNET_CHAIN_ID
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -650,11 +645,8 @@ export default function Withdraw() {
                       validationSchema={withdrawValidations}
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain:
-                          chainId == GOERLI_CHAIN_ID
-                            ? PUPPYNET_CHAIN_ID
-                            : GOERLI_CHAIN_ID,
-                        toChain: chainId,
+                        fromChain:PUPPYNET_CHAIN_ID,
+                        toChain: GOERLI_CHAIN_ID,
                       }}
                       onSubmit={(values, { resetForm }) => {
                         callWithdrawModal(values, resetForm);
@@ -830,7 +822,7 @@ export default function Withdraw() {
                                         <span className="grey-txts">
                                           You will receive{" "}
                                           {values.withdrawAmount}{" "}
-                                          {selectedToken.key} on the Goerli
+                                          {selectedToken.key} on the Sepolia
                                           Chain.
                                         </span>
                                       ) : (

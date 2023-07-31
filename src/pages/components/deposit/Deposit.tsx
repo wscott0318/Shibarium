@@ -465,9 +465,8 @@ const Deposit: React.FC<any> = ({
             challengePeriod: false,
             processExit: false,
             txData: "",
-            fromChain: chainId,
-            toChain:
-              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
+            fromChain: GOERLI_CHAIN_ID,
+            toChain: PUPPYNET_CHAIN_ID,
             checkChallengePeriodStatus: false,
             checkProcessExitStatus: false,
           };
@@ -585,7 +584,7 @@ const Deposit: React.FC<any> = ({
                       </h6>
                       <p className="text-sm">
                         You cannot delegate or stake on the Puppy Net Network.
-                        You may do that on the Goerli Network. You can stake
+                        You may do that on the Sepolia Network. You can stake
                         funds here.
                       </p>
                     </div>
@@ -605,12 +604,12 @@ const Deposit: React.FC<any> = ({
                     </div>
                     <div className="col-11">
                       <h6 className="text-sm ff-mos pb-1">
-                        Moving funds from Goerli to Puppy Net
+                        Moving funds from Sepolia to Puppy Net
                       </h6>
                       <p className="text-sm">
-                        Here you can move funds from the{" "}
-                        Goerli network to Puppy Net network on the Shibarium Chain. This will take 20-30
-                        minutes.
+                        Here you can move funds from the Sepolia network to
+                        Puppy Net network on the Shibarium Chain. This will take
+                        20-30 minutes.
                       </p>
                     </div>
                   </div>
@@ -802,7 +801,7 @@ const Deposit: React.FC<any> = ({
                         width="50"
                       />
                     </div>
-                    <p>{NETWORK_LABEL[chainId]} Network</p>
+                    <p>{NETWORK_LABEL[GOERLI_CHAIN_ID]} Network</p>
                   </div>
                   <div className="text-center box-block">
                     <div className="d-inline-block arow-block right-arrow">
@@ -840,27 +839,12 @@ const Deposit: React.FC<any> = ({
                     <div className="d-inline-block img-flexible">
                       <img
                         className="img-fluid"
-                        src={
-                          NETWORK_ICON[
-                            chainId == GOERLI_CHAIN_ID
-                              ? PUPPYNET_CHAIN_ID
-                              : GOERLI_CHAIN_ID
-                          ]
-                        }
+                        src={NETWORK_ICON[PUPPYNET_CHAIN_ID]}
                         onError={imageOnErrorHandler}
                         alt=""
                       />
                     </div>
-                    <p>
-                      {
-                        NETWORK_LABEL[
-                          chainId == GOERLI_CHAIN_ID
-                            ? PUPPYNET_CHAIN_ID
-                            : GOERLI_CHAIN_ID
-                        ]
-                      }{" "}
-                      Network
-                    </p>
+                    <p>{NETWORK_LABEL[PUPPYNET_CHAIN_ID]} Network</p>
                   </div>
                 </div>
                 <hr />
@@ -950,7 +934,7 @@ const Deposit: React.FC<any> = ({
                         alt=""
                       />
                     </div>
-                    <p>{NETWORK_LABEL[chainId]}</p>
+                    <p>{NETWORK_LABEL[GOERLI_CHAIN_ID]}</p>
                   </div>
                   <div className="text-center box-block">
                     <div className="d-inline-block right-arrow">
@@ -989,10 +973,7 @@ const Deposit: React.FC<any> = ({
                       <img
                         className="img-fluid"
                         src={
-                          NETWORK_ICON[
-                            chainId == GOERLI_CHAIN_ID
-                              ? PUPPYNET_CHAIN_ID
-                              : GOERLI_CHAIN_ID
+                          NETWORK_ICON[PUPPYNET_CHAIN_ID
                           ]
                         }
                         alt=""
@@ -1000,10 +981,7 @@ const Deposit: React.FC<any> = ({
                     </div>
                     <p>
                       {
-                        NETWORK_LABEL[
-                          chainId == GOERLI_CHAIN_ID
-                            ? PUPPYNET_CHAIN_ID
-                            : GOERLI_CHAIN_ID
+                        NETWORK_LABEL[PUPPYNET_CHAIN_ID
                         ]
                       }
                     </p>
@@ -1021,13 +999,10 @@ const Deposit: React.FC<any> = ({
                   <p>
                     It will take up to 20 - 30 minutes to move the funds on{" "}
                     {
-                      NETWORK_LABEL[
-                        chainId == GOERLI_CHAIN_ID
-                          ? PUPPYNET_CHAIN_ID
-                          : GOERLI_CHAIN_ID
+                      NETWORK_LABEL[GOERLI_CHAIN_ID
                       ]
                     }{" "}
-                    Mainnet.
+                    Puppy Net.
                   </p>
                 </div>
                 <div>

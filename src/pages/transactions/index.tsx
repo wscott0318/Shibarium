@@ -164,7 +164,6 @@ export default function Transaction() {
       setBoneUSDValue(res);
     });
   }, [account]);
-  console.log("current page", currentPage);
 
   const ContinueTransaction = (item: object) => {
     setShowWithdrawModal(true);
@@ -173,6 +172,7 @@ export default function Transaction() {
   };
   useEffect(() => {
     if (account) {
+      console.log("entered use effect");
       fetchTransactions();
       setTimeout(() => {
         setLoader(false);
@@ -189,18 +189,29 @@ export default function Transaction() {
 
   const fetchTransactions = async () => {
     let trans = await getTransactions(account);
+    console.log("all transaction ", trans);
     if (trans != null) {
+      console.log("entered if", trans);
+      setAllTransactions(trans);
       setTokenCount(trans?.length);
+      setPageCount(Math.ceil(trans?.length / perPage));
       const slice = trans?.slice(limit, limit + perPage);
       setTransactions(slice);
-      setAllTransactions(trans);
-      setPageCount(Math.ceil(trans?.length / perPage));
-      if (onlyPending) filterPendingTransactions();
+      console.log("entered if", slice);
+      if (onlyPending) {
+        console.log("onlyPending", onlyPending);
+        filterPendingTransactions();
+      }
       if (filterKey.key != 0) onFilter();
     } else {
+      console.log("entered else ", trans);
       setTransactions(null);
+      setAllTransactions(null);
+      setPageCount(0);
+      setTokenCount(0);
     }
   };
+
   const filterPendingTransactions = () => {
     let filtered;
     if (onlyPending) {
@@ -217,7 +228,7 @@ export default function Transaction() {
 
   useEffect(() => {
     filterPendingTransactions();
-  }, [onlyPending]);
+  }, [onlyPending, allTransactions]);
 
   const ChangePagination = (e: any) => {
     const selectedPage = e.selected;
@@ -226,18 +237,15 @@ export default function Transaction() {
     setCurrentPage(selectedPage);
   };
 
-  console.log("currentpage ", currentPage);
   useEffect(() => {
     onFilter();
-  }, [filterKey, limit, currentPage]);
+  }, [filterKey, limit, currentPage, allTransactions]);
 
   const onFilter = () => {
     let filtered: any;
     let slice: any;
-
     if (filterKey.key != 0) {
       if (onlyPending) {
-        // setCurrentPage(0);
         filtered = allTransactions?.filter(
           (item: any) =>
             item.transactionType == filterKey.key && item.status == 0
@@ -264,7 +272,6 @@ export default function Transaction() {
         slice = filtered?.slice(limit, limit + perPage);
         setPageCount(Math.ceil(filtered?.length / perPage));
         setTransactions(slice);
-        // setCurrentPage(0);
       } else {
         slice = allTransactions?.slice(limit, limit + perPage);
         setPageCount(Math.ceil(allTransactions?.length / perPage));
