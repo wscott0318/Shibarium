@@ -102,6 +102,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     }
   };
 
+  const checkWhitelisting = async () => {
+    const contract = process.env.NEXT_PUBLIC_VALIDATOR_REGISTRY;
+    const instance = new web3.eth.Contract(ValidatorRegistry, contract);
+    let isWhitelisted = await instance.methods.validators(account).call();
+    return isWhitelisted;
+  };
   const checkPubKey = async (values: any) => {
     try {
       const user: any = account;
@@ -114,18 +120,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const heimdallFee = web3.utils.toBN(
         fromExponential(minHeimdallFee * Math.pow(10, web3Decimals))
       );
-      console.log("step 1");
       const instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
-      );
-      console.log(
-        "step 2",
-        user,
-        amount,
-        heimdallFee,
-        acceptDelegation,
-        becomeValidateData.publickey
       );
       instance.methods
         .stakeFor(
@@ -137,8 +134,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         )
         .estimateGas({ from: user })
         .then(async (gas: any) => {
-          console.log("step 3");
-          console.log("gas", gas);
           if (gas > 0) {
             await callAPI(values);
           } else {
@@ -151,7 +146,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         })
         .catch((err: any) => {
           let message = stakeForErrMsg(err.toString().split("{")[0]);
-          console.log("message ==> ", message);
           setTransactionState({ state: false, title: "" });
           toast.error(message, {
             position: toast.POSITION.BOTTOM_CENTER,
@@ -160,9 +154,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         });
     } catch (err: any) {
       sentryErrors("checkPubKey", err);
-      console.log("wrong pub key msg ,", err);
       let message = stakeForErrMsg(err.toString().split("{")[0]);
-      console.log("message ==> ", message);
       setTransactionState({ state: false, title: "" });
       toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -226,7 +218,16 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 },
               })
             );
-            await checkPubKey(val);
+            let iswhitelisted = await checkWhitelisting();
+            if (iswhitelisted) {
+              await checkPubKey(val);
+            } else {
+              setTransactionState({ state: false, title: "" });
+              toast.error("Validator not whitelisted.", {
+                position: toast.POSITION.BOTTOM_CENTER,
+                autoClose: 5000,
+              });
+            }
           })
           .on("error", (res: any) => {
             if (res.code === 4001) {
@@ -399,21 +400,25 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         user,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
-      console.log("handle tarnsaction");
       if (allowance < +val.amount) {
-        console.log("need approval ");
         await approveAmount(val); // gas fee
       } else {
         setLoader("two");
         setStepComplete((preState: any) => ({ ...preState, one: true }));
-        console.log("no approval needed");
-        await checkPubKey(val);
+        let iswhitelisted = await checkWhitelisting();
+        if (iswhitelisted) {
+          await checkPubKey(val);
+        } else {
+          setTransactionState({ state: false, title: "" });
+          toast.error("Validator not whitelisted.", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 5000,
+          });
+        }
       }
     } catch (err: any) {
       setTransactionState({ state: false, title: "" });
-      Sentry.captureMessage("handleTransaction", err);
       sentryErrors("handleTransaction", err);
-      console.log("error ", err);
     }
   };
 

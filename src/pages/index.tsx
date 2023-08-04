@@ -8,13 +8,14 @@ import { useUserType, useValCount } from "../state/user/hooks";
 import NetworkDetails from "./home/NetworkDetails";
 import ValidatorsCard from "./all-validator/valitotors";
 import { useActiveWeb3React } from "../services/web3";
-import stakeManagerProxyABI from "../ABI/StakeManagerProxy.json";
+// import stakeManagerProxyABI from "../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId } from "app/hooks/L1Block";
 import { queryProvider } from "Apollo/client";
 import { validators } from "Apollo/queries";
+import { useABI } from "web3/commonFunctions";
 
 const BoneStaking = () => {
   const [userType, setUserType] = useUserType(); //NOSONAR
@@ -25,6 +26,7 @@ const BoneStaking = () => {
   const [nodeSetup, setNodeSetup] = useState<any>("");
   const [valInfoLoader, setValInfoLoader] = useState(true);
   const web3test = L1Block();
+  const stakeManagerABI = useABI("abis/plasma/StakeManager.json");
   const [totalValCount, setTotalValCount] = useValCount();
   useEffect(() => {
     if (account) {
@@ -32,15 +34,12 @@ const BoneStaking = () => {
     }
     getValCount();
   }, [account]);
-  console.log("total validator count", totalValCount);
 
   const getValCount = async () => {
     try {
       const id = await ChainId();
-      let instance = new web3test.eth.Contract(
-        stakeManagerProxyABI,
-        dynamicChaining[id]?.STAKE_MANAGER_PROXY
-      );
+      const address = dynamicChaining[id]?.STAKE_MANAGER_PROXY;
+      let instance = new web3test.eth.Contract(stakeManagerABI, address);
       const validatorThreshold = await instance.methods
         .validatorThreshold()
         .call();
@@ -49,7 +48,6 @@ const BoneStaking = () => {
       });
       const valCount = totVals?.data?.validators?.length;
       setValCount(valCount);
-      console.log("validator count ", valCount);
       setValMaxCount(validatorThreshold);
     } catch (err: any) {
       Sentry.captureMessage("getValCount", err);
@@ -93,8 +91,9 @@ const BoneStaking = () => {
                   onClick={() => {
                     router.push("/become-validator");
                   }}
-                  className={`${+valCount >= +valMaxCount ? "d-none" : ""
-                    } btn primary-btn`}
+                  className={`${
+                    +valCount >= +valMaxCount ? "d-none" : ""
+                  } btn primary-btn`}
                 >
                   Become a Validator
                 </button>
@@ -132,8 +131,9 @@ const BoneStaking = () => {
                 onClick={() => {
                   router.push("/become-validator");
                 }}
-                className={`${+valCount >= +valMaxCount ? "d-none" : ""
-                  } btn primary-btn`}
+                className={`${
+                  +valCount >= +valMaxCount ? "d-none" : ""
+                } btn primary-btn`}
               >
                 Become a Validator
               </button>
@@ -191,7 +191,7 @@ const BoneStaking = () => {
           </div>
         </section>
         {/* banner section closed */}
-        <NetworkDetails valCount={valCount} />
+        <NetworkDetails valCount={totalValCount} />
         {/* ValidatorsCard starts  */}
         <div ref={myRef}>
           <ValidatorsCard nodeSetup={nodeSetup} />

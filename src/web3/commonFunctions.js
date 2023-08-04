@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ERC20 from '../ABI/ERC20Abi.json'
 import { uniqBy } from "lodash";
 import {
   ETHEREUM_CHAIN_ID,
@@ -11,7 +12,7 @@ import {
 } from "app/config/constant";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
-  const ERC20 = useABI("abis/plasma/ERC20.json");
+  // const ERC20 = useABI("abis/plasma/ERC20.json");
   if (account) {
     let lib = library;
     let web3 = new Web3(lib?.provider);
