@@ -1,91 +1,88 @@
 import { ChainId } from "shibarium-get-chains";
 import { PUPPYNET_CHAIN_ID } from "./constant";
 // import { SHIBARIUM_CHAINID } from 'app/constants'
-
-const Arbitrum =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/arbitrum.jpg";
-const Avalanche =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/avalanche.jpg";
-const Bsc =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/bsc.jpg";
-const Fantom =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/fantom.jpg";
-const Goerli =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/goerli.jpg";
-const Harmony =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/harmonyone.jpg";
-const Heco =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/heco.jpg";
-const Kovan =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/kovan.jpg";
-const Mainnet =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/mainnet.jpg";
-const Matic =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/polygon.jpg";
-const Moonbeam =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg";
-const OKEx =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/okex.jpg";
-const Polygon =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/polygon.jpg";
-const Rinkeby =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/rinkeby.jpg";
-const Ropsten =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/ropsten.jpg";
-const xDai =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/gnosis.jpg";
-const Celo =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/celo.jpg";
-const Palm =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/palm.jpg";
-const Moonriver =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonriver.jpg";
-const Fuse =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/fuse.jpg";
-const Telos =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/telos.jpg";
-const Shibarium =
-  "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-const PUPPYNET =
-  "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-export const NETWORK_ICON = {
-  [ChainId.ETHEREUM]: Mainnet,
-  [ChainId.ROPSTEN]: Ropsten,
-  [ChainId.RINKEBY]: Rinkeby,
-  [ChainId.GÖRLI]: Goerli,
-  [ChainId.SEPOLIA]: Goerli,
-  [ChainId.KOVAN]: Kovan,
-  [ChainId.FANTOM]: Fantom,
-  [ChainId.FANTOM_TESTNET]: Fantom,
-  [ChainId.BSC]: Bsc,
-  [ChainId.BSC_TESTNET]: Bsc,
-  [ChainId.MATIC]: Polygon,
-  [ChainId.MATIC_TESTNET]: Matic,
-  [ChainId.XDAI]: xDai,
-  [ChainId.ARBITRUM]: Arbitrum,
-  [ChainId.ARBITRUM_TESTNET]: Arbitrum,
-  [ChainId.MOONBEAM_TESTNET]: Moonbeam,
-  [ChainId.AVALANCHE]: Avalanche,
-  [ChainId.AVALANCHE_TESTNET]: Avalanche,
-  [ChainId.HECO]: Heco,
-  [ChainId.HECO_TESTNET]: Heco,
-  [ChainId.HARDHAT]: Heco,
-  [ChainId.HARMONY]: Harmony,
-  [ChainId.HARMONY_TESTNET]: Harmony,
-  [ChainId.OKEX]: OKEx,
-  [ChainId.OKEX_TESTNET]: OKEx,
-  [ChainId.CELO]: Celo,
-  [ChainId.PALM]: Palm,
-  [ChainId.PALM_TESTNET]: Palm,
-  [ChainId.MOONRIVER]: Moonriver,
-  [ChainId.MOONBEAM]: Moonriver,
-  [ChainId.FUSE]: Fuse,
-  [ChainId.TELOS]: Telos,
-  [ChainId.SHIBARIUM]: Shibarium,
-  [ChainId.PUPPYNET517]: PUPPYNET,
-  [ChainId.PUPPYNET917]: PUPPYNET,
-  [ChainId.PUPPYNET719]: PUPPYNET,
-  [ChainId.PUPPYNET]: PUPPYNET,
+const icons = {
+  Arbitrum:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/arbitrum.jpg",
+  Avalanche:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/avalanche.jpg",
+  Bsc: "https://raw.githubusercontent.com/sushiswap/icons/master/network/bsc.jpg",
+  Fantom:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/fantom.jpg",
+  Goerli:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/goerli.jpg",
+  Harmony:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/harmonyone.jpg",
+  Heco: "https://raw.githubusercontent.com/sushiswap/icons/master/network/heco.jpg",
+  Kovan:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/kovan.jpg",
+  Mainnet:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/mainnet.jpg",
+  Matic:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/polygon.jpg",
+  Moonbeam:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg",
+  OKEx: "https://raw.githubusercontent.com/sushiswap/icons/master/network/okex.jpg",
+  Polygon:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/polygon.jpg",
+  Rinkeby:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/rinkeby.jpg",
+  Ropsten:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/ropsten.jpg",
+  xDai: "https://raw.githubusercontent.com/sushiswap/icons/master/network/gnosis.jpg",
+  Celo: "https://raw.githubusercontent.com/sushiswap/icons/master/network/celo.jpg",
+  Palm: "https://raw.githubusercontent.com/sushiswap/icons/master/network/palm.jpg",
+  Moonriver:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonriver.jpg",
+  Fuse: "https://raw.githubusercontent.com/sushiswap/icons/master/network/fuse.jpg",
+  Telos:
+    "https://raw.githubusercontent.com/sushiswap/icons/master/network/telos.jpg",
+  Shibarium:
+    "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg",
+  PUPPYNET:
+    "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg",
+};
+export const NETWORK_ICON: Record<
+  typeof ChainId[number],
+  typeof icons[keyof typeof icons]
+> = {
+  [ChainId.ETHEREUM]: icons.Mainnet,
+  [ChainId.ROPSTEN]: icons.Ropsten,
+  [ChainId.RINKEBY]: icons.Rinkeby,
+  [ChainId.GÖRLI]: icons.Goerli,
+  [ChainId.SEPOLIA]: icons.Goerli,
+  [ChainId.KOVAN]: icons.Kovan,
+  [ChainId.FANTOM]: icons.Fantom,
+  [ChainId.FANTOM_TESTNET]: icons.Fantom,
+  [ChainId.BSC]: icons.Bsc,
+  [ChainId.BSC_TESTNET]: icons.Bsc,
+  [ChainId.MATIC]: icons.Polygon,
+  [ChainId.MATIC_TESTNET]: icons.Matic,
+  [ChainId.XDAI]: icons.xDai,
+  [ChainId.ARBITRUM]: icons.Arbitrum,
+  [ChainId.ARBITRUM_TESTNET]: icons.Arbitrum,
+  [ChainId.MOONBEAM_TESTNET]: icons.Moonbeam,
+  [ChainId.AVALANCHE]: icons.Avalanche,
+  [ChainId.AVALANCHE_TESTNET]: icons.Avalanche,
+  [ChainId.HECO]: icons.Heco,
+  [ChainId.HECO_TESTNET]: icons.Heco,
+  [ChainId.HARDHAT]: icons.Heco,
+  [ChainId.HARMONY]: icons.Harmony,
+  [ChainId.HARMONY_TESTNET]: icons.Harmony,
+  [ChainId.OKEX]: icons.OKEx,
+  [ChainId.OKEX_TESTNET]: icons.OKEx,
+  [ChainId.CELO]: icons.Celo,
+  [ChainId.PALM]: icons.Palm,
+  [ChainId.PALM_TESTNET]: icons.Palm,
+  [ChainId.MOONRIVER]: icons.Moonriver,
+  [ChainId.MOONBEAM]: icons.Moonriver,
+  [ChainId.FUSE]: icons.Fuse,
+  [ChainId.TELOS]: icons.Telos,
+  [ChainId.SHIBARIUM]: icons.Shibarium,
+  [ChainId.PUPPYNET517]: icons.PUPPYNET,
+  [ChainId.PUPPYNET917]: icons.PUPPYNET,
+  [ChainId.PUPPYNET719]: icons.PUPPYNET,
+  [ChainId.PUPPYNET]: icons.PUPPYNET,
 };
 // enum SHIBARIUM{
 //   SHIBARIUM = SHIBARIUM_CHAINID
