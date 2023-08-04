@@ -96,8 +96,9 @@ function combineMaps(
     42: { ...map1[42], ...map2[42] }, // kovan
     250: { ...map1[250], ...map2[250] }, // fantom
     517: { ...map1[517], ...map2[517] }, // puppy net
-    917: { ...map1[517], ...map2[517] }, // puppy net
-    719: { ...map1[517], ...map2[517] }, // puppy net
+    917: { ...map1[917], ...map2[917] }, // puppy net
+    719: { ...map1[719], ...map2[719] }, // puppy net
+    613: { ...map1[613], ...map2[613] }, // puppy net
     4002: { ...map1[4002], ...map2[4002] }, // fantom testnet
     137: { ...map1[137], ...map2[137] }, // matic
     80001: { ...map1[80001], ...map2[80001] }, // matic testnet
@@ -121,6 +122,7 @@ function combineMaps(
     1285: { ...map1[1285], ...map2[1285] }, // moonriver
     122: { ...map1[122], ...map2[122] }, // fuse
     40: { ...map1[40], ...map2[40] }, // telos
+    11155111: { ...map1[11155111], ...map2[11155111] }, // telos
   };
 }
 

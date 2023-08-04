@@ -5,7 +5,6 @@ import { unbondsHistory } from "../../services/apis/delegator";
 import { useActiveWeb3React } from "../../services/web3";
 import { getExplorerLink } from "app/functions";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
-import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import Header from "pages/layout/header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
@@ -21,6 +20,7 @@ import {
   currentGasPrice,
   getUserTimeZone,
   tokenDecimal,
+  useABI,
   USER_REJECTED_TX,
   web3Decimals,
 } from "web3/commonFunctions";
@@ -40,6 +40,7 @@ export default function Unbond() {
   const [slicedList, setSlicedList] = useState([]);
   const [transactionLink, setTransactionLink] = useState("");
   const dispatch = useAppDispatch();
+   const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
   const [transactionState, setTransactionState] = useState(initialModalState);
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);

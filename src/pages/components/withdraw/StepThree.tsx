@@ -4,30 +4,15 @@ import { useActiveWeb3React } from "app/services/web3";
 import React, { useEffect } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import Web3 from "web3";
-import { finalise } from "../../../exit/finalise";
-import { startWithdraw } from "../../../exit/withdraw";
-import PlasmaExitABI from "../../../ABI/PlasmaExitABI.json";
-import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
 import {
   addTransaction,
   finalizeTransaction,
 } from "app/state/transactions/actions";
 import { useAppDispatch } from "app/state/hooks";
 import { dynamicChaining } from "web3/DynamicChaining";
-import { ChainId } from "shibarium-get-chains";
-import MRC20 from "../../../ABI/MRC20ABI.json";
-import ERC20 from "../../../ABI/ERC20Abi.json";
-import POSExitABI from "../../../ABI/POSExitABI.json";
-import * as Sentry from "@sentry/nextjs";
-import {
-  currentGasPrice,
-  getAllowanceAmount,
-  parseError,
-} from "web3/commonFunctions";
+import { currentGasPrice, useABI } from "web3/commonFunctions";
 
-import fromExponential from "from-exponential";
 import { getClient } from "client/shibarium";
-import { ExitUtil, RootChain } from "@shibarmy/shibariumjs";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { putTransactions } from "../BridgeCalls";
@@ -57,6 +42,9 @@ const StepThree: React.FC<any> = ({
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
+  const POSExitABI = useABI("abis/pos/RootChainManager.json");
+  const PlasmaExitABI = useABI("abis/plasma/ERC20PredicateBurnOnly.json");
+  const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
   const dispatch: any = useAppDispatch();
   useEffect(() => {
     if (txState && page == "tx") {
@@ -65,11 +53,12 @@ const StepThree: React.FC<any> = ({
     }
   }, []);
 
-  const processExit = async () => {
+  const processExit = async (e: any) => {
     try {
-       if (chainId === PUPPYNET_CHAIN_ID) {
-         await switchNetwork();
-       }
+      e.preventDefault();
+      if (chainId === PUPPYNET_CHAIN_ID) {
+        await switchNetwork();
+      }
       setStep("Completed");
       let user: any = account;
       let instance = new web3.eth.Contract(
@@ -634,11 +623,10 @@ const StepThree: React.FC<any> = ({
                     <div className="pop-bottom">
                       <div>
                         <a
-                          onClick={() => {
-                            processExit();
+                          onClick={(e) => {
+                            processExit(e);
                           }}
                           className={`btn primary w-100 primary-btn`}
-                          href="javascript:void(0)"
                         >
                           Continue
                         </a>

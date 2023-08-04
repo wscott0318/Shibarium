@@ -5,7 +5,6 @@ import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
 import { getExplorerLink } from "app/functions/explorer";
 import { ChainId } from "shibarium-get-chains";
 import { useWalletTokenBalance } from "app/hooks/useTokenBalance";
-import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from "from-exponential";
 import {
   getAllowanceAmount,
@@ -14,8 +13,8 @@ import {
   USER_REJECTED_TX,
   currentGasPrice,
   getBoneUSDValue,
+  useABI,
 } from "../../web3/commonFunctions";
-import ERC20 from "../../ABI/ERC20Abi.json";
 import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -54,6 +53,8 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
+  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
   const dispatch = useAppDispatch();
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [delegateState, setdelegateState] = useState(initialModalState);
@@ -66,7 +67,6 @@ const DelegatePopup: React.FC<any> = ({
   const isLoading = walletBalance == -1;
   const [isMax, setIsMax] = useState(false);
 
-  console.log("data ", data);
   useEffect(() => {
     if (chainId === SHIBARIUM_CHAIN_ID) {
       setWalletBalance(ethBalance);
@@ -264,12 +264,12 @@ const DelegatePopup: React.FC<any> = ({
     );
 
     try {
-      console.log("No approval needed", amount);
+      console.log("No approval needed", requestBody);
       let instance = new web3.eth.Contract(
         ValidatorShareABI,
         requestBody.validatorAddress
       );
-      // console.log({amount, _minSharesToMint})
+      console.log("instance ", instance.methods);
       await instance.methods
         .buyVoucher(amount, _minSharesToMint)
         .send({ from: walletAddress })
@@ -565,10 +565,7 @@ const DelegatePopup: React.FC<any> = ({
                         disabled={loader}
                       >
                         {loader ? (
-                          <a
-                            className="btn primary-btn d-flex align-items-center crsrDefault"
-                            href="javascript:void(0)"
-                          >
+                          <a className="btn primary-btn d-flex align-items-center crsrDefault">
                             <Spinner
                               as="span"
                               animation="border"
@@ -578,10 +575,7 @@ const DelegatePopup: React.FC<any> = ({
                             />
                           </a>
                         ) : (
-                          <a
-                            className="btn primary-btn d-flex align-items-center"
-                            href="javascript:void(0)"
-                          >
+                          <a className="btn primary-btn d-flex align-items-center">
                             <span>Delegate</span>
                           </a>
                         )}

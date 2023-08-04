@@ -7,13 +7,10 @@ import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "../../services/web3";
-import {
-  GOERLI_CHAIN_ID,
-  PUPPYNET_CHAIN_ID,
-} from "../../config/constant";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
+import { getABI, getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
@@ -52,6 +49,7 @@ export default function Withdraw() {
     l1Balance: 0,
     l2Balance: 0,
   });
+
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -375,7 +373,7 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: GOERLI_CHAIN_ID,
-                          toChain:PUPPYNET_CHAIN_ID
+                          toChain: PUPPYNET_CHAIN_ID,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -645,7 +643,7 @@ export default function Withdraw() {
                       validationSchema={withdrawValidations}
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain:PUPPYNET_CHAIN_ID,
+                        fromChain: PUPPYNET_CHAIN_ID,
                         toChain: GOERLI_CHAIN_ID,
                       }}
                       onSubmit={(values, { resetForm }) => {

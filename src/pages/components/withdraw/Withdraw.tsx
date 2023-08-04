@@ -5,18 +5,17 @@ import NumberFormat from "react-number-format";
 import { ChainId } from "shibarium-get-chains";
 import {
   currentGasPrice,
+  getABI,
   tokenDecimal,
+  useABI,
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
-import MRC20 from "../../../ABI/MRC20ABI.json";
-import ChildERC20 from "../../../ABI/childERC20.json";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
 import { useAppDispatch } from "app/state/hooks";
 import fromExponential from "from-exponential";
-import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { Check, X } from "react-feather";
 import Loader from "app/components/Loader";
@@ -31,8 +30,6 @@ import {
   finalizeTransaction,
 } from "app/state/transactions/actions";
 import { getExplorerLink } from "app/functions";
-import ERC20 from "../../../ABI/ERC20Abi.json";
-import ERC20abi from "../../../ABI/ERC20Abi.json";
 import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
@@ -92,6 +89,11 @@ const WithdrawModal: React.FC<{
     step6: false,
     title: "Please Note",
   });
+  const childERC20abi = useABI("abis/plasma/ChildERC20.json");
+  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
+  const MRC20 = useABI("abis/plasma/MRC20.json");
+
   const switchNetwork = async () => {
     if (error === null) {
       let key =
@@ -222,7 +224,6 @@ const WithdrawModal: React.FC<{
     }
   };
 
-  console.log("decimalformat", decimalformat);
   const submitWithdraw = async () => {
     try {
       if (error === null) {
@@ -232,7 +233,6 @@ const WithdrawModal: React.FC<{
         let amount = web3.utils.toBN(
           fromExponential(+withdrawTokenInput * Math.pow(10, decimalformat))
         );
-
         let abi: any;
         let sendData;
         if (selectedToken?.parentName === "BONE") {
@@ -240,7 +240,7 @@ const WithdrawModal: React.FC<{
           abi = MRC20;
           sendData = { from: user, gas: 100000, value: amount };
         } else {
-          abi = ChildERC20;
+          abi = childERC20abi;
           sendData = { from: user };
         }
         console.log("amount", amount);
@@ -394,7 +394,7 @@ const WithdrawModal: React.FC<{
     let user: any = account;
     if (selectedToken.parentName !== "Ether") {
       let instance = new webL1.eth.Contract(
-        ERC20abi,
+        ERC20,
         selectedToken?.parentContract
       );
       let decimal = await instance.methods.decimals().call();

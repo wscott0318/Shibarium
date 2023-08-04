@@ -22,6 +22,7 @@ export default function MyAcount() {
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = tokenBal;
   let isloading = availBalance == -1;
+  console.log("DC => ", dynamicChaining[chainId], chainId);
   useEffect(() => {
     if (account) {
       if (userType === "Validator" && valId <= 0) {

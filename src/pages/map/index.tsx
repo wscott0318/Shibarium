@@ -37,9 +37,7 @@ function Map() {
           <div className="container">
             <h3 className="mb-3 mb-md-4">
               Add details of the token you are mapping
-              <a className="primary-text fs-12 ms-2" href="javascript:void(0)">
-                Learn more
-              </a>
+              <a className="primary-text fs-12 ms-2">Learn more</a>
             </h3>
 
             {/* choose network card start */}
@@ -164,11 +162,11 @@ function Map() {
               <div className="col-lg-9 col-md-9">
                 <p className="mb-0 fs-14">
                   We encourage all innovation so you can use the resources on
-                  our <a href="javascript:void(0)" className="primary-text"></a>{" "}
-                  to build custom tokens. However, custom tokens will not be
-                  supported on the Polygon bridge. If you are remapping a token,
-                  please reach out to support. They will help with our internal
-                  process for remapped tokens.
+                  our <a className="primary-text"></a> to build custom tokens.
+                  However, custom tokens will not be supported on the Polygon
+                  bridge. If you are remapping a token, please reach out to
+                  support. They will help with our internal process for remapped
+                  tokens.
                 </p>
               </div>
               <div className="col-lg-3 col-md-3">

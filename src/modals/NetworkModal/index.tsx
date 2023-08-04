@@ -61,8 +61,8 @@ export const SUPPORTED_NETWORKS: {
     blockExplorerUrls: ["https://ftmscan.com"],
   },
   [ChainId.PUPPYNET]: {
-    chainId: "0x1a1",
-    chainName: "Puppy Net",
+    chainId: "0x265",
+    chainName: "Puppy Net-613",
     nativeCurrency: {
       name: "BONE",
       symbol: "BONE",
@@ -267,10 +267,10 @@ const NetworkModal: FC = () => {
         />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
-            // ChainId.SHIBARIUM,
-            ChainId.GÖRLI,
+            ChainId.SEPOLIA,
+            // ChainId.GÖRLI,
             // ChainId.ETHEREUM,
-            ChainId.PUPPYNET719,
+            ChainId.PUPPYNET,
 
             // ChainId.MATIC,
             // ChainId.BSC,
@@ -345,7 +345,7 @@ const NetworkModal: FC = () => {
                 className=""
               >
                 <Image
-                // {/*@ts-ignore TYPE NEEDS FIXING*/}
+                  // {/*@ts-ignore TYPE NEEDS FIXING*/}
                   src={NETWORK_ICON[key]}
                   alt="Switch Network"
                   className="rounded-md"

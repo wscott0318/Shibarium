@@ -41,8 +41,8 @@ const Valitotors: React.FC<any> = ({
         .then((res: any) => {
           setLoading(false);
           setLoadingVal(false);
+          console.log("total validators => ", res);
           if (res.status == 200) {
-            console.log("total validators => ", res.data);
             setTotalValCount(res.data.validatorsList.length);
             let activeList: any;
             setAllValidators(res.data.validatorsList);
@@ -69,6 +69,7 @@ const Valitotors: React.FC<any> = ({
           }
         })
         .catch((err: any) => {
+          console.log("err", err);
           setLoading(false);
           setLoadingVal(false);
         });
@@ -78,7 +79,7 @@ const Valitotors: React.FC<any> = ({
       setLoadingVal(false);
     }
   };
-
+  console.log("validators ", validators);
   useEffect(() => {
     if (searchKey == "") fetchValList();
   }, [searchKey]);

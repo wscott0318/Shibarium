@@ -15,13 +15,14 @@ import fromExponential from "from-exponential";
 import {
   addDecimalValue,
   currentGasPrice,
+  getABI,
   getAllowanceAmount,
   sentryErrors,
   stakeForErrMsg,
+  useABI,
   USER_REJECTED_TX,
   web3Decimals,
 } from "web3/commonFunctions";
-import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT, checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance } from "../../hooks/useTokenBalance";
@@ -43,7 +44,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     state: false,
     title: "Pending",
   });
-  console.log("min stake", minStakeAmount);
   const [hashLink, setHashLink] = useState("");
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const ethBalance = useEthBalance();
@@ -51,6 +51,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const availBalance =
     chainId === SHIBARIUM_CHAIN_ID ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
+  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ValidatorRegistry = useABI("abis/plasma/ValidatorRegistry.json");
   let schema = yup.object().shape({
     amount: yup
       .number()
@@ -368,6 +370,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
+      console.log("submit");
       await handleTransaction(values);
     },
   });
@@ -396,6 +399,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         user,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
+      console.log("handle tarnsaction");
       if (allowance < +val.amount) {
         console.log("need approval ");
         await approveAmount(val); // gas fee
@@ -409,6 +413,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       setTransactionState({ state: false, title: "" });
       Sentry.captureMessage("handleTransaction", err);
       sentryErrors("handleTransaction", err);
+      console.log("error ", err);
     }
   };
 

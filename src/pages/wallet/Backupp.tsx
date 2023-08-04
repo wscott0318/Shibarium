@@ -17,7 +17,7 @@ import {
   GOERLI_CHAIN_ID,
   PUPPYNET_CHAIN_ID,
 } from "../../config/constant";
-import ERC20 from "../../ABI/ERC20Abi.json";
+// import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks";
 import {
@@ -31,7 +31,7 @@ import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getBoneUSDValue } from "web3/commonFunctions";
+import { currentGasPrice, getBoneUSDValue, useABI } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 const sendInitialState = {
   step0: true,
@@ -77,7 +77,7 @@ export default function Wallet() {
   const [searchKey, setSearchKey] = useState<string>("");
   const [modalKeyword, setmodalKeyword] = useState<string>("");
   const [nullAddress, setNullAddress] = useState(false);
-
+const ERC20 = useABI("abis/plasma/ERC20.json");
   useEffect(() => {
     if (tokenFilteredList.length) {
       let obj = tokenFilteredList

@@ -35,7 +35,7 @@ function useTokensFromMap(
 
   return useMemo(() => {
     if (!chainId) return {};
-    // console.log("token map" , {tokenMap})
+    // console.log("token map", { tokenMap });
     // reduce to just tokens
     const mapWithoutUrls = Object.keys(tokenMap[chainId]).reduce<{
       [address: string]: Token;

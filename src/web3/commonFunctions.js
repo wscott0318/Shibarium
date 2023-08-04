@@ -1,6 +1,4 @@
 import Web3 from "web3";
-import ERC20abi from "../ABI/ERC20Abi.json";
-import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
@@ -11,13 +9,13 @@ import {
   GOERLI_CHAIN_ID,
   PUPPYNET_CHAIN_ID,
 } from "app/config/constant";
-import { getDelegatorData } from "app/services/apis/user/userApi";
-import { queryProvider } from "Apollo/client";
+
 export const getAllowanceAmount = async (library, token, account, contract) => {
+  const ERC20 = useABI("abis/plasma/ERC20.json");
   if (account) {
     let lib = library;
     let web3 = new Web3(lib?.provider);
-    let instance = new web3.eth.Contract(ERC20abi, token);
+    let instance = new web3.eth.Contract(ERC20, token);
     let allowance = await instance.methods
       .allowance(account, contract)
       .call({ from: account });
@@ -58,7 +56,7 @@ export const tokenDecimal = 2;
 export const toFixedNull = 2;
 export const toFixedPrecent = 2;
 
-export const supportedChains = [5];
+export const supportedChains = [11155111];
 
 export const web3Decimals = 18;
 
@@ -257,4 +255,36 @@ export const getBoneUSDValue = async () => {
       usd = 0;
     });
   return usd;
+};
+
+export const getABI = async (key) => {
+  let abi;
+  await axios
+    .get(`${process.env.NEXT_PUBLIC_ABI_API_URL}/sepolia/v2/${key}`)
+    .then((res) => {
+      console.log("abi  ", res.data.abi);
+      abi = res.data.abi;
+    })
+    .catch((error) => {
+      console.log("error abi ", error);
+      abi = null;
+    });
+  return abi;
+};
+
+export const useABI = (key) => {
+  const [abi, setAbi] = useState();
+
+  async function getABI() {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_ABI_API_URL}/sepolia/v2/${key}`
+    );
+    setAbi(data.abi);
+  }
+
+  useEffect(() => {
+    if (key) getABI();
+  }, [key]);
+
+  return abi;
 };

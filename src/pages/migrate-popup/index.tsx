@@ -56,7 +56,7 @@ const MigratePopup: React.FC<any> = ({
       setBoneUSDValue(res);
     });
   }, [account]);
-  console.log("data ", data, migrateDataRow);
+
   const useMax = (e: any) => {
     e.preventDefault();
     setFieldValue("balance", balance);
@@ -154,6 +154,7 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
+      console.log("error", err);
       setmigratepop(false);
       setProcessing("Migrate");
       handleClose();

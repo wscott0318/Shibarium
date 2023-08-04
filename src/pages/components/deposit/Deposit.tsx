@@ -1,19 +1,18 @@
 import { useActiveWeb3React } from "app/services/web3";
 import fromExponential from "from-exponential";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import {
   currentGasPrice,
+  getABI,
   getAllowanceAmount,
   parseError,
   tokenDecimal,
+  useABI,
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
-import ERC20 from "../../../ABI/ERC20Abi.json";
-import depositManagerABI from "../../../ABI/depositManagerABI.json";
-import RootChainManagerABI from "../../../ABI/RootChainManagerABI.json";
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { NETWORK_ICON, NETWORK_LABEL } from "app/config/networks";
@@ -29,8 +28,8 @@ import { getExplorerLink } from "app/functions";
 import Loader from "app/components/Loader";
 import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
-import ERC20Predicate from "../../../ABI/ERC20Predicate.json";
-import { ERC20_ABI } from "app/constants/abis/erc20";
+// import ERC20Predicate from "../../../ABI/ERC20Predicate.json";
+// import { ERC20_ABI } from "app/constants/abis/erc20";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { ethers } from "ethers";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
@@ -63,6 +62,9 @@ const Deposit: React.FC<any> = ({
     step4: false,
     title: "Please Note",
   });
+  const depositManagerABI = useABI("abis/plasma/DepositManager.json");
+  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const RootChainManagerABI = useABI("abis/pos/RootChainManager.json");
 
   const estGasFee = async () => {
     setAmountApproval(false);
@@ -74,13 +76,10 @@ const Deposit: React.FC<any> = ({
         ? selectedToken.parentContract
         : selectedToken.childContract;
       let instanceContract: any;
-      let abi: any;
       if (selectedToken?.bridgetype == "plasma") {
         instanceContract = dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY;
-        abi = ERC20_ABI;
       } else {
         instanceContract = dynamicChaining[chainId].ERC20_PREDICATE;
-        abi = ERC20Predicate;
       }
       let amount = web3.utils.toWei(depositTokenInput, "ether");
       const amountWei = web3.utils.toBN(amount);
@@ -167,6 +166,7 @@ const Deposit: React.FC<any> = ({
         selectedToken?.bridgetype == "plasma"
           ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
           : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+
       let abi =
         selectedToken?.bridgetype == "plasma"
           ? depositManagerABI
@@ -221,7 +221,7 @@ const Deposit: React.FC<any> = ({
       } else {
         senderAddress = dynamicChaining[chainId].ERC20_PREDICATE;
       }
-      let instance = new web3.eth.Contract(ERC20_ABI, token);
+      let instance = new web3.eth.Contract(ERC20, token);
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
       let amount = web3.utils.toWei(depositTokenInput, format);
@@ -972,19 +972,11 @@ const Deposit: React.FC<any> = ({
                     <div className="d-inline-block img-flexible">
                       <img
                         className="img-fluid"
-                        src={
-                          NETWORK_ICON[PUPPYNET_CHAIN_ID
-                          ]
-                        }
+                        src={NETWORK_ICON[PUPPYNET_CHAIN_ID]}
                         alt=""
                       />
                     </div>
-                    <p>
-                      {
-                        NETWORK_LABEL[PUPPYNET_CHAIN_ID
-                        ]
-                      }
-                    </p>
+                    <p>{NETWORK_LABEL[PUPPYNET_CHAIN_ID]}</p>
                   </div>
                 </div>
               </div>
@@ -998,11 +990,7 @@ const Deposit: React.FC<any> = ({
                   </h4>
                   <p>
                     It will take up to 20 - 30 minutes to move the funds on{" "}
-                    {
-                      NETWORK_LABEL[GOERLI_CHAIN_ID
-                      ]
-                    }{" "}
-                    Puppy Net.
+                    {NETWORK_LABEL[GOERLI_CHAIN_ID]} Puppy Net.
                   </p>
                 </div>
                 <div>

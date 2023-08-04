@@ -37,9 +37,7 @@ export default function Faucet() {
   const [isActive, setIsActive] = useState(1);
   const { chainId = 1, account } = useActiveWeb3React();
   const [token, setToken] = useState<string>("BONE");
-  const [tokenAddress, setTokenAddress] = useState(
-    "0x76C2BA387d39A2B3A214E0Ba1819782369F684c1"
-  );
+  const [tokenAddress, setTokenAddress] = useState(process.env.BONE as string);
   const url = process.env.NEXT_PUBLIC_FAUCET_API_URL;
   const handleMenuState = () => {
     setMenuState(!menuState);

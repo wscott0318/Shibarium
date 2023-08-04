@@ -35,6 +35,7 @@ const RPC = {
   [ChainId.SHIBARIUM]: 'https://3.145.115.238:8545',
   [ChainId.PUPPYNET917]: process.env.RPC_517 as any,
   [ChainId.PUPPYNET719]: process.env.RPC_517 as any,
+  [ChainId.PUPPYNET]: process.env.RPC_517 as any,
 }
 
 export default RPC
