@@ -12,13 +12,11 @@ export const validatorSchema = yup.object().shape({
     .max(14)
     .typeError("Name must be less than 15 characters.")
     .required("Validator name is required.")
-    .matches(
-      /^[a-z\d\-_\s]+$/i,
-      "Only alphanumeric values are allowed. "
-    ),
+    .matches(/^[a-z\d\-_\s]+$/i, "Only alphanumeric values are allowed. "),
   publickey: yup
     .string()
     .max(143)
+    .min(130, "Invalid Public key")
     .notOneOf(
       [yup.ref("address"), null],
       "Signer's address & public key should not match."
@@ -30,9 +28,8 @@ export const validatorSchema = yup.object().shape({
     .string()
     .required("Website is required.")
     // @ts-ignore
-    .test('len', 'Invalid URL', val => val?.indexOf(".") > -1)
+    .test("len", "Invalid URL", (val) => val?.indexOf(".") > -1),
 });
-
 
 function StepTwo({
   stepState,
@@ -57,7 +54,7 @@ function StepTwo({
   }, [account]);
 
   // console.log(userAddress, 'userAddress');
-  
+
   const callAPI = async (val: any) => {
     try {
       if (imageData) {
@@ -122,8 +119,8 @@ function StepTwo({
       if (event.target.files[0]?.size <= 204800) {
         setImageData(event.target.files[0]);
         setImageSize(false);
-        setValidation({ address: false, image: false });  
-      } else if(event.target.files[0]?.size > 204800){
+        setValidation({ address: false, image: false });
+      } else if (event.target.files[0]?.size > 204800) {
         setImageSize(true);
         setValidation({ address: false, image: false });
       }
@@ -133,10 +130,10 @@ function StepTwo({
   };
 
   const valMsg = () => {
-    if(validation.image) return 'Image is required.';
+    if (validation.image) return "Image is required.";
     else if (imageSize) return "Maximum allowed size is 200 Kb";
     return null;
-  }
+  };
 
   return (
     // <>
@@ -153,12 +150,14 @@ function StepTwo({
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Validator logo 
+                Validator logo
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
                   <img
-                    src={imageData ? checkImageType(imageData)
+                    src={
+                      imageData
+                        ? checkImageType(imageData)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
@@ -180,7 +179,9 @@ function StepTwo({
               </div>
             </div>
             <p className="primary-text error ff-mos">{valMsg()}</p>
-            {imageData ? null : <p className="val-logo-text">upload logo only*</p>}
+            {imageData ? null : (
+              <p className="val-logo-text">upload logo only*</p>
+            )}
             {/* {validation.image ? (
             ) : imageSize ? (
               <p className="primary-text error ff-mos">
@@ -254,7 +255,9 @@ function StepTwo({
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public key <span className="get-info">i</span>
-              <div className="tool-desc">Signer’s Public Key should be without the "0x04" prefix.</div>
+                <div className="tool-desc">
+                  Signer’s Public Key should be without the "0x04" prefix.
+                </div>
               </label>
               <input
                 type="text"
