@@ -8,9 +8,9 @@ import {
   getAllowanceAmount,
   parseError,
   tokenDecimal,
-  useABI,
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import { X, Check } from "react-feather";
@@ -63,7 +63,7 @@ const Deposit: React.FC<any> = ({
     title: "Please Note",
   });
   const depositManagerABI = useABI("abis/plasma/DepositManager.json");
-  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
   const RootChainManagerABI = useABI("abis/pos/RootChainManager.json");
 
   const estGasFee = async () => {
@@ -174,10 +174,13 @@ const Deposit: React.FC<any> = ({
       let instance = new web3.eth.Contract(abi, contract);
 
       let gasFee: any = 1;
+      console.log("selected token ", selectedToken);
       if (selectedToken.bridgetype == "plasma") {
+        console.log("gas fee for plasma ", gasFee);
         gasFee = await instance.methods
           .depositERC20ForUser(selectedToken?.parentContract, user, amountWei)
           .estimateGas({ from: user });
+        console.log("gas fee for plasma ", gasFee);
       } else {
         let tokenInstance = new web3.eth.Contract(
           ERC20,
@@ -222,6 +225,7 @@ const Deposit: React.FC<any> = ({
         senderAddress = dynamicChaining[chainId].ERC20_PREDICATE;
       }
       let instance = new web3.eth.Contract(ERC20, token);
+      console.log("token ", instance);
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
       let amount = web3.utils.toWei(depositTokenInput, format);

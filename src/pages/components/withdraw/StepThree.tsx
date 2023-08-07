@@ -10,8 +10,8 @@ import {
 } from "app/state/transactions/actions";
 import { useAppDispatch } from "app/state/hooks";
 import { dynamicChaining } from "web3/DynamicChaining";
-import { currentGasPrice, useABI } from "web3/commonFunctions";
-
+import { currentGasPrice } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import { getClient } from "client/shibarium";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

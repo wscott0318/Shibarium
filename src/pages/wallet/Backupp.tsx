@@ -31,7 +31,8 @@ import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getBoneUSDValue, useABI } from "web3/commonFunctions";
+import { currentGasPrice, getBoneUSDValue } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import * as Sentry from "@sentry/nextjs";
 const sendInitialState = {
   step0: true,
@@ -77,7 +78,7 @@ export default function Wallet() {
   const [searchKey, setSearchKey] = useState<string>("");
   const [modalKeyword, setmodalKeyword] = useState<string>("");
   const [nullAddress, setNullAddress] = useState(false);
-const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
   useEffect(() => {
     if (tokenFilteredList.length) {
       let obj = tokenFilteredList

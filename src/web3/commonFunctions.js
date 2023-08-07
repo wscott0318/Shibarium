@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ERC20 from '../ABI/ERC20Abi.json'
+import ERC20 from "../ABI/ERC20Abi.json";
 import { uniqBy } from "lodash";
 import {
   ETHEREUM_CHAIN_ID,
@@ -11,8 +11,9 @@ import {
   PUPPYNET_CHAIN_ID,
 } from "app/config/constant";
 
+export const validatorThresholdCount = 20;
 export const getAllowanceAmount = async (library, token, account, contract) => {
-  // const ERC20 = useABI("abis/plasma/ERC20.json");
+  // const ERC20 = useABI("abis/pos/ERC20.json");
   if (account) {
     let lib = library;
     let web3 = new Web3(lib?.provider);
@@ -270,22 +271,5 @@ export const getABI = async (key) => {
       console.log("error abi ", error);
       abi = null;
     });
-  return abi;
-};
-
-export const useABI = (key) => {
-  const [abi, setAbi] = useState();
-
-  async function getABI() {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_ABI_API_URL}/sepolia/v2/${key}`
-    );
-    setAbi(data.abi);
-  }
-
-  useEffect(() => {
-    if (key) getABI();
-  }, [key]);
-
   return abi;
 };

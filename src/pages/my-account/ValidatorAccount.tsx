@@ -25,8 +25,8 @@ import {
   USER_REJECTED_TX,
   tokenDecimal,
   web3Decimals,
-  useABI,
 } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import { getExplorerLink } from "app/functions";
 import DelegatePopup from "pages/delegate-popup";
 import { queryProvider } from "Apollo/client";
@@ -66,8 +66,8 @@ const ValidatorAccount = ({
   const [showSignerAddressPop, setSignerAddressPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const ERC20 = useABI("abis/plasma/ERC20.json");
-   const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
+  const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
   const [unboundInput, setUnboundInput] = useState<any>("");
   const [validatorInfo, setValidatorInfo] = useState<any>({});
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();

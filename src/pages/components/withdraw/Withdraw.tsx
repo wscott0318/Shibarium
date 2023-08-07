@@ -7,9 +7,9 @@ import {
   currentGasPrice,
   getABI,
   tokenDecimal,
-  useABI,
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import * as Sentry from "@sentry/nextjs";
@@ -90,7 +90,7 @@ const WithdrawModal: React.FC<{
     title: "Please Note",
   });
   const childERC20abi = useABI("abis/plasma/ChildERC20.json");
-  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
   const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
   const MRC20 = useABI("abis/plasma/MRC20.json");
 

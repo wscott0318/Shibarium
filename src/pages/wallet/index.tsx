@@ -33,7 +33,7 @@ export default function Wallet() {
 
   useEffect(() => {
     if (tokenFilteredList.length) {
-      let obj = tokenFilteredList.filter((x: any) => x.parentSymbol === 'BoneToken').map((y: any) => y)[0]
+      let obj = tokenFilteredList.filter((x: any) => x.parentName === 'BONE').map((y: any) => y)[0]
       setSelectedToken(obj)
     }
   }, [tokenFilteredList, tokenList])

@@ -20,10 +20,10 @@ import {
   currentGasPrice,
   getUserTimeZone,
   tokenDecimal,
-  useABI,
   USER_REJECTED_TX,
   web3Decimals,
 } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { CircularProgress } from "@material-ui/core";

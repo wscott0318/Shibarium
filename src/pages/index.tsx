@@ -15,13 +15,16 @@ import { getValidatorInfo } from "app/services/apis/network-details/networkOverv
 import { L1Block, ChainId } from "app/hooks/L1Block";
 import { queryProvider } from "Apollo/client";
 import { validators } from "Apollo/queries";
-import { useABI } from "web3/commonFunctions";
+import Web3 from "web3";
+import { useABI } from "app/hooks/useABI";
+import { validatorThresholdCount } from "web3/commonFunctions";
 
 const BoneStaking = () => {
   const [userType, setUserType] = useUserType(); //NOSONAR
-  const { account, chainId = 1 } = useActiveWeb3React();
+  const { account, chainId = 1, library } = useActiveWeb3React();
+  const lib: any = library?.provider;
   const router = useRouter();
-  const [valCount, setValCount] = useState(0);
+  const web3 = new Web3(lib);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [nodeSetup, setNodeSetup] = useState<any>("");
   const [valInfoLoader, setValInfoLoader] = useState(true);
@@ -39,20 +42,22 @@ const BoneStaking = () => {
     try {
       const id = await ChainId();
       const address = dynamicChaining[id]?.STAKE_MANAGER_PROXY;
-      let instance = new web3test.eth.Contract(stakeManagerABI, address);
+      if (!stakeManagerABI) {
+        console.log("executed");
+        setValMaxCount(validatorThresholdCount);
+        return;
+      }
+      let instance = new web3.eth.Contract(stakeManagerABI, address);
       const validatorThreshold = await instance.methods
         .validatorThreshold()
         .call();
-      const totVals = await queryProvider.query({
-        query: validators(),
-      });
-      const valCount = totVals?.data?.validators?.length;
-      setValCount(valCount);
       setValMaxCount(validatorThreshold);
+      console.log("executed validator threshold", validatorThreshold);
     } catch (err: any) {
       Sentry.captureMessage("getValCount", err);
     }
   };
+  console.log("val count new", valMaxCount, totalValCount);
 
   const getValInfo = async () => {
     try {
@@ -87,12 +92,12 @@ const BoneStaking = () => {
             <div className="btns-sec btn-width">
               <div className="btns-wrap">
                 <button
-                  disabled={+valCount <= +valMaxCount ? false : true}
+                  disabled={+totalValCount <= +valMaxCount ? false : true}
                   onClick={() => {
                     router.push("/become-validator");
                   }}
                   className={`${
-                    +valCount >= +valMaxCount ? "d-none" : ""
+                    +totalValCount >= +valMaxCount ? "d-none" : ""
                   } btn primary-btn`}
                 >
                   Become a Validator
@@ -127,12 +132,12 @@ const BoneStaking = () => {
           <div className="btns-sec btn-width">
             <div className="btns-wrap">
               <button
-                disabled={+valCount <= +valMaxCount ? false : true}
+                disabled={+totalValCount <= +valMaxCount ? false : true}
                 onClick={() => {
                   router.push("/become-validator");
                 }}
                 className={`${
-                  +valCount >= +valMaxCount ? "d-none" : ""
+                  +totalValCount >= +valMaxCount ? "d-none" : ""
                 } btn primary-btn`}
               >
                 Become a Validator

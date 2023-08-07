@@ -13,8 +13,8 @@ import {
   USER_REJECTED_TX,
   currentGasPrice,
   getBoneUSDValue,
-  useABI,
 } from "../../web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -53,7 +53,7 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
-  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
   const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
   const dispatch = useAppDispatch();
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR

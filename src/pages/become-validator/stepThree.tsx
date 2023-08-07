@@ -19,10 +19,10 @@ import {
   getAllowanceAmount,
   sentryErrors,
   stakeForErrMsg,
-  useABI,
   USER_REJECTED_TX,
   web3Decimals,
 } from "web3/commonFunctions";
+import { useABI } from "app/hooks/useABI";
 import { MAXAMOUNT, checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance } from "../../hooks/useTokenBalance";
@@ -51,7 +51,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const availBalance =
     chainId === SHIBARIUM_CHAIN_ID ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
-  const ERC20 = useABI("abis/plasma/ERC20.json");
+  const ERC20 = useABI("abis/pos/ERC20.json");
   const ValidatorRegistry = useABI("abis/plasma/ValidatorRegistry.json");
   let schema = yup.object().shape({
     amount: yup
