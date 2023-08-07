@@ -10,7 +10,7 @@ import { useActiveWeb3React } from "../../services/web3";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { getABI, getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
+import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";

@@ -5,7 +5,6 @@ import NumberFormat from "react-number-format";
 import { ChainId } from "shibarium-get-chains";
 import {
   currentGasPrice,
-  getABI,
   tokenDecimal,
   USER_REJECTED_TX,
 } from "web3/commonFunctions";

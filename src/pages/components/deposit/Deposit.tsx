@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import {
   currentGasPrice,
-  getABI,
   getAllowanceAmount,
   parseError,
   tokenDecimal,

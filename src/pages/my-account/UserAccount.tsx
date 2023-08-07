@@ -5,7 +5,7 @@ import { addDecimalValue } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { ChainId, L1Block } from "app/hooks/L1Block";
-import { useValId } from "app/state/user/hooks";
+import { useValCount, useValId, useValThreshold } from "app/state/user/hooks";
 import { useActiveWeb3React } from "app/services/web3";
 import * as Sentry from "@sentry/nextjs";
 const userAccount = ({
@@ -15,34 +15,10 @@ const userAccount = ({
   boneUSDValue: any;
   availBalance: any;
 }) => {
-  const { account, chainId = 1 } = useActiveWeb3React();
-  const [valCount, setValCount] = useState(0);
-  const [valMaxCount, setValMaxCount] = useState(0);
+  const [validatorThreshold] = useValThreshold();
+  const [totalValCount] = useValCount();
   const isLoading = availBalance == -1;
-  const web3test = L1Block();
-  const [valId, setValId] = useValId();
 
-  useEffect(() => {
-    getValCount();
-  }, []);
-  const getValCount = async () => {
-    try {
-      const id = await ChainId();
-      let instance = new web3test.eth.Contract(
-        stakeManagerProxyABI,
-        dynamicChaining[id]?.STAKE_MANAGER_PROXY
-      );
-      const valCount = await instance.methods.currentValidatorSetSize().call();
-      const validatorThreshold = await instance.methods
-        .validatorThreshold()
-        .call();
-      console.log("val info ===> ", valCount, validatorThreshold);
-      setValCount(valCount);
-      setValMaxCount(validatorThreshold);
-    } catch (err: any) {
-      Sentry.captureMessage("getValCount", err);
-    }
-  };
   return (
     <section className="mid_cnt_area">
       <div className="container">
@@ -75,7 +51,7 @@ const userAccount = ({
               </div>
               <div
                 className={`col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space ${
-                  +valCount >= +valMaxCount ? "d-none" : ""
+                  +totalValCount >= +validatorThreshold ? "d-none" : ""
                 }`}
               >
                 <Link href="become-validator" passHref>

@@ -151,6 +151,7 @@ const ValidatorAccount = ({
       Sentry.captureException("getValidatorData ", err);
     }
   };
+  console.log("dynasty " , comissionHandle)
 
   useEffect(() => {
     if (stakeAmounts.length) {

@@ -31,7 +31,7 @@ const StakingHeader = (type: any) => {
       await getValidatorInfo(id).then((res) => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          console.log("info ", info);
+          // console.log("info ", info);
           setValInfo(info);
           setValidatorInfo(info?.valInfo);
         }
@@ -42,7 +42,7 @@ const StakingHeader = (type: any) => {
   };
 
   useEffect(() => {
-    console.log("called once");
+    // console.log("called once");
     if (account) {
       getValInfoApi(account);
     }
@@ -50,30 +50,30 @@ const StakingHeader = (type: any) => {
 
   useEffect(() => {
     if (account) {
-      console.log("step 1");
+      // console.log("step 1");
       getDynsetyValue();
     }
   }, [router, account, userType]);
 
   const getDynsetyValue = async () => {
     try {
-      console.log("step 2 ");
+      // console.log("step 2 ");
       const lib: any = library;
-      console.log("step 3 ");
+      // console.log("step 3 ");
       const web3: any = new Web3(lib?.provider);
-      console.log("step 4 ");
+      // console.log("step 4 ");
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
-      console.log("step 5 ", instance);
+      // console.log("step 5 ", instance);
       const dynasty = await instance.methods
         .checkPointBlockInterval()
         .call({ from: account });
       web3Test?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock);
       });
-      console.log("last checkpoint ", dynasty);
+      // console.log("last checkpoint ", dynasty);
       setDynasty(dynasty);
     } catch (err: any) {}
   };
@@ -81,9 +81,9 @@ const StakingHeader = (type: any) => {
   const renderButtons = () => {
     if (account) {
       if (userType === "Validator") {
-        console.log("valId ==> ", valId);
+        // console.log("valId ==> ", valId);
         if (+valId === 0 || valId == null) {
-          console.log("in condition entered ");
+          // console.log("in condition entered ");
           return (
             <>
               <li className="nav-item">

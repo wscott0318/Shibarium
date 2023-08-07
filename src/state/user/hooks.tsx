@@ -42,7 +42,8 @@ import {
   updateEpochDyna,
   updateMigrateData,
   updateTotalValCount,
-  updatePendingTransactionCount
+  updatePendingTransactionCount,
+  updateValidatorThreshold
 } from "./actions";
 
 
@@ -511,4 +512,19 @@ export function usePendingTransactionCount(): [object, (newUseUserType: number) 
   );
 
   return [pendingTransactionCount, setPendingTransactionCount];
+}
+export function useValThreshold(): [object, (newUseUserType: number) => object] {
+  const dispatch = useAppDispatch();
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const validatorThreshold = useSelector<AppState, AppState["validatorThreshold"]["setValidatorThreshold"]
+  >((state) => state.user.validatorThreshold);
+
+  const setValidatorThreshold = useCallback(
+    (validatorThreshold: number) =>
+      dispatch(updateValidatorThreshold({ validatorThreshold: validatorThreshold })),
+    [dispatch]
+  );
+
+  return [validatorThreshold, setValidatorThreshold];
 }

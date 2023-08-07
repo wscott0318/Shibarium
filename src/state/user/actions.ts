@@ -70,3 +70,6 @@ export const updateTotalValCount = createAction<{
 export const updatePendingTransactionCount = createAction<{
   pendingTransactionCount: number;
 }>("user/updatePendingTransactionCount");
+export const updateValidatorThreshold = createAction<{
+  validatorThreshold: number;
+}>("user/updateValidatorThreshold");

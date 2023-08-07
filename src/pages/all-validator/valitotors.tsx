@@ -41,7 +41,7 @@ const Valitotors: React.FC<any> = ({
         .then((res: any) => {
           setLoading(false);
           setLoadingVal(false);
-          console.log("total validators => ", res);
+          // console.log("total validators => ", res);
           if (res.status == 200) {
             setTotalValCount(res.data.validatorsList.length);
             let activeList: any;
@@ -79,7 +79,7 @@ const Valitotors: React.FC<any> = ({
       setLoadingVal(false);
     }
   };
-  console.log("validators ", validators);
+  // console.log("validators ", validators);
   useEffect(() => {
     if (searchKey == "") fetchValList();
   }, [searchKey]);
@@ -102,7 +102,7 @@ const Valitotors: React.FC<any> = ({
     let filtered = [];
     if (isActiveTab) {
       if (userType == "Validator") {
-        console.log("all vals ", allValidators);
+        // console.log("all vals ", allValidators);
         filtered = allValidators.filter(
           (e) => e?.uptimePercent >= inActiveCount
         );
@@ -136,7 +136,7 @@ const Valitotors: React.FC<any> = ({
         sortedList.sort(
           (a: any, b: any) => Number(b[column]) - Number(a[column])
         );
-        console.log("sorted list", sortedList);
+        // console.log("sorted list", sortedList);
       } else {
         if (userType == "Delegator") {
           sortedList = orderBy(validators, column, "asc").sort(
@@ -146,7 +146,7 @@ const Valitotors: React.FC<any> = ({
             }
           );
         } else {
-          console.log(userType, " ====> usertype");
+          // console.log(userType, " ====> usertype");
           sortedList = orderBy(validators, column, "asc");
         }
       }

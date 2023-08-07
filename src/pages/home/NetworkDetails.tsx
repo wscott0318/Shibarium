@@ -21,7 +21,7 @@ function NetworkDetails({ valCount }: any) {
   const { account, chainId = 1 } = useWeb3React();
   const web3test = PUPPYNET517();
   const web3test2 = L1Block();
-  console.log("validator count ", valCount);
+  // console.log("validator count ", valCount);
 
   useEffect(() => {
     try {
@@ -31,12 +31,12 @@ function NetworkDetails({ valCount }: any) {
             ? res.data.data.networkDetail
             : {}
         );
-        console.log("network details  => ", res);
+        // console.log("network details  => ", res);
       });
       getBoneUSDValue().then((res: any) => {
         setBoneUSDValue(res);
       });
-      console.log(boneUSDValue, "boneUSDValue");
+      // console.log(boneUSDValue, "boneUSDValue");
 
       web3test?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock);
@@ -48,8 +48,10 @@ function NetworkDetails({ valCount }: any) {
   }, [account]);
 
   const cardShimmerEffects = () => {
+    let number = Math.random();
     return (
       <ShimmerTitle
+        key={number}
         line={3}
         gap={10}
         className="cus-shimer"
@@ -57,7 +59,7 @@ function NetworkDetails({ valCount }: any) {
       />
     );
   };
-  console.log("chain id ", chainId);
+  // console.log("chain id ", chainId);
 
   // GET VALIDATOR ID
   const getTotalStakes = async () => {

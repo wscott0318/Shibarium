@@ -21,6 +21,7 @@ import {
   updateEpochDyna,
   updateMigrateData,
   updateTotalValCount,
+  updateValidatorThreshold,
 } from "./actions";
 import { updatePendingTransactionCount } from "../user/actions";
 
@@ -64,6 +65,7 @@ export interface UserState {
   stake: number;
   totalValCount: number;
   pendingTransactionCount: number;
+  validatorThreshold: number;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -88,6 +90,7 @@ export const initialState: UserState = {
   stake: 0,
   totalValCount: 0,
   pendingTransactionCount: 0,
+  validatorThreshold: 0,
 };
 
 export default createReducer(initialState, (builder) =>
@@ -178,6 +181,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateTotalValCount, (state, action) => {
       state.totalValCount = action.payload.totalValCount;
+    })
+    .addCase(updateValidatorThreshold, (state, action) => {
+      state.validatorThreshold = action.payload.validatorThreshold;
     })
     .addCase(updatePendingTransactionCount, (state, action) => {
       state.pendingTransactionCount = action.payload.pendingTransactionCount;

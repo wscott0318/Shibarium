@@ -22,7 +22,7 @@ export const getAllowanceAmount = async (library, token, account, contract) => {
       .allowance(account, contract)
       .call({ from: account });
     let decimal = await instance.methods.decimals().call();
-    console.log("allowance ==> ", allowance);
+    // console.log("allowance ==> ", allowance);
     return parseInt(allowance) / 10 ** decimal;
   }
 };
@@ -101,7 +101,7 @@ export const comissionVal = 10;
 export const ErrorMessage = "execution reverted: not pub";
 
 export const stakeForErrMsg = (msg) => {
-  console.log("err => ", msg);
+  // console.log("err => ", msg);
   if (msg === "Error: execution reverted: not pub\n") {
     return "Public key is invalid! ";
   } else if (msg === "Error: execution reverted: Invalid signer\n") {
@@ -121,13 +121,13 @@ export const generateSecondary = (link) =>
 
 export const fetchLink = async (link, setter, errorSetter) => {
   const second = generateSecondary(link);
-  console.log(link);
+  // console.log(link);
   try {
     const response = await fetch(link.includes("http") ? link : second);
     const data = await response.json();
     if (Array.isArray(data.tokens)) errorSetter(false);
     setter({ data, url: link });
-    console.log("fetch link data ", data);
+    // console.log("fetch link data ", data);
   } catch (err) {
     errorSetter(true);
     setter(null);
@@ -141,7 +141,7 @@ export const useStorage = (defaultChain = "") => {
   useEffect(() => {
     if (chain) {
       const coinListRaw = localStorage.getItem("coinList");
-      console.log("coin list ", coinListRaw);
+      // console.log("coin list ", coinListRaw);
       let parsed;
       try {
         parsed = JSON.parse(coinListRaw);
@@ -202,7 +202,7 @@ export const getDefaultChain = async () => {
 export const clearCacheData = () => {
   self.addEventListener("activate", (event) => {
     const cachesToKeep = ["v2"];
-    console.log("in clearing cache");
+    // console.log("in clearing cache");
     event.waitUntil(
       caches.keys().then((keyList) =>
         Promise.all(
@@ -251,25 +251,10 @@ export const getBoneUSDValue = async () => {
     )
     .then((res) => {
       usd = res.data["bone-shibaswap"].usd;
-      console.log("usd => ", usd);
+      // console.log("usd => ", usd);
     })
     .catch((err) => {
       usd = 0;
     });
   return usd;
-};
-
-export const getABI = async (key) => {
-  let abi;
-  await axios
-    .get(`${process.env.NEXT_PUBLIC_ABI_API_URL}/sepolia/v2/${key}`)
-    .then((res) => {
-      console.log("abi  ", res.data.abi);
-      abi = res.data.abi;
-    })
-    .catch((error) => {
-      console.log("error abi ", error);
-      abi = null;
-    });
-  return abi;
 };

@@ -34,7 +34,7 @@ export default function ListView({
   const router = useRouter();
 
   const tootlTipDesc = (x: any) => {
-    console.log("account ", account);
+    // console.log("account ", account);
     if (account) {
       if (x.fundamental === 1) {
         return (

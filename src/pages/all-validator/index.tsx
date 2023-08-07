@@ -1,7 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react";
 import Valitotors from "./valitotors";
-import { useUserType, useValCount, useValId } from "app/state/user/hooks";
+import {
+  useUserType,
+  useValCount,
+  useValId,
+  useValThreshold,
+} from "app/state/user/hooks";
 import { useRouter } from "next/router";
 import { useActiveWeb3React } from "../../services/web3";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
@@ -17,10 +22,10 @@ export const Allvalidator: React.FC = () => {
   const router = useRouter();
   const executeScroll = () => myRef.current.scrollIntoView();
   const [nodeSetup, setNodeSetup] = useState<any>("");
-  const [valMaxCount, setValMaxCount] = useState(0);
+  const [validatorThreshold, setValidatorThreshold] = useValThreshold();
   const [valInfoLoader, setValInfoLoader] = useState(true);
   const [valId, setValId] = useValId(); // NOSONAR
-   const [totalValCount, setTotalValCount] = useValCount();
+  const [totalValCount, setTotalValCount] = useValCount();
 
   const getValInfo = () => {
     try {
@@ -48,31 +53,10 @@ export const Allvalidator: React.FC = () => {
     }
   };
 
-  const web3test = L1Block();
-
-  const getValCount = async () => {
-    try {
-      const id = await ChainId();
-      let instance = new web3test.eth.Contract(
-        stakeManagerProxyABI,
-        dynamicChaining[id]?.STAKE_MANAGER_PROXY
-      );
-      const validatorThreshold = await instance.methods
-        .validatorThreshold()
-        .call();
-      setValMaxCount(validatorThreshold);
-    } catch (err: any) {
-      Sentry.captureMessage("getValCount", err);
-    }
-  };
-
   useEffect(() => {
     if (account) {
       getValInfo();
     }
-    getValCount()
-      .then(() => {})
-      .catch(() => {});
   }, [account]);
 
   const renderButtons = () => {
@@ -87,7 +71,9 @@ export const Allvalidator: React.FC = () => {
             <div className="btns-sec btn-width">
               <div className="btns-wrap">
                 <button
-                  disabled={+totalValCount <= +valMaxCount ? false : true}
+                  disabled={
+                    +totalValCount <= +validatorThreshold ? false : true
+                  }
                   onClick={() => {
                     router
                       .push("/become-validator")
@@ -95,7 +81,7 @@ export const Allvalidator: React.FC = () => {
                       .catch(() => {});
                   }}
                   className={`${
-                    +totalValCount >= +valMaxCount ? "d-none" : ""
+                    +totalValCount >= +validatorThreshold ? "d-none" : ""
                   } btn primary-btn`}
                 >
                   Become a Validator
@@ -130,7 +116,7 @@ export const Allvalidator: React.FC = () => {
           <div className="btns-sec btn-width">
             <div className="btns-wrap">
               <button
-                disabled={+totalValCount <= +valMaxCount ? false : true}
+                disabled={+totalValCount <= +validatorThreshold ? false : true}
                 onClick={() => {
                   router
                     .push("/become-validator")
@@ -138,7 +124,7 @@ export const Allvalidator: React.FC = () => {
                     .catch(() => {});
                 }}
                 className={`${
-                  +totalValCount >= +valMaxCount ? "d-none" : ""
+                  +totalValCount >= +validatorThreshold ? "d-none" : ""
                 } btn primary-btn`}
               >
                 Become a Validator

@@ -15,7 +15,6 @@ import fromExponential from "from-exponential";
 import {
   addDecimalValue,
   currentGasPrice,
-  getABI,
   getAllowanceAmount,
   sentryErrors,
   stakeForErrMsg,
