@@ -48,10 +48,8 @@ function NetworkDetails({ valCount }: any) {
   }, [account]);
 
   const cardShimmerEffects = () => {
-    let number = Math.random();
     return (
       <ShimmerTitle
-        key={number}
         line={3}
         gap={10}
         className="cus-shimer"
@@ -252,7 +250,7 @@ function NetworkDetails({ valCount }: any) {
                 {[...Array(7)].map((x: any, index: any) => (
                   <div
                     className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col"
-                    key={x?.val}
+                    key={index}
                   >
                     <div className="bs-card card">{cardShimmerEffects()}</div>
                   </div>

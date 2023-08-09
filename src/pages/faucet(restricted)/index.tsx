@@ -59,6 +59,10 @@ export default function Faucet() {
       2: "0x7e001F857cC89F44eb3D53b2cbFa436fABB70E39",
     },
   ];
+  useEffect(() => {
+    router.push("/");
+  });
+
   const handleTokenChange = (event: any) => {
     let faucetToken = tokenList.filter(
       (token: any) => token.name === event.target.value

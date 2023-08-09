@@ -212,7 +212,7 @@ const DelegatePopup: React.FC<any> = ({
       .number()
       .typeError("Only digits are allowed.")
       .max(walletBalance, "Insufficient Balance.")
-      .min(1, "Invalid amount.")
+      .min(1, "Minimum delegation amount is 1 Bone.")
       .required("Balance is required."),
   });
 
@@ -381,7 +381,7 @@ const DelegatePopup: React.FC<any> = ({
     if (isMax) {
       return parseInt("" + input * 100) / 100;
     } else if (input === 0) {
-      return null;
+      return undefined;
     } else {
       return input;
     }

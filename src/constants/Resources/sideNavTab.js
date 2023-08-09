@@ -47,14 +47,14 @@ const SideNavTab=[
         activeShapeImg:"../../assets/images/radius.png",
         link:"/gas-token"
       },
-      {
-        id:6,
-      isActive:false,
-        title:"Faucet",
-        icon:"../../assets/images/icons/faucet.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"/faucet"
-      },
+      // {
+      //   id:6,
+      // isActive:false,
+      //   title:"Faucet",
+      //   icon:"../../assets/images/icons/faucet.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"/faucet"
+      // },
       // {
       //   id:7,
       // isActive:false,

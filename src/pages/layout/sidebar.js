@@ -88,12 +88,12 @@ export default function Sidebar({
     //   isSelected: false,
     //   img: "../../assets/images/sidebar/tools.png",
     // },
-    {
-      name: "Faucet",
-      route: "/faucet",
-      isSelected: router.asPath == "/faucet" ? true : false,
-      img: "../../assets/images/sidebar/tools.png",
-    },
+    // {
+    //   name: "Faucet",
+    //   route: "/faucet",
+    //   isSelected: router.asPath == "/faucet" ? true : false,
+    //   img: "../../assets/images/sidebar/tools.png",
+    // },
     {
       name: "Support",
       route: "",

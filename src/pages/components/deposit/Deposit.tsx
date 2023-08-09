@@ -43,6 +43,7 @@ const Deposit: React.FC<any> = ({
   selectedToken,
   hashLink,
   setHashLink,
+  reset,
 }) => {
   const [amountApproval, setAmountApproval] = useState(false);
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -559,7 +560,9 @@ const Deposit: React.FC<any> = ({
     <CommonModal
       title={depModalState.title}
       show={showDepositModal}
-      setshow={setDepositModal}
+      setshow={() => {
+        setDepositModal(), reset.method();
+      }}
       externalCls="dark-modal-100 bridge-ht"
     >
       {/* Deposit popups start */}
@@ -586,9 +589,8 @@ const Deposit: React.FC<any> = ({
                         Delegation to Validators
                       </h6>
                       <p className="text-sm">
-                        You cannot delegate or stake on the Puppy Net Network.
-                        You may do that on the Sepolia Network. You can stake
-                        funds here.
+                        You cannot delegate or stake on the Shibarium Network.
+                        You may do that on the Ethereum Mainnet.
                       </p>
                     </div>
                   </div>
@@ -607,12 +609,11 @@ const Deposit: React.FC<any> = ({
                     </div>
                     <div className="col-11">
                       <h6 className="text-sm ff-mos pb-1">
-                        Moving funds from Sepolia to Puppy Net
+                        Moving funds from Ethereum to Shibarium
                       </h6>
                       <p className="text-sm">
-                        Here you can move funds from the Sepolia network to
-                        Puppy Net network on the Shibarium Chain. This will take
-                        20-30 minutes.
+                        Here you can move funds from the Ethereum Mainnet to
+                        Shibarium Mainnet. This will take 20-30 minutes.
                       </p>
                     </div>
                   </div>
@@ -992,8 +993,8 @@ const Deposit: React.FC<any> = ({
                     Moving funds
                   </h4>
                   <p>
-                    It will take up to 20 - 30 minutes to move the funds on{" "}
-                    {NETWORK_LABEL[GOERLI_CHAIN_ID]} Puppy Net.
+                    It will take up to 20 - 30 minutes to move the funds from{" "}
+                    {NETWORK_LABEL[GOERLI_CHAIN_ID]} to Shibarium Mainnet.
                   </p>
                 </div>
                 <div>

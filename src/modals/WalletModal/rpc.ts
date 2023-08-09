@@ -37,9 +37,9 @@ const RPC = {
   [ChainId.CELO]: "https://forno.celo.org",
   [ChainId.MOONRIVER]: "https://rpc.moonriver.moonbeam.network",
   [ChainId.TELOS]: "https://mainnet.telos.net/evm",
-  [ChainId.SHIBARIUM]: "https://3.145.115.238:8545",
-  [ChainId.PUPPYNET917]: process.env.RPC_517 as any,
-  [PUPPYNET_CHAIN_ID]: process.env.RPC_517 as any,
+  [ChainId.SHIBARIUM]: process.env.RPC_517 as string,
+  [ChainId.PUPPYNET917]: process.env.RPC_517 as string,
+  [ChainId.PUPPYNET]: process.env.RPC_517 as string,
   [ChainId.SEPOLIA]: "https://sepolia.infura.io/v3/",
 };
 

@@ -17,6 +17,6 @@ export const S3PATH = `${process.env.NEXT_PUBLIC_ABI_API_URL}/beta/v2/`;
  */
 
 export const SHIBARIUM_CHAIN_ID = ChainId.SHIBARIUM;
-export const GOERLI_CHAIN_ID = ChainId.SEPOLIA;
-export const PUPPYNET_CHAIN_ID = ChainId.PUPPYNET;
+export const GOERLI_CHAIN_ID = ChainId.ETHEREUM;
+export const PUPPYNET_CHAIN_ID = ChainId.SHIBARIUM;
 export const ETHEREUM_CHAIN_ID = ChainId.ETHEREUM;

@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react'
-import { Modal } from 'react-bootstrap'
+import React, { useCallback } from "react";
+import { Modal } from "react-bootstrap";
 import * as Sentry from "@sentry/nextjs";
 
-interface Props{
-    show:boolean;
-    setshow: React.Dispatch<React.SetStateAction<boolean>>
-    title:string;
-    externalCls:string;
-    children:React.ReactNode;
+interface Props {
+  show: boolean;
+  setshow: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
+  externalCls: string;
+  children: React.ReactNode;
 }
 interface PropsNew {
   show: boolean;
@@ -17,98 +17,101 @@ interface PropsNew {
   children: React.ReactNode;
   showClose: boolean;
   setSendModal: any;
-  setSenderModal:any;
+  setSenderModal: any;
 }
 
-
-
-
-const CommonModal:React.FC<Props> = ({show,setshow, title,externalCls,children})=> {
-  const abc = {show,setshow, title,externalCls,children};
-  const onClosingBtn = useCallback(() =>{
-    setshow(false)
-  },[])
-  
+const CommonModal: React.FC<Props> = ({
+  show,
+  setshow,
+  title,
+  externalCls,
+  children,
+}) => {
+  const abc = { show, setshow, title, externalCls, children };
+  const onClosingBtn = useCallback(() => {
+    setshow(false);
+  }, []);
 
   return (
     <Modal
-    {...abc}
-    
-    centered
-    show={show}
-    onHide={onClosingBtn}
-    backdrop="static"
-    keyboard={false}
-    className={`shib-popup ${externalCls}`}
-    // scrollable={true}
-  >
-    <Modal.Header closeButton className="text-center modal-header">
-    {/* <div className="back-blk">
+      centered
+      show={show}
+      onHide={onClosingBtn}
+      backdrop="static"
+      keyboard={false}
+      className={`shib-popup ${externalCls}`}
+      // scrollable={true}
+    >
+      <Modal.Header closeButton className="text-center modal-header">
+        {/* <div className="back-blk">
         <a href="#!;" title="">
         <img className="img-fluid" src="../../assets/images/left-icon.png"width="45" height="78" alt=""></img>
         </a>
     </div> */}
-      <Modal.Title
-        id="contained-modal-title-vcenter"
-        className="d-inline-block fw-800 trs-3"
-      >
-        <span style={{ color: "white" }}>{title}</span>
-      </Modal.Title>
-    </Modal.Header>
+        <Modal.Title
+          id="contained-modal-title-vcenter"
+          className="d-inline-block fw-800 trs-3"
+        >
+          <span style={{ color: "white" }}>{title}</span>
+        </Modal.Title>
+      </Modal.Header>
 
-    <Modal.Body className='low-sidespace body-font-sm'>
-       {children}
-    </Modal.Body>
-    {/* <Modal.Footer className='text-center d-block'>
+      <Modal.Body className="low-sidespace body-font-sm">{children}</Modal.Body>
+      {/* <Modal.Footer className='text-center d-block'>
         <button >
           <CopyHelper toCopy={address}> Copy address </CopyHelper>
         </button>
     </Modal.Footer> */}
-  </Modal>
-  )
-}
+    </Modal>
+  );
+};
 
-export const ValInfoModals:React.FC<Props> = ({show,setshow, title,externalCls,children})=> {
-  const abc = {show,setshow, title,externalCls,children};
+export const ValInfoModals: React.FC<Props> = ({
+  show,
+  setshow,
+  title,
+  externalCls,
+  children,
+}) => {
+  const abc = { show, setshow, title, externalCls, children };
 
-  const handleShow = useCallback(()=>{setshow(false)},[])
+  const handleShow = useCallback(() => {
+    setshow(false);
+  }, []);
   return (
     <Modal
-    {...abc}
-    
-    centered
-    show={show}
-    onHide={handleShow}
-    backdrop="static"
-    keyboard={false}
-    className={`shib-popup ${externalCls}`}
-    // scrollable={true}
-  >
-    <Modal.Header closeButton className="text-center modal-header">
-    {/* <div className="back-blk">
+      {...abc}
+      centered
+      show={show}
+      onHide={handleShow}
+      backdrop="static"
+      keyboard={false}
+      className={`shib-popup ${externalCls}`}
+      // scrollable={true}
+    >
+      <Modal.Header closeButton className="text-center modal-header">
+        {/* <div className="back-blk">
         <a href="#!;" title="">
         <img className="img-fluid" src="../../assets/images/left-icon.png"width="45" height="78" alt=""></img>
         </a>
     </div> */}
-      <Modal.Title
-        id="contained-modal-title-vcenter"
-        className="d-inline-block fw-800 trs-3"
-      >
-        <span style={{ color: "white" }}>{title}</span>
-      </Modal.Title>
-    </Modal.Header>
+        <Modal.Title
+          id="contained-modal-title-vcenter"
+          className="d-inline-block fw-800 trs-3"
+        >
+          <span style={{ color: "white" }}>{title}</span>
+        </Modal.Title>
+      </Modal.Header>
 
-    <Modal.Body className='low-sidespace body-font-sm'>
-       {children}
-    </Modal.Body>
-    {/* <Modal.Footer className='text-center d-block'>
+      <Modal.Body className="low-sidespace body-font-sm">{children}</Modal.Body>
+      {/* <Modal.Footer className='text-center d-block'>
         <button >
           <CopyHelper toCopy={address}> Copy address </CopyHelper>
         </button>
     </Modal.Footer> */}
-  </Modal>
-  )
-}
+    </Modal>
+  );
+};
 
 export const CommonModalNew: React.FC<PropsNew> = ({
   show,
@@ -131,7 +134,7 @@ export const CommonModalNew: React.FC<PropsNew> = ({
     setSenderModal,
   };
   const backHandler = () => {
-    try{
+    try {
       if (title === "Select Token") {
         setSendModal({
           step0: false,
@@ -141,19 +144,20 @@ export const CommonModalNew: React.FC<PropsNew> = ({
           showTokens: false,
         });
       }
-    }
-    catch(err:any){
+    } catch (err: any) {
       Sentry.captureMessage("backHandler ", err);
     }
   };
 
-  const handleShow = useCallback(()=>{setshow()},[])
+  const handleShow = useCallback(() => {
+    setshow();
+  }, []);
   return (
     <Modal
       {...abc}
       centered
       show={show}
-      onHide={handleShow }
+      onHide={handleShow}
       backdrop="static"
       keyboard={false}
       className={`shib-popup ${externalCls}`}

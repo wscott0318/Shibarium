@@ -49,6 +49,9 @@ export default function Withdraw() {
     l1Balance: 0,
     l2Balance: 0,
   });
+  const [reset, setReset] = useState({
+    method: undefined,
+  });
 
   const handleMenuState = () => {
     setMenuState(!menuState);
@@ -73,7 +76,7 @@ export default function Withdraw() {
     toChain: Yup.number(),
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
-      .min(0.001, "Invalid Amount.")
+      .min(0.0001, "Invalid Amount.")
       .max(balances.l2Balance, "Insufficient Balance")
       .required("Amount is required."),
   });
@@ -82,6 +85,7 @@ export default function Withdraw() {
       if (chainId == GOERLI_CHAIN_ID) {
         setDepositTokenInput(values.amount);
         setDepositModal(true);
+        setReset({ ...reset, method: resetForm });
       } else {
         switchNetwork();
       }
@@ -118,6 +122,7 @@ export default function Withdraw() {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       setShowWithdrawModal(true);
+      setReset({ ...reset, method: resetForm });
     } catch (err: any) {
       Sentry.captureMessage("callWithdrawModal", err);
     }
@@ -167,7 +172,6 @@ export default function Withdraw() {
               });
           });
       }
-      console.log("balance ", bal, address, selectedToken);
       setTokenBalanceL2(bal);
     }
   };
@@ -220,6 +224,7 @@ export default function Withdraw() {
               selectedToken,
               hashLink,
               setHashLink,
+              reset,
             }}
           />
         ) : null}
@@ -236,6 +241,7 @@ export default function Withdraw() {
             selectedToken={selectedToken}
             withdrawTokenInput={withdrawTokenInput}
             boneUSDValue={boneUSDValue}
+            reset={reset}
           />
         ) : null}
         {/* Withdraw tab popups end */}
@@ -388,6 +394,7 @@ export default function Withdraw() {
                           values,
                           handleSubmit,
                           setFieldValue,
+                          resetForm,
                         }) => (
                           <div className="h-100">
                             <div className="sec-wrapper">
@@ -400,32 +407,10 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div className="network_Icon_Wrapper">
-                                          {/* {selectedToken?.logo ||
-                                          selectedToken?.logoURI ? (
-                                            <img
-                                              width="22"
-                                              height="22"
-                                              className="img-fluid"
-                                              src={
-                                                selectedToken?.logo
-                                                  ? selectedToken?.logo
-                                                  : selectedToken?.logoURI
-                                              }
-                                              alt=""
-                                              onError={imageOnErrorHandler}
-                                            />
-                                          ) : ( */}
                                           <img
                                             className="img-fluid w-100"
                                             src="../../assets/images/eth_logo.png"
-                                            // src={
-                                            //   NETWORK_ICON[
-                                            //     chainId == GOERLI_CHAIN_ID
-                                            //       ? PUPPYNET_CHAIN_ID
-                                            //       : GOERLI_CHAIN_ID
-                                            //   ]
-                                            // }
-                                            alt=""
+                                            alt="eth logo"
                                             onError={imageOnErrorHandler}
                                           />
                                         </div>
@@ -436,7 +421,6 @@ export default function Withdraw() {
                                           type="text"
                                           value={NETWORK_LABEL[GOERLI_CHAIN_ID]}
                                           disabled={true}
-                                          // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain d-flex align-items-center">
@@ -458,20 +442,12 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field 
-                                       
-                                            `}
+                                        className={`form-field position-relative fix-coin-field`}
                                         onClick={() => {
-                                          // if (chainId !== PUPPYNET_CHAIN_ID) {
                                           setOpenManageToken(!openManageToken);
                                           setTokenBalanceL2(0);
                                           setSelectedToken({});
-                                          // setBalances({
-                                          //   ...balances,
-                                          //   l1Balance: 0,
-                                          //   l2Balance: 0,
-                                          // });
-                                          // }
+                                          resetForm();
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -559,8 +535,8 @@ export default function Withdraw() {
                                       {selectedToken?.key && values.amount ? (
                                         <span className="grey-txts">
                                           You will receive {values.amount}{" "}
-                                          {selectedToken.key} on the Puppy Net
-                                          Chain.
+                                          {selectedToken.key} on Shibarium
+                                          Mainnet.
                                         </span>
                                       ) : (
                                         ""
@@ -660,6 +636,7 @@ export default function Withdraw() {
                         values,
                         handleSubmit,
                         setFieldValue,
+                        resetForm,
                       }) => (
                         <div className="tab-content-sec h-100">
                           <form className="h-100" onSubmit={handleSubmit}>
@@ -721,13 +698,7 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
-                                          // setLoader(true);
-                                          // setBalances({
-                                          //   ...balances,
-                                          //   l1Balance: 0,
-                                          //   l2Balance: 0,
-                                          // });
-                                          setTokenBalanceL2(0);
+                                          resetForm(), setTokenBalanceL2(0);
                                           setSelectedToken({});
                                         }}
                                       >
@@ -820,8 +791,8 @@ export default function Withdraw() {
                                         <span className="grey-txts">
                                           You will receive{" "}
                                           {values.withdrawAmount}{" "}
-                                          {selectedToken.key} on the Sepolia
-                                          Chain.
+                                          {selectedToken.key} on the Ethereum
+                                          Mainnet.
                                         </span>
                                       ) : (
                                         ""

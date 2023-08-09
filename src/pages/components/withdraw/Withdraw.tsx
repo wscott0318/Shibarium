@@ -35,16 +35,7 @@ import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 import useTransactionCount from "app/hooks/useTransactionCount";
 
-const WithdrawModal: React.FC<{
-  // transaction:object,
-  page: string;
-  dWState: boolean;
-  setWithdrawModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedToken: any;
-  withdrawTokenInput: any;
-  boneUSDValue: any;
-  show: any;
-}> = ({
+const WithdrawModal: React.FC<any> = ({
   page,
   dWState,
   setWithdrawModalOpen,
@@ -52,6 +43,7 @@ const WithdrawModal: React.FC<{
   withdrawTokenInput,
   boneUSDValue,
   show,
+  reset,
 }) => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
@@ -501,13 +493,14 @@ const WithdrawModal: React.FC<{
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error";
   };
-  console.log("selected token ", selectedToken);
+
   return (
     <CommonModal
       title={withModalState.title}
       show={show}
       setshow={() => {
         setWithdrawModalOpen(false);
+        reset.method();
       }}
       externalCls="dark-modal-100 bridge-ht2"
     >
@@ -559,11 +552,11 @@ const WithdrawModal: React.FC<{
                         </div>
                         <div className="col-11">
                           <h6 className="text-sm ff-mos pb-1">
-                            Moving funds from Puppy Net to Sepolia
+                            Moving funds from Shibarium to Ethereum
                           </h6>
                           <p className="text-sm">
-                            Here you can move funds from the Puppy Net to the
-                            Sepolia chain. This will take 60 minutes - 3 hours.
+                            Here you can move funds from the Shibarium to
+                            Ethereum Mainnet. This will take 60 minutes - 3 hours.
                           </p>
                         </div>
                       </div>

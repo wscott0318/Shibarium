@@ -15,10 +15,12 @@ const AppHeader = () => {
       if (asPath === "/") {
         setTitle("Staking");
         setUrl("/");
-      } else if (asPath === "/faucet") {
-        setTitle("Faucet");
-        setUrl("/faucet");
-      } else if (asPath === "/bridge") {
+      }
+      // else if (asPath === "/faucet") {
+      //   setTitle("Faucet");
+      //   setUrl("/faucet");
+      // }
+      else if (asPath === "/bridge") {
         setTitle("Bridge");
         setUrl("/bridge");
       } else if (asPath === "/transactions") {
@@ -66,7 +68,7 @@ const AppHeader = () => {
             </Link>
             {account && (
               <>
-                <Link href="/faucet" passHref>
+                {/* <Link href="/faucet" passHref>
                   <NavDropdown.Item>
                     <h6
                       className={
@@ -79,7 +81,7 @@ const AppHeader = () => {
                     </h6>
                     <span className="light-text">Earn Puppy Net Faucets</span>
                   </NavDropdown.Item>
-                </Link>
+                </Link> */}
                 <Link href="/bridge" passHref>
                   <NavDropdown.Item>
                     <h6

@@ -92,12 +92,8 @@ export default function Wallet() {
 
   const getNetworkName = () => {
     try {
-      if (chainId == 1) {
+      if (chainId == GOERLI_CHAIN_ID) {
         return "Ethereum Mainnet";
-      } else if (chainId == GOERLI_CHAIN_ID) {
-        return "Sepolia Testnet";
-      } else if (chainId == PUPPYNET_CHAIN_ID) {
-        return "Puppy Net";
       } else {
         return "Shibarium Mainnet";
       }

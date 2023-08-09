@@ -105,7 +105,7 @@ export default function ManageToken({
   const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({
     enabled: true,
     locked: true,
-    data: "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link",
+    data: "",
   }); //NOSONAR
   // console.log("final list => ", coinList);
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function ManageToken({
       .then((chain) => {
         //@ts-ignore
         // setAddUrl(`https://${map[chain]}scan.com/address/`);
-        setAddUrl("https://puppyscan.shib.io/address/");
+        setAddUrl(`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL}/address/`);
       })
       .catch(() => {});
   }, []);
@@ -169,7 +169,7 @@ export default function ManageToken({
           if (x?.parentName == "Ether" && chainId == GOERLI_CHAIN_ID) {
             let bal = await web3.eth.getBalance(account);
             x.balance = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
-            // console.log("ether balance  => ", x.balance);
+            // console.log("ether balance  => ", bal / Math.pow(10, 18));
           } else {
             await getTokenBalance(lib, account, tokenAddress)
               .then((res: any) => {

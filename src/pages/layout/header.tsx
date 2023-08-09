@@ -19,6 +19,8 @@ import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
 import { supportedChains } from "../../web3/commonFunctions";
 import useLocalStorageState from "use-local-storage-state";
+import { chains } from "app/functions";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 export default function Header() {
   const { account, deactivate } = useWeb3React();
   const { chainId = 1 } = useActiveWeb3React();
@@ -113,7 +115,7 @@ export default function Header() {
   return (
     <>
       <ChainWarning
-        title={"Switch to Sepolia Testnet"}
+        title={"Switch to Ethereum Mainnet"}
         show={showWarning}
         setshow={() => {
           setShowWarning(true);
@@ -302,7 +304,7 @@ export default function Header() {
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item
-                            href={`https://sepolia.etherscan.io/address/${account}`}
+                            href={`${chains[GOERLI_CHAIN_ID].link}/address/${account}`}
                             target="blank"
                           >
                             <div className="custum-row">
@@ -314,7 +316,7 @@ export default function Header() {
                               </div>
                               <div className="center-txt">
                                 <span className="text-wrap">
-                                  View on Sepolia Etherscan
+                                  View on Etherscan
                                 </span>
                               </div>
                               <div className="rt-image">
@@ -326,7 +328,7 @@ export default function Header() {
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item
-                            href={`https://puppyscan.shib.io/address/${account}`}
+                            href={`${chains[PUPPYNET_CHAIN_ID].link}/address/${account}`}
                           >
                             <div className="custum-row">
                               <div className="lft-img">

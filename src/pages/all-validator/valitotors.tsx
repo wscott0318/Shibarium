@@ -6,7 +6,7 @@ import ListView from "./listView";
 import ValidatorGrid from "./gridView";
 import LoadingSpinner from "pages/components/Loading";
 import * as Sentry from "@sentry/nextjs";
-import { inActiveCount } from "web3/commonFunctions";
+import { fundamental, inActiveCount } from "web3/commonFunctions";
 import { useRouter } from "next/router";
 import { SearchIcon, XCircleIcon } from "@heroicons/react/outline";
 import { useUserType, useValCount } from "app/state/user/hooks";
@@ -41,7 +41,7 @@ const Valitotors: React.FC<any> = ({
         .then((res: any) => {
           setLoading(false);
           setLoadingVal(false);
-          // console.log("total validators => ", res);
+          console.log("total validators => ", res);
           if (res.status == 200) {
             setTotalValCount(res.data.validatorsList.length);
             let activeList: any;
@@ -59,9 +59,9 @@ const Valitotors: React.FC<any> = ({
                 );
               }
             } else {
-              setAllValidators(res.data.data.validatorsList);
+              setAllValidators(res.data.validatorsList);
               activeList = filter(
-                res.data.data.validatorsList,
+                res.data.validatorsList,
                 (e) => e.uptimePercent !== 0
               );
             }
@@ -110,7 +110,8 @@ const Valitotors: React.FC<any> = ({
         filtered = allValidators
           .filter((e) => e?.uptimePercent >= inActiveCount)
           .sort((a: any, b: any) => {
-            if ((a.fundamental != 1) > (b.fundamental != 1)) return -1;
+            if ((a.fundamental != fundamental) > (b.fundamental != fundamental))
+              return -1;
             return 0;
           });
       }
@@ -141,7 +142,11 @@ const Valitotors: React.FC<any> = ({
         if (userType == "Delegator") {
           sortedList = orderBy(validators, column, "asc").sort(
             (a: any, b: any) => {
-              if ((a.fundamental != 1) > (b.fundamental != 1)) return -1;
+              if (
+                (a.fundamental != fundamental) >
+                (b.fundamental != fundamental)
+              )
+                return -1;
               return 0;
             }
           );

@@ -25,6 +25,8 @@ import {
   USER_REJECTED_TX,
   tokenDecimal,
   web3Decimals,
+  publicVal,
+  fundamental,
 } from "web3/commonFunctions";
 import { useABI } from "app/hooks/useABI";
 import { getExplorerLink } from "app/functions";
@@ -2334,7 +2336,7 @@ const ValidatorAccount = ({
                           disabled={
                             parseInt(validatorInfoContract?.deactivationEpoch) >
                               0 ||
-                            validatorInfo?.fundamental === 1 ||
+                            validatorInfo?.fundamental === fundamental ||
                             // @ts-ignore
                             (validatorInfo?.signer != validatorInfo?.staker &&
                               validatorInfo?.signer == account)
@@ -2361,10 +2363,11 @@ const ValidatorAccount = ({
                           disabled={
                             parseInt(validatorInfoContract?.deactivationEpoch) >
                               0 &&
-                            parseInt(validatorInfoContract?.status) === 2 && //@ts-ignore
+                            parseInt(validatorInfoContract?.status) ===
+                              publicVal && //@ts-ignore
                             validatorInfo?.signer != validatorInfo?.staker &&
                             validatorInfo?.signer != account &&
-                            validatorInfo?.fundamental === 2
+                            validatorInfo?.fundamental === publicVal
                               ? false
                               : true
                           }

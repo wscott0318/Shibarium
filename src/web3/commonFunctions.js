@@ -10,6 +10,7 @@ import {
   GOERLI_CHAIN_ID,
   PUPPYNET_CHAIN_ID,
 } from "app/config/constant";
+import { ChainId } from "shibarium-get-chains";
 
 export const validatorThresholdCount = 20;
 export const getAllowanceAmount = async (library, token, account, contract) => {
@@ -43,22 +44,18 @@ export const currentGasPrice = async (web3) => {
 export const getNetworkName = (ID) => {
   if (ID == ETHEREUM_CHAIN_ID) {
     return "Ethereum Mainnet";
-  } else if (ID == GOERLI_CHAIN_ID) {
-    return "Sepolia Testnet";
-  } else if (ID == PUPPYNET_CHAIN_ID) {
-    return "Puppy Net";
   } else {
     return "Shibarium Mainnet";
   }
 };
 
 export const USER_REJECTED_TX = 4001;
-export const tokenDecimal = 2;
+export const tokenDecimal = 4;
 
 export const toFixedNull = 2;
 export const toFixedPrecent = 2;
 
-export const supportedChains = [11155111];
+export const supportedChains = [ChainId.ETHEREUM];
 
 export const web3Decimals = 18;
 
@@ -74,6 +71,9 @@ export const addDecimalValue = (value) => {
 export const MAXAMOUNT = 100000;
 
 export const inActiveCount = 5;
+
+export const fundamental = 1;
+export const publicVal = 2;
 
 export const mobileWalletEndpoint = "beta.shibariumtech.com";
 

@@ -123,7 +123,7 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.PUPPYNET517]: "Puppy Net 517",
   [ChainId.PUPPYNET917]: "Puppy Net 917",
   [ChainId.PUPPYNET719]: "Puppy Net",
-  [PUPPYNET_CHAIN_ID]: "Puppy Net",
+  [ChainId.PUPPYNET]: "Puppy Net",
   [ChainId.SEPOLIA]: "Sepolia",
 };
 export const CHAINS = {

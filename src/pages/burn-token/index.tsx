@@ -112,7 +112,7 @@ export default function BurnCrypto() {
                       </button>
                       <div>
                         <div className="form-select hd-sel hd-sel-over nav-item dropdown">
-                          <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Sepolia Testnet</a>
+                          <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Shibarium Testnet</a>
                         </div>
                       </div>
                     </div>

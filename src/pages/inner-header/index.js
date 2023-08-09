@@ -14,6 +14,8 @@ import { useActiveWeb3React } from "app/services/web3";
 import { getUserType } from "app/services/apis/user/userApi";
 import { getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+import { chains } from "app/functions";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 
 const InnerHeader = () => {
   const router = useRouter();
@@ -165,7 +167,7 @@ const InnerHeader = () => {
                         </div>
                       </NavDropdown.Item>
                       <NavDropdown.Item
-                        href={`https://sepolia.etherscan.io//address/${account}`}
+                        href={`${chains[GOERLI_CHAIN_ID].link}/address/${account}`}
                         target="blank"
                       >
                         <div className="custum-row">
@@ -180,7 +182,9 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="/">
+                      <NavDropdown.Item
+                        href={`${chains[PUPPYNET_CHAIN_ID].link}/address/${account}`}
+                      >
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../assets/images/graph.png" alt="" />

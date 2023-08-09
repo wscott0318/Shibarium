@@ -608,8 +608,8 @@ const StepThree: React.FC<any> = ({
                       />
                       <h5 className="pt-3 pb-2">Challenge period completed</h5>
                       <p className="pb-2 ps-2 pe-2">
-                        Your token is ready to move from Puppy Net to Sepolia
-                        Network. Complete the last transaction and you're done.
+                        Your token is ready to move from Shibarium to Ethereum
+                        Mainnet. Complete the last transaction and you're done.
                       </p>
                       <a
                         href={
@@ -644,7 +644,7 @@ const StepThree: React.FC<any> = ({
                     <div className="text-center">
                       <h5 className="pt-4 pb-2">Transaction in process</h5>
                       <p className="pb-3 ps-2 pe-2">
-                        Sepolia transactions can take longer time to complete
+                        Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait or increase
                         the gas price of the transaction.
                       </p>
@@ -684,7 +684,7 @@ const StepThree: React.FC<any> = ({
                     <div className="text-center">
                       <h5 className="pt-4 pb-2">Transaction in process</h5>
                       <p className="pb-3 ps-2 pe-2">
-                        Sepolia transactions can take longer time to complete
+                        Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait or increase
                         the gas price of the transaction.
                       </p>

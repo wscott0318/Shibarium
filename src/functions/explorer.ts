@@ -114,7 +114,7 @@ interface ChainObject {
   };
 }
 
-const chains: ChainObject = {
+export const chains: ChainObject = {
   [ChainId.ETHEREUM]: {
     link: "https://etherscan.io",
     builder: explorers.etherscan,
@@ -240,7 +240,7 @@ const chains: ChainObject = {
     builder: explorers.telos,
   },
   [ChainId.SHIBARIUM]: {
-    link: "https://shibascan-517.hailshiba.com",
+    link: process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL as string,
     builder: explorers.etherscan,
   },
   [ChainId.SEPOLIA]: {

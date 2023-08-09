@@ -1,54 +1,86 @@
 /* eslint-disable @next/next/no-img-element */
-import { useUserType } from 'app/state/user/hooks';
-import Link from 'next/link';
-import React, { useState } from 'react'
-import NumberFormat from 'react-number-format';
-import DelegatePopup from '../../delegate-popup';
+import { useUserType } from "app/state/user/hooks";
+import Link from "next/link";
+import React, { useState } from "react";
+import NumberFormat from "react-number-format";
+import DelegatePopup from "../../delegate-popup";
 import { useWeb3React } from "@web3-react/core";
-import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
-import MigratePopup from 'pages/migrate-popup';
-import { useRouter } from 'next/router';
-import { CircularProgress } from '@material-ui/core';
+import {
+  addDecimalValue,
+  inActiveCount,
+  publicVal,
+  toFixedPrecent,
+} from "web3/commonFunctions";
+import MigratePopup from "pages/migrate-popup";
+import { useRouter } from "next/router";
+import { CircularProgress } from "@material-ui/core";
 
-export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {},nodeSetup }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any ,nodeSetup:number}) {
+export default function ValidatorGrid({
+  validatorsList,
+  loading,
+  searchKey,
+  migrateData = {},
+  nodeSetup,
+}: {
+  validatorsList: any;
+  loading: boolean;
+  searchKey: any;
+  migrateData: any;
+  nodeSetup: number;
+}) {
   const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
-  const [userType, setUserType] = useUserType()  //NOSONAR
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
 
   const tootlTipDesc = (x: any) => {
     if (account) {
-      if (x.fundamental === 1) {
-        return <div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
-      }
-      else if (x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
-        return <div className="tool-desc tool-desc-grid">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
-      }
-      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
-        return  null;
-      }
-      else if (router.asPath.split("/")[1] === "migrate-stake") {
-        return <div className="tool-desc tool-desc-grid">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
-      }
-      else if(x.uptimePercent <= inActiveCount){
-        return <div className="tool-desc tool-desc-grid">Delegation is disabled.</div>
-      }
-      else {
-        return <div className="tool-desc tool-desc-grid">Delegation is enabled.</div>
-      }
-    }
-    else{
-      if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+      if (
+        x.checkpointstatus === 0 &&
+        +x.missedLatestCheckpointcount >= 500 &&
+        x.fundamental === publicVal
+      ) {
+        return (
+          <div className="tool-desc tool-desc-grid">
+            Offline since {x.missedLatestCheckpointcount} checkpoints
+          </div>
+        );
+      } else if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
         return null;
+      } else if (router.asPath.split("/")[1] === "migrate-stake") {
+        return (
+          <div className="tool-desc tool-desc-grid">
+            {x.contractAddress == migrateData.contractAddress
+              ? "Stakes cannot be migrated to same Validator."
+              : "Migrate Your Stakes here."}
+          </div>
+        );
+      } else if (x.uptimePercent <= inActiveCount) {
+        return (
+          <div className="tool-desc tool-desc-grid">
+            Delegation is disabled.
+          </div>
+        );
+      } else {
+        return (
+          <div className="tool-desc tool-desc-grid">Delegation is enabled.</div>
+        );
       }
-      else{
-        return <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>
+    } else {
+      if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
+        return null;
+      } else {
+        return (
+          <div className="tool-desc tool-desc-grid">
+            Login to enable delegation.
+          </div>
+        );
       }
     }
-  }
-  
+  };
+
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -57,27 +89,41 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
   };
 
   const buttonText = (x: any) => {
-    if(router.asPath.split("/")[1] === "migrate-stake") {
-      return "Stake here"
+    if (router.asPath.split("/")[1] === "migrate-stake") {
+      return "Stake here";
     } else {
-      if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px'}} className="no_btn">Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
-      }
-      else if(x.lastcheckpointsigned === 0 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px', whiteSpace:"pre-wrap"}} className="no_btn">Not signing checkpoints.</p> 
-      }
-      else if(x.uptimePercent <= inActiveCount){
-        return "Delegation Disabled"
-      }
-      else {
-        return "Delegate"
+      if (
+        x.checkpointstatus === 0 &&
+        +x.missedLatestCheckpointcount >= 500 &&
+        x.fundamental === publicVal
+      ) {
+        return (
+          <p style={{ fontSize: "12px" }} className="no_btn">
+            Offline since
+            <br />
+            {x.missedLatestCheckpointcount} checkpoints
+          </p>
+        );
+      } else if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
+        return (
+          <p
+            style={{ fontSize: "12px", whiteSpace: "pre-wrap" }}
+            className="no_btn"
+          >
+            Not signing checkpoints.
+          </p>
+        );
+      } else if (x.uptimePercent <= inActiveCount) {
+        return "Delegation Disabled";
+      } else {
+        return "Delegate";
       }
     }
-  }
-    const getDelegatorCardData = (account: any) => {
-      return true;
-    };
-  
+  };
+  const getDelegatorCardData = (account: any) => {
+    return true;
+  };
+  console.log("validatorsList ", validatorsList);
   return (
     <>
       <DelegatePopup
@@ -182,12 +228,11 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                             <button
                               disabled={
                                 !account ||
-                                validator.fundamental === 1 ||
                                 validator.uptimePercent <= inActiveCount ||
                                 validator.contractAddress ==
                                   migrateData.contractAddress ||
                                 (validator.lastcheckpointsigned === 0 &&
-                                  validator.fundamental === 2)
+                                  validator.fundamental === publicVal)
                                   ? true
                                   : false
                               }

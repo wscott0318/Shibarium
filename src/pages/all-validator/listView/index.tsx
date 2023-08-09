@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import {
   addDecimalValue,
   inActiveCount,
+  publicVal,
   toFixedPrecent,
 } from "web3/commonFunctions";
 import { useWeb3React } from "@web3-react/core";
@@ -26,7 +27,7 @@ export default function ListView({
   migrateData: any;
   nodeSetup: number;
 }) {
-  const [selectedRow, setSelectedRow] = useState({});
+  const [selectedRow, setSelectedRow] = useState<any>({});
   const { account } = useWeb3React();
   const [userType, setUserType] = useUserType(); //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
@@ -36,23 +37,17 @@ export default function ListView({
   const tootlTipDesc = (x: any) => {
     // console.log("account ", account);
     if (account) {
-      if (x.fundamental === 1) {
-        return (
-          <div className="tool-desc">
-            This is a fundamental node. <br /> Delegation is not enabled here.
-          </div>
-        );
-      } else if (
+      if (
         x.checkpointstatus === 0 &&
         +x.missedLatestCheckpointcount >= 500 &&
-        x.fundamental === 2
+        x.fundamental === publicVal
       ) {
         return (
           <div className="tool-desc tool-desc-sm">
             Offline since {x.missedLatestCheckpointcount} checkpoints
           </div>
         );
-      } else if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+      } else if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
         return null;
       } else if (router.asPath.split("/")[1] === "migrate-stake") {
         return (
@@ -72,7 +67,7 @@ export default function ListView({
         );
       }
     } else {
-      if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+      if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
         return null;
       } else {
         return (
@@ -98,7 +93,7 @@ export default function ListView({
       if (
         x.checkpointstatus === 0 &&
         +x.missedLatestCheckpointcount >= 500 &&
-        x.fundamental === 2
+        x.fundamental === publicVal
       ) {
         return (
           <p style={{ fontSize: "12px" }} className="no_btn">
@@ -107,7 +102,7 @@ export default function ListView({
             {x.missedLatestCheckpointcount} checkpoints
           </p>
         );
-      } else if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+      } else if (x.lastcheckpointsigned === 0 && x.fundamental === publicVal) {
         return (
           <p
             style={{ fontSize: "12px", whiteSpace: "pre-wrap" }}
@@ -133,6 +128,7 @@ export default function ListView({
         showdelegatepop={showdelegatepop}
         setdelegatepop={setdelegatepop}
         data={selectedRow}
+        key={selectedRow?.signer}
         getDelegatorCardData={getDelegatorCardData}
       />
       <MigratePopup
@@ -210,12 +206,11 @@ export default function ListView({
                               className={`btn primary-btn w-100 text-wrap`}
                               disabled={
                                 !account ||
-                                x.fundamental === 1 ||
                                 x.uptimePercent <= inActiveCount ||
                                 x.contractAddress ==
                                   migrateData.contractAddress ||
                                 (x.lastcheckpointsigned === 0 &&
-                                  x.fundamental === 2)
+                                  x.fundamental === publicVal)
                                   ? true
                                   : false
                               }

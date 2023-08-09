@@ -12,7 +12,11 @@ import {
 import cookie from "cookie-cutter";
 import Image from "next/image";
 import React, { FC } from "react";
-import { ETHEREUM_CHAIN_ID } from "app/config/constant";
+import {
+  ETHEREUM_CHAIN_ID,
+  GOERLI_CHAIN_ID,
+  PUPPYNET_CHAIN_ID,
+} from "app/config/constant";
 
 export const SUPPORTED_NETWORKS: {
   [chainId in ChainId]?: {
@@ -38,17 +42,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ["https://mainnet.infura.io/v3"],
     blockExplorerUrls: ["https://etherscan.com"],
   },
-  // [ChainId.GÖRLI]: {
-  //   chainId: '0x5',
-  //   chainName: 'Goerli test network',
-  //   nativeCurrency: {
-  //     name: 'Goerli Ethereum',
-  //     symbol: 'GoerliETH',
-  //     decimals: 18,
-  //   },
-  //   rpcUrls: ['https://goerli.infura.io/v3/'],
-  //   blockExplorerUrls: ['https://goerli.etherscan.io'],
-  // },
+  [ChainId.SHIBARIUM]: {
+    chainId: "0x6D",
+    chainName: "Shibarium",
+    nativeCurrency: {
+      name: "BONE",
+      symbol: "BONE",
+      decimals: 18,
+    },
+    rpcUrls: [process.env.RPC_517 as any],
+    blockExplorerUrls: [process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL as string],
+  },
   [ChainId.FANTOM]: {
     chainId: "0xfa",
     chainName: "Fantom",
@@ -267,10 +271,12 @@ const NetworkModal: FC = () => {
         />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
-            ChainId.SEPOLIA,
+            GOERLI_CHAIN_ID,
+            PUPPYNET_CHAIN_ID,
+            // ChainId.SEPOLIA,
             // ChainId.GÖRLI,
             // ChainId.ETHEREUM,
-            ChainId.PUPPYNET,
+            // ChainId.PUPPYNET,
 
             // ChainId.MATIC,
             // ChainId.BSC,
@@ -328,7 +334,11 @@ const NetworkModal: FC = () => {
                     // @ts-ignore TYPE NEEDS FIXING
                     if (switchError.code === 4902) {
                       try {
-                        console.log({ params, account });
+                        console.log("switchError ", {
+                          params,
+                          account,
+                          switchError,
+                        });
                         await library?.send("wallet_addEthereumChain", [
                           params,
                           account,
