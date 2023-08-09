@@ -63,21 +63,31 @@ function NetworkDetails({ valCount }: any) {
   const getTotalStakes = async () => {
     try {
       let Chain_ID = await ChainId();
+      console.log(
+        "get chain id ",
+        Chain_ID,
+        dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY
+      );
       const instance = new web3test2.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY
       );
+      console.log("get instance ", instance);
       const ID = await instance.methods.validatorState().call();
+      console.log("get id ", ID);
       const totVals = await queryProvider.query({
         query: validators(),
       });
+      console.log("get totvals ", totVals);
       let vals = totVals.data.validators;
+      console.log("get vals ", vals);
       let initialVal: any = 0;
       vals.forEach((element: any) => {
         let a = +web3test.utils.fromWei(element.delegatedStake, "ether");
         let b = +web3test.utils.fromWei(element.selfStake, "ether");
         initialVal = initialVal + a + b;
       });
+      console.log("get initial val ", initialVal);
       setTotalStake(initialVal);
       return ID;
     } catch (err: any) {
