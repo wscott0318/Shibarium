@@ -18,7 +18,6 @@ function useEagerConnect() {
               .catch(() => {
                 setTried(true);
               });
-              console.log("entered 1");
             // @ts-ignore TYPE NEEDS FIXING
             window.ethereum.removeAllListeners(["networkChanged"]);
           } else {
@@ -30,7 +29,6 @@ function useEagerConnect() {
                 });
               // @ts-ignore TYPE NEEDS FIXING
               window.ethereum.removeAllListeners(["networkChanged"]);
-              console.log("entered 2");
             } else {
               setTried(true);
             }

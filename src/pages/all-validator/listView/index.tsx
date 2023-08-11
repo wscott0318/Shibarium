@@ -124,19 +124,23 @@ export default function ListView({
 
   return (
     <>
-      <DelegatePopup
-        showdelegatepop={showdelegatepop}
-        setdelegatepop={setdelegatepop}
-        data={selectedRow}
-        key={selectedRow?.signer}
-        getDelegatorCardData={getDelegatorCardData}
-      />
-      <MigratePopup
-        showmigratepop={showmigratepop}
-        setmigratepop={setmigratepop}
-        data={selectedRow}
-        migrateDataRow={migrateData}
-      />
+      {showdelegatepop && (
+        <DelegatePopup
+          showdelegatepop={showdelegatepop}
+          setdelegatepop={setdelegatepop}
+          data={selectedRow}
+          key={selectedRow?.signer}
+          getDelegatorCardData={getDelegatorCardData}
+        />
+      )}
+      {showmigratepop && (
+        <MigratePopup
+          showmigratepop={showmigratepop}
+          setmigratepop={setmigratepop}
+          data={selectedRow}
+          migrateDataRow={migrateData}
+        />
+      )}
       <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus validator_table">
         <div className="table-responsive">
           <table className="table table-borderless fxd-layout tbl-mob">

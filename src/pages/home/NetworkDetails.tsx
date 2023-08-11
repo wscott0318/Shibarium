@@ -1,4 +1,4 @@
-import { BONE_ID } from "app/config/constant";
+import { BONE_ID, GOERLI_CHAIN_ID } from "app/config/constant";
 import { getNetworkOverviewData } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId, PUPPYNET517 } from "app/hooks/L1Block";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
 import { queryProvider } from "Apollo/client";
 import { validators } from "Apollo/queries";
+import { useABI } from "app/hooks/useABI";
 
 function NetworkDetails({ valCount }: any) {
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
@@ -25,6 +26,7 @@ function NetworkDetails({ valCount }: any) {
 
   useEffect(() => {
     try {
+      getTotalStakes().then((res) => {});
       getNetworkOverviewData().then((res: any) => {
         setNetworkDetails(
           res.data && res.data.data && res.data.data.networkDetail
@@ -38,13 +40,15 @@ function NetworkDetails({ valCount }: any) {
       });
       // console.log(boneUSDValue, "boneUSDValue");
 
-      web3test?.eth?.getBlockNumber().then((lastBlock: number) => {
-        setLatestBlock(lastBlock);
-      });
+      if (chainId == GOERLI_CHAIN_ID) {
+        console.log("entered getBlockNumber");
+        web3test?.eth?.getBlockNumber().then((lastBlock: number) => {
+          setLatestBlock(lastBlock);
+        });
+      }
     } catch (error: any) {
       Sentry.captureException("getNetworkOverviewData", error);
     }
-    getTotalStakes();
   }, [account]);
 
   const cardShimmerEffects = () => {
@@ -62,36 +66,34 @@ function NetworkDetails({ valCount }: any) {
   // GET VALIDATOR ID
   const getTotalStakes = async () => {
     try {
+      console.log("entered getotalstakes");
+      // if (chainId == GOERLI_CHAIN_ID) {
+      // if (!stakeManagerABI) {
+      //   console.warn("stake Manager ABI not found");
+      //   return;
+      // }
       let Chain_ID = await ChainId();
-      console.log(
-        "get chain id ",
-        Chain_ID,
-        dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY
-      );
       const instance = new web3test2.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY
       );
-      console.log("get instance ", instance);
       const ID = await instance.methods.validatorState().call();
-      console.log("get id ", ID);
       const totVals = await queryProvider.query({
         query: validators(),
       });
-      console.log("get totvals ", totVals);
       let vals = totVals.data.validators;
-      console.log("get vals ", vals);
       let initialVal: any = 0;
       vals.forEach((element: any) => {
         let a = +web3test.utils.fromWei(element.delegatedStake, "ether");
         let b = +web3test.utils.fromWei(element.selfStake, "ether");
         initialVal = initialVal + a + b;
       });
-      console.log("get initial val ", initialVal);
       setTotalStake(initialVal);
       return ID;
+      // }
     } catch (err: any) {
       Sentry.captureMessage("getTotalStakes ", err);
+      console.log("error getTotalstakes ", err);
     }
   };
 

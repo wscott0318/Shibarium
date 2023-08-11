@@ -18,6 +18,7 @@ import { validators } from "Apollo/queries";
 import Web3 from "web3";
 import { useABI } from "app/hooks/useABI";
 import { validatorThresholdCount } from "web3/commonFunctions";
+import { GOERLI_CHAIN_ID } from "app/config/constant";
 
 const BoneStaking = () => {
   const [userType, setUserType] = useUserType(); //NOSONAR
@@ -37,28 +38,31 @@ const BoneStaking = () => {
       getValInfo();
     }
     getValCount();
-  }, [account]);
-
+  }, [account, chainId]);
+  
   const getValCount = async () => {
     try {
-      const id = await ChainId();
-      const address = dynamicChaining[id]?.STAKE_MANAGER_PROXY;
-      if (!stakeManagerABI) {
-        console.log("executed");
-        setValidatorThreshold(validatorThresholdCount);
-        return;
+      if (chainId == GOERLI_CHAIN_ID) {
+        const id = await ChainId();
+        console.log("entered getValCount");
+        const address = dynamicChaining[id]?.STAKE_MANAGER_PROXY;
+        if (!stakeManagerABI) {
+          console.log("executed");
+          setValidatorThreshold(validatorThresholdCount);
+          return;
+        }
+        let instance = new web3.eth.Contract(stakeManagerABI, address);
+        console.log("instance ", instance);
+        const valThreshold = await instance.methods.validatorThreshold().call();
+        console.log("validator threshold  ", valThreshold);
+        setValidatorThreshold(valThreshold);
+        console.log("executed validator threshold", valThreshold);
       }
-      let instance = new web3.eth.Contract(stakeManagerABI, address);
-      console.log("instance ", instance);
-      const valThreshold = await instance.methods.validatorThreshold().call();
-      console.log("validator threshold  ", valThreshold);
-      setValidatorThreshold(valThreshold);
-      console.log("executed validator threshold", valThreshold);
     } catch (err: any) {
       Sentry.captureMessage("getValCount", err);
     }
   };
-  console.log("val count new", validatorThreshold, totalValCount);
+  // console.log("val count new", validatorThreshold, totalValCount);
 
   const getValInfo = async () => {
     try {

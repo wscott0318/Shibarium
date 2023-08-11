@@ -12,6 +12,7 @@ import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { PUPPYNET517 } from "app/hooks/L1Block";
 import NumberFormat from "react-number-format";
+import { GOERLI_CHAIN_ID } from "app/config/constant";
 
 const StakingHeader = (type: any) => {
   const router = useRouter();
@@ -57,24 +58,26 @@ const StakingHeader = (type: any) => {
 
   const getDynsetyValue = async () => {
     try {
-      // console.log("step 2 ");
-      const lib: any = library;
-      // console.log("step 3 ");
-      const web3: any = new Web3(lib?.provider);
-      // console.log("step 4 ");
-      let instance = new web3.eth.Contract(
-        stakeManagerProxyABI,
-        dynamicChaining[chainId].STAKE_MANAGER_PROXY
-      );
-      // console.log("step 5 ", instance);
-      const dynasty = await instance.methods
-        .checkPointBlockInterval()
-        .call({ from: account });
-      web3Test?.eth?.getBlockNumber().then((lastBlock: number) => {
-        setLatestBlock(lastBlock);
-      });
-      // console.log("last checkpoint ", dynasty);
-      setDynasty(dynasty);
+      if (chainId == GOERLI_CHAIN_ID) {
+        console.log("entered getDynsetyValue ");
+        const lib: any = library;
+        // console.log("step 3 ");
+        const web3: any = new Web3(lib?.provider);
+        // console.log("step 4 ");
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        // console.log("step 5 ", instance);
+        const dynasty = await instance.methods
+          .checkPointBlockInterval()
+          .call({ from: account });
+        web3Test?.eth?.getBlockNumber().then((lastBlock: number) => {
+          setLatestBlock(lastBlock);
+        });
+        // console.log("last checkpoint ", dynasty);
+        setDynasty(dynasty);
+      }
     } catch (err: any) {}
   };
 

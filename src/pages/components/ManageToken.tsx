@@ -543,31 +543,18 @@ export default function ManageToken({
                       </div>
                     </div>
                   </div>
+                  {/* {!account ? (
+                    <div className="connectWallet">
+                      Connect to a wallet
+                    </div>
+                  ) : (
+                    <> */}
                   <div className="token-sec">
                     <div className="info-grid">
                       <div>
                         <p>Token List</p>
                       </div>
-                      <div className="token-btn-sec">
-                        {/* <button
-                          type="button"
-                          className="btn primary-btn w-100"
-                          onClick={() => {
-                            setTokenState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              step4: false,
-                              title: "Manage Token",
-                            });
-                            setOffset(10);
-                            setSearchedList(null);
-                          }}
-                        >
-                          Manage Tokens
-                        </button> */}
-                      </div>
+                      <div className="token-btn-sec"></div>
                     </div>
                   </div>
                   {!isLoading ? (
@@ -609,6 +596,8 @@ export default function ManageToken({
                       />
                     </div>
                   )}
+                  {/* </> */}
+                  {/* )} */}
                 </div>
               </div>
             </div>

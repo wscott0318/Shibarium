@@ -47,7 +47,6 @@ export default function Header() {
       setShowWarning(false);
     } else {
       setShowWarning(true);
-      console.log(showWarning);
     }
   };
 

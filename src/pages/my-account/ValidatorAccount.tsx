@@ -44,6 +44,7 @@ import {
 } from "app/state/user/hooks";
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { GOERLI_CHAIN_ID } from "app/config/constant";
 
 const initialModalState = {
   show: false,
@@ -140,25 +141,25 @@ const ValidatorAccount = ({
       const epoch = await instance.methods.epoch().call({ from: account });
 
       setComissionHandle({ dynasty, epoch });
-      console.log({ dynasty, epoch });
+      // console.log({ dynasty, epoch });
 
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract);
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty });
-      console.log(valFromContract, "val info ===> ");
-      console.log(epochDyna, "epochDyna");
+      // console.log(valFromContract, "val info ===> ");
+      // console.log(epochDyna, "epochDyna");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
   };
-  console.log("dynasty " , comissionHandle)
+  console.log("stakeAmounts ", stakeAmounts);
 
   useEffect(() => {
     if (stakeAmounts.length) {
       let totalStake = stakeAmounts
-        .map((x: any) => +x.tokens)
+        .map((x: any) => +x?.tokens)
         .reduce(
           (accumulator: any, currentValue: any) => accumulator + currentValue
         );
@@ -167,30 +168,39 @@ const ValidatorAccount = ({
         .reduce(
           (accumulator: any, currentValue: any) => accumulator + currentValue
         );
-      console.log({ stakeAmounts });
+      console.log("totalReward, totalStake", { totalReward, totalStake });
       getDelegatorAmount({ totalReward, totalStake });
     }
   }, [stakeAmounts, delegationsList]);
 
   const getDelegatorCardData = async (accountAddress: any) => {
+    console.log("entered getDelegatorCardData", stakeAmounts.length);
     setLoading(true);
     try {
       getDelegatorData(accountAddress.toLowerCase())
-        .then((res: any) => {
+        .then(async (res: any) => {
           if (res.data) {
-            let sortedData = res.data.data.validators
+            let sortedData = res?.data?.data?.validators
               .filter((x: any) => +x.stake > 0)
-              .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
-            sortedData.forEach(async (x: any) => {
+              .sort(
+                (a: any, b: any) => parseInt(b?.stake) - parseInt(a?.stake)
+              );
+            console.log("sorted data ", sortedData);
+            let stakeAmm: any = [];
+            for (const x of sortedData) {
+              console.log("entered sorted data stake");
               let stakeData = await getStakeAmountDelegator(
-                +x.id,
+                +x?.id,
                 accountAddress.toLowerCase()
               );
-              setStakeAmounts((pre: any) => [...pre, stakeData]);
-            });
+              console.log("stake data => ", stakeData);
+              stakeAmm.push(stakeData);
+            }
+            setStakeAmounts(stakeAmm);
+
             setDelegationsList(sortedData);
             setLoading(false);
-            console.log("new delegation list", sortedData);
+            // console.log("new delegation list", sortedData);
           }
         })
         .catch((e: any) => {
@@ -200,7 +210,7 @@ const ValidatorAccount = ({
       Sentry.captureException("getDelegatorCardData ", err);
     }
   };
-
+  console.log("delegator list ", delegationsList);
   const handleModal = (
     btn: string,
     valAddress: any,
@@ -258,11 +268,12 @@ const ValidatorAccount = ({
   };
 
   useEffect(() => {
-    if (account && userType === "Delegator") {
+    if (account && userType === "Delegator" && chainId === GOERLI_CHAIN_ID) {
+      console.log("useEffect called ");
       getDelegatorCardData(account);
     }
     if (account && userType === "Validator") {
-      if (valId) {
+      if (valId && chainId === GOERLI_CHAIN_ID) {
         getValidatorData(valId);
       }
     }
@@ -494,12 +505,7 @@ const ValidatorAccount = ({
       setTransactionState(initialModalState);
     }
   };
-  console.log(
-    "restakemodal ",
-    restakeModal,
-    " transactionState ",
-    transactionState
-  );
+
   // Approve BONE
   const approveAmount = async (id: any, amounts: any, reward: boolean) => {
     try {
@@ -1185,7 +1191,8 @@ const ValidatorAccount = ({
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
-      return validators.data.delegator;
+      console.log("validator delegated ", validators);
+      return validators?.data?.delegator;
     } catch (err: any) {
       Sentry.captureException("getStakeAmountDelegator ", err);
     }
@@ -1194,7 +1201,7 @@ const ValidatorAccount = ({
   const getStake = (id: string) => {
     try {
       let item = stakeAmounts?.length
-        ? stakeAmounts.filter((x: any) => +x.validatorId === +id)[0]?.tokens
+        ? stakeAmounts.filter((x: any) => +x?.validatorId === +id)[0]?.tokens
         : 0;
       return item > 0
         ? addDecimalValue(parseInt(item) / 10 ** web3Decimals)
@@ -1222,14 +1229,16 @@ const ValidatorAccount = ({
   return (
     <>
       {loading && <LoadingSpinner />}
-      <DelegatePopup
-        data={selectedRow}
-        showdelegatepop={stakeMore}
-        setdelegatepop={() => {
-          setStakeMoreModal(false);
-        }}
-        getDelegatorCardData={getDelegatorCardData}
-      />
+      {stakeMore && (
+        <DelegatePopup
+          data={selectedRow}
+          showdelegatepop={stakeMore}
+          setdelegatepop={() => {
+            setStakeMoreModal(false);
+          }}
+          getDelegatorCardData={getDelegatorCardData}
+        />
+      )}
       <div className="main-content dark-bg-800 full-vh cmn-input-bg">
         {/* retake popop start VALIDATOR*/}
         <CommonModal
@@ -2416,223 +2425,212 @@ const ValidatorAccount = ({
             <div className="container">
               <div className="row">
                 {delegationsList.length > 0
-                  ? delegationsList.map(
-                      (item: any, index: any) =>
-                        getStake(item.id) >= 1 && (
-                          <div
-                            className="col-lg-4 col-md-6 col-12 bs-col"
-                            key={item.id}
-                          >
-                            <div className="border-sec">
-                              <div className="top-sec">
-                                <div className="info-block">
-                                  <div className="image-blk">
-                                    <div>
-                                      <img
-                                        className="img-fluid"
-                                        src={
-                                          item.image
-                                            ? item.image
-                                            : "../../assets/images/Shib-Logo.png"
-                                        }
-                                        onError={imageOnErrorHandler}
-                                        width="69"
-                                        height="70"
-                                        alt="coin-icon"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="grid-info text-start">
-                                    <div className="fw-bold">{item.name}</div>
-                                    <div className="info-row">
-                                      <span>
-                                        <span className="fw-bold">
-                                          {addDecimalValue(
-                                            parseInt(
-                                              item.checkpointSignedPercent
-                                            )
-                                          )}
-                                          %
-                                        </span>{" "}
-                                        Checkpoints Signed
-                                      </span>
-                                    </div>
-                                    <div className="info-row">
-                                      <span>
-                                        <span className="fw-bold">
-                                          {addDecimalValue(+item.commission)}%
-                                        </span>{" "}
-                                        Commission
-                                      </span>
-                                    </div>
-                                  </div>
+                  ? delegationsList.map((item: any, index: any) => (
+                      <div
+                        className="col-lg-4 col-md-6 col-12 bs-col"
+                        key={item.id}
+                      >
+                        <div className="border-sec">
+                          <div className="top-sec">
+                            <div className="info-block">
+                              <div className="image-blk">
+                                <div>
+                                  <img
+                                    className="img-fluid"
+                                    src={
+                                      item.image
+                                        ? item.image
+                                        : "../../assets/images/Shib-Logo.png"
+                                    }
+                                    onError={imageOnErrorHandler}
+                                    width="69"
+                                    height="70"
+                                    alt="coin-icon"
+                                  />
                                 </div>
                               </div>
-                              <div className="h-auto mid-sec bs-card">
-                                <div className="block-container">
-                                  <div className="cus-width">
-                                    <div className="text-center">
-                                      <div>Your Stake</div>
-                                      <div className="fw-bold">
-                                        {getStake(item.id)}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="cus-width">
-                                    <div className="text-center">
-                                      <div>Reward</div>
-                                      <div className="fw-bold orange-color">
-                                        {+item.reward > 0
-                                          ? (
-                                              parseInt(item.reward) /
-                                              10 ** web3Decimals
-                                            ).toFixed(tokenDecimal)
-                                          : "0.00"}
-                                      </div>
-                                    </div>
-                                  </div>
+                              <div className="grid-info text-start">
+                                <div className="fw-bold">{item.name}</div>
+                                <div className="info-row">
+                                  <span>
+                                    <span className="fw-bold">
+                                      {addDecimalValue(
+                                        parseInt(item.checkpointSignedPercent)
+                                      )}
+                                      %
+                                    </span>{" "}
+                                    Checkpoints Signed
+                                  </span>
                                 </div>
-
-                                <ul className="btn-grp mg-grid">
-                                  <li className="btn-grp-lst">
-                                    <div className="cus-tooltip d-inline-block">
-                                      <button
-                                        disabled={
-                                          parseInt(item.commission) ==
-                                            comissionVal ||
-                                          item.checkpointSignedPercent <
-                                            checkpointVal ||
-                                          parseInt(item.reward) /
-                                            10 ** web3Decimals <
-                                            1 ||
-                                          item.deactivationepoch === "true"
-                                        }
-                                        onClick={() =>
-                                          handleModal(
-                                            "Restake",
-                                            item.contractAddress
-                                          )
-                                        }
-                                        className="btn grey-btn btn-small tool-ico"
-                                      >
-                                        Restake
-                                      </button>
-                                      <div className="tool-desc">
-                                        {parseInt(item.commission) ==
-                                          comissionVal ||
-                                        item.checkpointSignedPercent <
-                                          checkpointVal ||
-                                        parseInt(item.reward) /
-                                          10 ** web3Decimals <
-                                          1
-                                          ? "Restaking is disabled."
-                                          : "Restake your total rewards"}
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li className="btn-grp-lst">
-                                    <div className="cus-tooltip d-inline-block">
-                                      <button
-                                        disabled={
-                                          parseInt(item.reward) /
-                                            10 ** web3Decimals <
-                                          1
-                                        }
-                                        onClick={() =>
-                                          withdrawRewardDelegator(
-                                            item.contractAddress,
-                                            item.id
-                                          )
-                                        }
-                                        className="btn black-btn btn-small tool-ico"
-                                      >
-                                        Withdraw Rewards
-                                      </button>
-                                      <div className="tool-desc">
-                                        {parseInt(item.reward) /
-                                          10 ** web3Decimals <
-                                        1
-                                          ? "Withdrawal is disabled."
-                                          : "withdraw you total reward"}
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                  <li className="btn-grp-lst">
-                                    <div className="cus-tooltip d-inline-block">
-                                      <button
-                                        disabled={
-                                          parseInt(getStake(item.id)) < 1
-                                        }
-                                        onClick={() => {
-                                          handleModal(
-                                            "Unbound",
-                                            item.validatorAddress,
-                                            item.contractAddress,
-                                            item.image,
-                                            item.id,
-                                            parseInt(getStake(item.id))
-                                          );
-                                        }}
-                                        className="btn black-btn btn-small tool-ico"
-                                      >
-                                        Unbound
-                                      </button>
-                                      <div className="tool-desc">
-                                        unbound and withdraw rewards
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                  <li className="btn-grp-lst">
-                                    <div className="cus-tooltip d-inline-block">
-                                      <button
-                                        onClick={() => {
-                                          handleMigrateClick(item);
-                                        }}
-                                        className="btn black-btn btn-small tool-ico"
-                                      >
-                                        Migrate Stake
-                                      </button>
-                                      <div className="tool-desc">
-                                        migrate your stake
-                                      </div>
-                                    </div>
-                                  </li>
-
-                                  <li className="btn-grp-lst">
-                                    <div className="cus-tooltip d-inline-block">
-                                      <button
-                                        onClick={() => {
-                                          console.log("item ", item);
-                                          setSelectedRow({
-                                            owner: item.contractAddress,
-                                            contractAddress:
-                                              item.contractAddress,
-                                            commissionrate: item.commission,
-                                            name: item.name,
-                                            uptimePercent:
-                                              item.checkpointSignedPercent,
-                                            validatorContractId: item.id,
-                                            image: item.image,
-                                          });
-                                          setStakeMoreModal(true);
-                                        }}
-                                        className="btn black-btn btn-small tool-ico"
-                                      >
-                                        Stake More
-                                      </button>
-                                      <div className="tool-desc">
-                                        stake more
-                                      </div>
-                                    </div>
-                                  </li>
-                                </ul>
+                                <div className="info-row">
+                                  <span>
+                                    <span className="fw-bold">
+                                      {addDecimalValue(+item.commission)}%
+                                    </span>{" "}
+                                    Commission
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        )
-                    )
+                          <div className="h-auto mid-sec bs-card">
+                            <div className="block-container">
+                              <div className="cus-width">
+                                <div className="text-center">
+                                  <div>Your Stake</div>
+                                  <div className="fw-bold">
+                                    {getStake(item.id)}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="cus-width">
+                                <div className="text-center">
+                                  <div>Reward</div>
+                                  <div className="fw-bold orange-color">
+                                    {+item.reward > 0
+                                      ? (
+                                          parseInt(item.reward) /
+                                          10 ** web3Decimals
+                                        ).toFixed(tokenDecimal)
+                                      : "0.00"}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <ul className="btn-grp mg-grid">
+                              <li className="btn-grp-lst">
+                                <div className="cus-tooltip d-inline-block">
+                                  <button
+                                    disabled={
+                                      parseInt(item.commission) ==
+                                        comissionVal ||
+                                      item.checkpointSignedPercent <
+                                        checkpointVal ||
+                                      parseInt(item.reward) /
+                                        10 ** web3Decimals <
+                                        1 ||
+                                      item.deactivationepoch === "true"
+                                    }
+                                    onClick={() =>
+                                      handleModal(
+                                        "Restake",
+                                        item.contractAddress
+                                      )
+                                    }
+                                    className="btn grey-btn btn-small tool-ico"
+                                  >
+                                    Restake
+                                  </button>
+                                  <div className="tool-desc">
+                                    {parseInt(item.commission) ==
+                                      comissionVal ||
+                                    item.checkpointSignedPercent <
+                                      checkpointVal ||
+                                    parseInt(item.reward) / 10 ** web3Decimals <
+                                      1
+                                      ? "Restaking is disabled."
+                                      : "Restake your total rewards"}
+                                  </div>
+                                </div>
+                              </li>
+                              <li className="btn-grp-lst">
+                                <div className="cus-tooltip d-inline-block">
+                                  <button
+                                    disabled={
+                                      parseInt(item.reward) /
+                                        10 ** web3Decimals <
+                                      1
+                                    }
+                                    onClick={() =>
+                                      withdrawRewardDelegator(
+                                        item.contractAddress,
+                                        item.id
+                                      )
+                                    }
+                                    className="btn black-btn btn-small tool-ico"
+                                  >
+                                    Withdraw Rewards
+                                  </button>
+                                  <div className="tool-desc">
+                                    {parseInt(item.reward) /
+                                      10 ** web3Decimals <
+                                    1
+                                      ? "Withdrawal is disabled."
+                                      : "withdraw you total reward"}
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li className="btn-grp-lst">
+                                <div className="cus-tooltip d-inline-block">
+                                  <button
+                                    disabled={parseInt(getStake(item.id)) < 1}
+                                    onClick={() => {
+                                      handleModal(
+                                        "Unbound",
+                                        item.validatorAddress,
+                                        item.contractAddress,
+                                        item.image,
+                                        item.id,
+                                        parseInt(getStake(item.id))
+                                      );
+                                    }}
+                                    className="btn black-btn btn-small tool-ico"
+                                  >
+                                    Unbound
+                                  </button>
+                                  <div className="tool-desc">
+                                    unbound and withdraw rewards
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li className="btn-grp-lst">
+                                <div className="cus-tooltip d-inline-block">
+                                  <button
+                                    onClick={() => {
+                                      handleMigrateClick(item);
+                                    }}
+                                    className="btn black-btn btn-small tool-ico"
+                                  >
+                                    Migrate Stake
+                                  </button>
+                                  <div className="tool-desc">
+                                    migrate your stake
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li className="btn-grp-lst">
+                                <div className="cus-tooltip d-inline-block">
+                                  <button
+                                    onClick={() => {
+                                      // console.log("item ", item);
+                                      setSelectedRow({
+                                        owner: item.contractAddress,
+                                        contractAddress: item.contractAddress,
+                                        commissionrate: item.commission,
+                                        name: item.name,
+                                        uptimePercent:
+                                          item.checkpointSignedPercent,
+                                        validatorContractId: item.id,
+                                        image: item.image,
+                                      });
+                                      setStakeMoreModal(true);
+                                    }}
+                                    className="btn black-btn btn-small tool-ico"
+                                  >
+                                    Stake More
+                                  </button>
+                                  <div className="tool-desc">stake more</div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    ))
                   : !loading &&
                     delegationsList.length === 0 && (
                       <div className="txt-emp">

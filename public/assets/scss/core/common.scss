@@ -776,6 +776,15 @@ input:checked + .slider:before {
   -moz-border-radius: 10px;
 }
 
+.connectWallet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #f17501;
+  font-size: 20px;
+}
 .head-md {
   font-size: 34px;
 }
@@ -3065,7 +3074,7 @@ input:checked + .slider:before {
 
 .disabled {
   pointer-events: none; //This makes it not clickable
-  opacity: 0.4; //This grays it out to look disabled
+  opacity: 0.6; //This grays it out to look disabled
 }
 
 .cus-pagination {

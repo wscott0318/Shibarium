@@ -34,7 +34,7 @@ import { toast } from "react-toastify";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 import useTransactionCount from "app/hooks/useTransactionCount";
-
+import ERC20 from "../../../ABI/ERC20Abi.json";
 const WithdrawModal: React.FC<any> = ({
   page,
   dWState,
@@ -81,7 +81,8 @@ const WithdrawModal: React.FC<any> = ({
     title: "Please Note",
   });
   const childERC20abi = useABI("abis/plasma/ChildERC20.json");
-  const ERC20 = useABI("abis/pos/ERC20.json");
+  // const ERC20 = useABI("abis/pos/ERC20.json");
+  // const ERC20PLASMA = useABI("abis/plasma/ERC20.json");
   const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
   const MRC20 = useABI("abis/plasma/MRC20.json");
 
@@ -119,17 +120,21 @@ const WithdrawModal: React.FC<any> = ({
     try {
       if (account) {
         setButtonLoader(true);
+        let isAllowed = false;
         if (chainId === GOERLI_CHAIN_ID) {
-          if (+allowance > 0) {
+          if (+allowance != 0) {
             await approveWithdraw();
+            isAllowed = true;
           }
-          if (error === null) {
+          if (error === null && !isAllowed) {
+            console.log("entered switch network", error);
             await switchNetwork();
           }
           setButtonLoader(false);
         }
         if (chainId === PUPPYNET_CHAIN_ID) {
-          if (+allowance > 0) {
+          if (+allowance != 0) {
+            await switchNetwork();
             await approveWithdraw();
           }
           setButtonLoader(true);
@@ -141,8 +146,11 @@ const WithdrawModal: React.FC<any> = ({
               title: "Transaction Pending",
             });
             setStep("Initialized");
-            setTimeout(() => {
+            if (allowance == 0) {
               submitWithdraw();
+            }
+            setTimeout(() => {
+              console.log("called");
             }, 2000);
           }
         }
@@ -154,10 +162,9 @@ const WithdrawModal: React.FC<any> = ({
       }
     }
   };
-  console.log("selected token", selectedToken);
+  // console.log("selected token", selectedToken);
   const approveWithdraw = async () => {
     try {
-      console.log("step 5");
       if (account) {
         let user = account;
         let instance = new web3.eth.Contract(
@@ -165,8 +172,9 @@ const WithdrawModal: React.FC<any> = ({
           selectedToken?.parentContract
         );
         let decimal = await instance.methods.decimals().call();
+        console.log("get decimal", decimal);
         const format = getToWeiUnitFromDecimal(decimal);
-        let amount = web3.utils.toWei(withdrawTokenInput, format);
+        let amount = web3.utils.toWei(String(withdrawTokenInput), format);
         let amountwei = web3.utils.toBN(amount);
         await instance.methods
           .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountwei)
@@ -202,16 +210,34 @@ const WithdrawModal: React.FC<any> = ({
               })
             );
             setAllowance(0);
+            await switchNetwork();
           })
           .on("error", (res: any) => {
-            console.log("on error", res);
-            setError("You need to give approval first.");
+            if (res.code == 4001) {
+              setError("You need to give approval first.");
+              setWidModState({
+                ...withModalState,
+                step2: true,
+                step3: false,
+                title: "Transfer Overview",
+              });
+            } else {
+              setWithdrawModalOpen(false);
+            }
+            setButtonLoader(false);
           });
       }
     } catch (err: any) {
       Sentry.captureMessage("approvewithdraw ", err);
-      console.log("error => ", err);
-      setError("You need to give approval first.");
+      if (err.code == 4001) {
+        setWidModState({
+          ...withModalState,
+          step2: true,
+          step3: false,
+          title: "Transfer Overview",
+        });
+        setError("You need to give approval first.");
+      }
     }
   };
 
@@ -221,9 +247,13 @@ const WithdrawModal: React.FC<any> = ({
         setHashLink("");
         setButtonLoader(false);
         let user: any = account;
-        let amount = web3.utils.toBN(
-          fromExponential(+withdrawTokenInput * Math.pow(10, decimalformat))
+        let expo = fromExponential(
+          +withdrawTokenInput * Math.pow(10, decimalformat)
         );
+        let amount = web3.utils.toBN(expo);
+        // let format = getToWeiUnitFromDecimal(decimalformat);
+        // let amount = web3.utils.toWei(String(withdrawTokenInput), format);
+        // const amountWei = web3.utils.toBN(amount);
         let abi: any;
         let sendData;
         if (selectedToken?.parentName === "BONE") {
@@ -242,7 +272,7 @@ const WithdrawModal: React.FC<any> = ({
         );
         let gasFee = instance.methods
           .withdraw(amount)
-          .estimateGas()
+          .estimateGas({ from: user })
           .then((res: any) => console.log("gas fetched ", res))
           .catch((err: any) => console.log("error in fetching gas ", err));
 
@@ -379,7 +409,12 @@ const WithdrawModal: React.FC<any> = ({
     }
   };
 
+  useEffect(() => {
+    estGasFee();
+  }, [ERC20, withdrawManagerABI, childERC20abi, MRC20]);
+
   const estGasFee = async () => {
+    if (!ERC20 || !withdrawManagerABI || !childERC20abi || !MRC20) return;
     setLoader(true);
     setEstGas(0);
     let user: any = account;
@@ -391,7 +426,7 @@ const WithdrawModal: React.FC<any> = ({
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
       setDecimalformat(decimal);
-      let amount = web3.utils.toWei(withdrawTokenInput, format);
+      let amount = web3.utils.toWei(String(withdrawTokenInput), "ether");
       const amountWei = web3.utils.toBN(amount);
       let currentprice: any = await currentGasPrice(web3);
 
@@ -410,10 +445,12 @@ const WithdrawModal: React.FC<any> = ({
           .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
           .estimateGas({ from: user })
           .then((gas: any) => {
-            processExitAllowance = web3.eth.toWei(
-              String(+gas * +currentprice),
-              "ether"
+            processExitAllowance = (+gas * +currentprice) / Math.pow(10, 18);
+            console.log(
+              "allowance processExitAllowance,",
+              processExitAllowance
             );
+            // web3.eth.toWei(String(+gas * +currentprice), "ether");
             setAllowance(+processExitAllowance);
             setLoader(false);
           })
@@ -428,7 +465,8 @@ const WithdrawModal: React.FC<any> = ({
           .processExits(selectedToken?.parentContract)
           .estimateGas({ from: user })
           .then((gas: any) => {
-            let gasFee = web3.eth.toWei(String(+gas * +currentprice), "ether");
+            console.log("gas 2,", (+gas * +currentprice) / Math.pow(10, 18));
+            let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
             setEstGas(+gasFee);
             setLoader(false);
           })
@@ -556,7 +594,8 @@ const WithdrawModal: React.FC<any> = ({
                           </h6>
                           <p className="text-sm">
                             Here you can move funds from the Shibarium to
-                            Ethereum Mainnet. This will take 60 minutes - 3 hours.
+                            Ethereum Mainnet. This will take 60 minutes - 3
+                            hours.
                           </p>
                         </div>
                       </div>
@@ -730,6 +769,8 @@ const WithdrawModal: React.FC<any> = ({
                             step2: true,
                             title: "Confirm Transfer",
                           });
+                          setError(null);
+                          setButtonLoader(false);
                         }}
                       >
                         Continue

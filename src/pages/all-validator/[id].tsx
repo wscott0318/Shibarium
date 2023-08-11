@@ -5,7 +5,7 @@ import Header from "../layout/header";
 import { useRouter } from "next/router";
 import { getValidatorsDetail } from "app/services/apis/validator";
 import { getBoneUSDValue } from "../../web3/commonFunctions";
-import { BONE_ID } from "app/config/constant";
+import { BONE_ID, GOERLI_CHAIN_ID } from "app/config/constant";
 import NumberFormat from "react-number-format";
 import Delegators from "./validator-details/Delegators";
 import Checkpoints from "./validator-details/Checkpoints";
@@ -58,32 +58,33 @@ export default function ValidatorDetails() {
       setBoneUsdValue(res);
     });
     if (validatorInfo) {
-      console.log("entered");
       getTotalSupply(validatorInfo?.id);
     }
   }, [validatorInfo, account, library]);
 
   const getTotalSupply = async (id: any) => {
     try {
-      const Cid = await ChainId();
-      const web3 = L1Block();
-      let instance = new web3.eth.Contract(
-        stakeManagerProxyABI,
-        dynamicChaining[Cid]?.STAKE_MANAGER_PROXY
-      );
-      const valStake = await instance.methods.validators(id).call();
-      let finalAMount =
-        (+valStake.amount + +valStake.delegatedAmount) /
-        Math.pow(10, web3Decimals);
-      let selfStake = +valStake.amount / Math.pow(10, web3Decimals);
-      console.log(
-        "getTotalSupply called again",
-        valStake.amount,
-        valStake.delegatedAmount
-      );
-      console.log(valStake, "data ==> ");
-      setSelfStaked(selfStake);
-      setTotalSupply(finalAMount);
+      if (chainId == GOERLI_CHAIN_ID) {
+        const Cid = await ChainId();
+        const web3 = L1Block();
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[Cid]?.STAKE_MANAGER_PROXY
+        );
+        const valStake = await instance.methods.validators(id).call();
+        let finalAMount =
+          (+valStake.amount + +valStake.delegatedAmount) /
+          Math.pow(10, web3Decimals);
+        let selfStake = +valStake.amount / Math.pow(10, web3Decimals);
+        console.log(
+          "getTotalSupply called again",
+          valStake.amount,
+          valStake.delegatedAmount
+        );
+        console.log(valStake, "data ==> ");
+        setSelfStaked(selfStake);
+        setTotalSupply(finalAMount);
+      }
     } catch (err: any) {
       Sentry.captureMessage("getTotalSupply", err);
     }

@@ -174,9 +174,6 @@ export default function Transaction() {
     if (account) {
       console.log("entered use effect");
       fetchTransactions();
-      setTimeout(() => {
-        setLoader(false);
-      }, 200);
     } else {
       setLoader(false);
     }
@@ -210,6 +207,7 @@ export default function Transaction() {
       setPageCount(0);
       setTokenCount(0);
     }
+    setLoader(false);
   };
 
   const filterPendingTransactions = () => {

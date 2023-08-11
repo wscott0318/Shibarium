@@ -442,7 +442,7 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field`}
+                                        className={`form-field position-relative fix-coin-field ${!account ? "disabled" : ""}`}
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
                                           setTokenBalanceL2(0);
@@ -511,7 +511,7 @@ export default function Withdraw() {
                                           onClick={(e) =>
                                             setFieldValue(
                                               "amount",
-                                              selectedToken.balance
+                                              balances.l1Balance
                                             )
                                           }
                                         >
@@ -695,10 +695,11 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className="form-field position-relative fix-coin-field h-100"
+                                        className={`form-field position-relative fix-coin-field h-100  ${!account ? "disabled" : ""}`}
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
-                                          resetForm(), setTokenBalanceL2(0);
+                                          resetForm(),
+                                          setTokenBalanceL2(0);
                                           setSelectedToken({});
                                         }}
                                       >
@@ -758,7 +759,7 @@ export default function Withdraw() {
                                           onClick={(e) =>
                                             setFieldValue(
                                               "withdrawAmount",
-                                              tokenBalanceL2
+                                              balances.l2Balance
                                             )
                                           }
                                         >

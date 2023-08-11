@@ -73,7 +73,7 @@ export default function MyAcount() {
                       <div className="balance_card">
                         <span>
                           {delegatorData.rewards
-                            ? +delegatorData.rewards.toFixed(2)
+                            ? parseInt(+delegatorData.rewards * 10000) / 10000
                             : "0.00"}{" "}
                           BONES
                         </span>
