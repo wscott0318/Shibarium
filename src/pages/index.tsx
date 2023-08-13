@@ -39,7 +39,7 @@ const BoneStaking = () => {
     }
     getValCount();
   }, [account, chainId]);
-  
+
   const getValCount = async () => {
     try {
       if (chainId == GOERLI_CHAIN_ID) {
@@ -191,7 +191,7 @@ const BoneStaking = () => {
                     Secure the Network <br />& Earn Reward with <br />
                     <span className="white-bg">Shibarium Staking</span>
                   </h1>
-                  {renderButtons()}
+                  {/* {renderButtons()} */}
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">

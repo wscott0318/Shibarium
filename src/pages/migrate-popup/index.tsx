@@ -358,8 +358,11 @@ const MigratePopup: React.FC<any> = ({
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible flex-img-box">
                           <img
-                            className="img-fluid"
-                            src={migrateDataRow.image}
+                            className="img-fluid valMiniImage"
+                            src={
+                              migrateDataRow.image ||
+                              "../../assets/images/American_Shib.png"
+                            }
                             alt="logo"
                             onError={imageOnErrorHandler}
                             width={70}
@@ -405,8 +408,11 @@ const MigratePopup: React.FC<any> = ({
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible flex-img-box">
                           <img
-                            className="img-fluid"
-                            src={data?.logoUrl}
+                            className="img-fluid valMiniImage"
+                            src={
+                              data?.logoUrl ||
+                              "../../assets/images/American_Shib.png"
+                            }
                             alt="logo"
                             width={70}
                             height={70}
@@ -420,13 +426,18 @@ const MigratePopup: React.FC<any> = ({
                     <div className="info-box my-3">
                       <div className="d-flex align-items-center justify-content-start">
                         <div className="migimg mr-4">
-                          <img
-                            src={data?.logoUrl}
-                            width={70}
-                            height={70}
-                            className="img-fluid"
-                            onError={imageOnErrorHandler}
-                          />
+                          <span className="user-icon u_icon">
+                            <img
+                              src={
+                                data?.logoUrl ||
+                                "../../assets/images/American_Shib.png"
+                              }
+                              width={70}
+                              height={70}
+                              className="img-fluid"
+                              onError={imageOnErrorHandler}
+                            />
+                          </span>
                         </div>
                         {/* <div>
                         <div>

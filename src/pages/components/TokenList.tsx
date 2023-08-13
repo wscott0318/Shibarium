@@ -17,6 +17,7 @@ import Loader from "app/components/Loader";
 import { getTokenBalance } from "app/hooks/useTokenBalance";
 import { GOERLI_CHAIN_ID } from "app/config/constant";
 const TokenList = ({
+  bridge,
   coinList = [],
   DEFAULT_ITEM,
   searchedList,
@@ -291,6 +292,7 @@ const TokenList = ({
   //   "token modal lust",
   //   tokenModalList.filter((x: any) => x?.name !== null)
   // );
+  console.log("bridge ", bridge);
   return (
     <div>
       {tokenState?.step0 &&
@@ -325,11 +327,7 @@ const TokenList = ({
                     <div>
                       <div className="d-flex align-items-end">
                         <h6 className="fw-bold">
-                          {(chainId == GOERLI_CHAIN_ID
-                            ? x?.parentSymbol
-                            : x?.childSymbol) ||
-                            x?.symbol ||
-                            "Unknown"}
+                          {x?.key || x?.symbol || "Unknown"}
                         </h6>
                         {x?.addedByUser && (
                           <small className="ms-2" style={{ color: "#666" }}>
@@ -338,9 +336,7 @@ const TokenList = ({
                         )}
                       </div>
                       <p>
-                        {(chainId == GOERLI_CHAIN_ID
-                          ? x?.parentName
-                          : x?.childName) ||
+                        {(bridge == "deposit" ? x?.parentName : x?.childName) ||
                           x?.name ||
                           "Unknown"}
                       </p>
@@ -428,7 +424,7 @@ const TokenList = ({
               <div className="tkn-grid">
                 <div>
                   <h6 className="fw-bold">{x?.symbol || x?.parentSymbol}</h6>
-                  <p>{x?.name || x?.parentName}</p>
+                  <p>{bridge == "deposit" ? x?.parentName : x?.childName}</p>
                 </div>
                 <div>
                   {x?.balance === 0 ? (

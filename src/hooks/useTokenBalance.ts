@@ -4,6 +4,7 @@ import Web3 from "web3";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+import { L1Block, PUPPYNET517 } from "./L1Block";
 
 export const useWeb3Decimals = (address: any) => {
   const { library, account }: any = useActiveWeb3React();
@@ -117,6 +118,39 @@ export const getTokenBalance = async (
         })
         .catch((err: any) => {
           // console.log("balance error " , err)
+        });
+    } catch (error: any) {
+      Sentry.captureException("getTokenBalance ", error);
+    }
+    return balance;
+  }
+};
+export const getL2TokenBalance = async (
+  bridge: string,
+  account: any,
+  address: any
+) => {
+  let balance: any = 0;
+  if (account && address) {
+    try {
+      const web3: any = bridge == "deposit" ? L1Block() : PUPPYNET517(); //
+      // const ABI = bridge == "deposit" ?
+      const contract = new web3.eth.Contract(ERC20_ABI, address);
+      await contract.methods
+        .balanceOf(account)
+        .call()
+        .then(async (res: any) => {
+          await contract.methods
+            .decimals()
+            .call()
+            .then((d: number) => {
+              console.log("balance , ", address, res);
+              balance = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
+              // balance = web3.utils.fromWei(res, 'ether')
+            });
+        })
+        .catch((err: any) => {
+          console.log("balance error ", err);
         });
     } catch (error: any) {
       Sentry.captureException("getTokenBalance ", error);

@@ -12,9 +12,9 @@ const AppHeader = () => {
 
   useEffect(() => {
     if (asPath) {
-      if (asPath === "/") {
+      if (asPath === "/all-validator") {
         setTitle("Staking");
-        setUrl("/");
+        setUrl("/all-validator");
       }
       // else if (asPath === "/faucet") {
       //   setTitle("Faucet");
@@ -50,7 +50,7 @@ const AppHeader = () => {
             id="navDropdown_custom"
             menuRole="menu"
           >
-            <Link href="/" passHref>
+            <Link href="/all-validator" passHref>
               <NavDropdown.Item>
                 <h6
                   className={

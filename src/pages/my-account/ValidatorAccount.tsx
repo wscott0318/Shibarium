@@ -703,7 +703,7 @@ const ValidatorAccount = ({
         show: true,
         onHash: false,
         onReceipt: false,
-        title: "Withdraw Rewards",
+        title: "Pending",
       });
       if (account) {
         let walletAddress = account;
@@ -2436,15 +2436,15 @@ const ValidatorAccount = ({
                               <div className="image-blk">
                                 <div>
                                   <img
-                                    className="img-fluid"
+                                    className="img-fluid valMiniImage"
                                     src={
                                       item.image
                                         ? item.image
-                                        : "../../assets/images/Shib-Logo.png"
+                                        : "../../assets/images/American_Shib.png"
                                     }
                                     onError={imageOnErrorHandler}
                                     width="69"
-                                    height="70"
+                                    height="69"
                                     alt="coin-icon"
                                   />
                                 </div>

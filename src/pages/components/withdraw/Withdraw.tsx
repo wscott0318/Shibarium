@@ -9,10 +9,12 @@ import {
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
 import { useABI } from "app/hooks/useABI";
-import { dynamicChaining } from "web3/DynamicChaining";
+import { contractAddress, dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
+import MRC20 from "../../../ABI/MRC20ABI.json";
+import childERC20abi from "../../../ABI/childERC20.json";
 import { useAppDispatch } from "app/state/hooks";
 import fromExponential from "from-exponential";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
@@ -31,7 +33,11 @@ import {
 import { getExplorerLink } from "app/functions";
 import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
-import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
+import {
+  BONE_ID,
+  GOERLI_CHAIN_ID,
+  PUPPYNET_CHAIN_ID,
+} from "app/config/constant";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 import useTransactionCount from "app/hooks/useTransactionCount";
 import ERC20 from "../../../ABI/ERC20Abi.json";
@@ -80,18 +86,19 @@ const WithdrawModal: React.FC<any> = ({
     step6: false,
     title: "Please Note",
   });
-  const childERC20abi = useABI("abis/plasma/ChildERC20.json");
+  // const childERC20abi = useABI("abis/plasma/ChildERC20.json");
   // const ERC20 = useABI("abis/pos/ERC20.json");
   // const ERC20PLASMA = useABI("abis/plasma/ERC20.json");
   const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
-  const MRC20 = useABI("abis/plasma/MRC20.json");
+  // const MRC20 = useABI("abis/plasma/MRC20.json");
 
-  const switchNetwork = async () => {
+  const switchNetwork = async (key: ChainId) => {
     if (error === null) {
-      let key =
-        chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID;
+      // let key =
+      //   chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID;
       console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
       const params = SUPPORTED_NETWORKS[key];
+      console.log("add chain ", key);
       cookie.set("chainId", key, params);
       try {
         await library?.send("wallet_switchEthereumChain", [
@@ -121,6 +128,10 @@ const WithdrawModal: React.FC<any> = ({
       if (account) {
         setButtonLoader(true);
         let isAllowed = false;
+        if (chainId !== GOERLI_CHAIN_ID && chainId !== PUPPYNET_CHAIN_ID) {
+          await switchNetwork(PUPPYNET_CHAIN_ID);
+          setButtonLoader(false);
+        }
         if (chainId === GOERLI_CHAIN_ID) {
           if (+allowance != 0) {
             await approveWithdraw();
@@ -128,13 +139,13 @@ const WithdrawModal: React.FC<any> = ({
           }
           if (error === null && !isAllowed) {
             console.log("entered switch network", error);
-            await switchNetwork();
+            await switchNetwork(PUPPYNET_CHAIN_ID);
           }
           setButtonLoader(false);
         }
         if (chainId === PUPPYNET_CHAIN_ID) {
           if (+allowance != 0) {
-            await switchNetwork();
+            await switchNetwork(GOERLI_CHAIN_ID);
             await approveWithdraw();
           }
           setButtonLoader(true);
@@ -162,7 +173,7 @@ const WithdrawModal: React.FC<any> = ({
       }
     }
   };
-  // console.log("selected token", selectedToken);
+
   const approveWithdraw = async () => {
     try {
       if (account) {
@@ -177,7 +188,7 @@ const WithdrawModal: React.FC<any> = ({
         let amount = web3.utils.toWei(String(withdrawTokenInput), format);
         let amountwei = web3.utils.toBN(amount);
         await instance.methods
-          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountwei)
+          .approve(contractAddress.WITHDRAW_MANAGER_PROXY, amountwei)
           .send({ from: account })
           .on("transactionHash", (res: any) => {
             dispatch(
@@ -210,7 +221,7 @@ const WithdrawModal: React.FC<any> = ({
               })
             );
             setAllowance(0);
-            await switchNetwork();
+            await switchNetwork(PUPPYNET_CHAIN_ID);
           })
           .on("error", (res: any) => {
             if (res.code == 4001) {
@@ -247,35 +258,23 @@ const WithdrawModal: React.FC<any> = ({
         setHashLink("");
         setButtonLoader(false);
         let user: any = account;
-        let expo = fromExponential(
-          +withdrawTokenInput * Math.pow(10, decimalformat)
+        let amount = web3.utils.toBN(
+          fromExponential(+withdrawTokenInput * Math.pow(10, decimalformat))
         );
-        let amount = web3.utils.toBN(expo);
-        // let format = getToWeiUnitFromDecimal(decimalformat);
-        // let amount = web3.utils.toWei(String(withdrawTokenInput), format);
-        // const amountWei = web3.utils.toBN(amount);
         let abi: any;
         let sendData;
-        if (selectedToken?.parentName === "BONE") {
-          // amount =
+        if (selectedToken?.parentName === BONE_ID) {
           abi = MRC20;
           sendData = { from: user, gas: 100000, value: amount };
         } else {
           abi = childERC20abi;
           sendData = { from: user };
         }
-        console.log("amount", amount);
         let hash: any;
         const instance = new web3.eth.Contract(
           abi,
           selectedToken?.childContract
         );
-        let gasFee = instance.methods
-          .withdraw(amount)
-          .estimateGas({ from: user })
-          .then((res: any) => console.log("gas fetched ", res))
-          .catch((err: any) => console.log("error in fetching gas ", err));
-
         await instance.methods
           .withdraw(amount)
           .send(sendData)
@@ -426,12 +425,12 @@ const WithdrawModal: React.FC<any> = ({
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
       setDecimalformat(decimal);
-      let amount = web3.utils.toWei(String(withdrawTokenInput), "ether");
+      let amount = web3.utils.toWei(String(withdrawTokenInput), format);
       const amountWei = web3.utils.toBN(amount);
       let currentprice: any = await currentGasPrice(web3);
 
       let allowance = await instance.methods
-        .allowance(account, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY)
+        .allowance(account, contractAddress.WITHDRAW_MANAGER_PROXY)
         .call({ from: account });
       let allowanceForExit = +allowance / Math.pow(10, decimal);
       let approvalInstance = new webL1.eth.Contract(
@@ -442,7 +441,7 @@ const WithdrawModal: React.FC<any> = ({
       let processExitAllowance: any = 0;
       if (+allowanceForExit < +withdrawTokenInput) {
         await approvalInstance.methods
-          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
+          .approve(contractAddress.WITHDRAW_MANAGER_PROXY, amountWei)
           .estimateGas({ from: user })
           .then((gas: any) => {
             processExitAllowance = (+gas * +currentprice) / Math.pow(10, 18);

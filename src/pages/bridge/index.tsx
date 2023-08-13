@@ -44,7 +44,9 @@ export default function Withdraw() {
   const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
-  const [openManageToken, setOpenManageToken] = useState(false);
+  const [openManageToken, setOpenManageToken] = useState<
+    "deposit" | "withdraw" | undefined
+  >();
   const [balances, setBalances] = useState({
     l1Balance: 0,
     l2Balance: 0,
@@ -139,25 +141,30 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
-
-      if (chainId === GOERLI_CHAIN_ID) {
+      console.log(
+        "fetch balance for ",
+        selectedToken.parentName,
+        openManageToken
+      );
+      let runContractMethod = true;
+      if (openManageToken === "deposit") {
         address = selectedToken?.childContract || selectedToken?.address;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
         console.log("get l2 balance  => ", address);
       } else {
-        address = selectedToken?.parentContract || selectedToken?.address;
-        contract = new web3.eth.Contract(ERC20_ABI, address);
-        console.log("get l1 balance  => ", address, contract);
+        if (selectedToken.parentName == "Ether") {
+          bal = await web3.eth.getBalance(account);
+          bal = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
+          console.log("balance ether ", bal);
+          setLoader(false);
+          runContractMethod = false;
+        } else {
+          address = selectedToken?.parentContract || selectedToken?.address;
+          contract = new web3.eth.Contract(ERC20_ABI, address);
+          console.log("get l1 balance  => ", address, contract);
+        }
       }
-      if (
-        selectedToken.parentName == "Ether" &&
-        chainId === PUPPYNET_CHAIN_ID
-      ) {
-        bal = await web3.eth.getBalance(account);
-        bal = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
-        console.log("balance ether ", bal);
-        setLoader(false);
-      } else {
+      if (runContractMethod) {
         await contract.methods
           .balanceOf(account)
           .call()
@@ -172,7 +179,21 @@ export default function Withdraw() {
               });
           });
       }
+      console.log("balance ", bal, address, selectedToken);
       setTokenBalanceL2(bal);
+      setBalances({
+        ...balances,
+        l1Balance: selectedToken?.balance || 0,
+        l2Balance: bal,
+      });
+      if (openManageToken == "withdraw") {
+        setBalances({
+          ...balances,
+          l1Balance: bal,
+          l2Balance: selectedToken?.balance || 0,
+        });
+      }
+      setOpenManageToken(undefined);
     }
   };
 
@@ -188,20 +209,6 @@ export default function Withdraw() {
 
   const handleClickOutside = useCallback(() => setMenuState(false), []);
 
-  useEffect(() => {
-    setBalances({
-      ...balances,
-      l1Balance: selectedToken?.balance || 0,
-      l2Balance: tokenBalanceL2,
-    });
-    if (chainId == PUPPYNET_CHAIN_ID) {
-      setBalances({
-        ...balances,
-        l1Balance: tokenBalanceL2,
-        l2Balance: selectedToken?.balance || 0,
-      });
-    }
-  }, [selectedToken, tokenBalanceL2]);
   return (
     <>
       <ToastContainer />
@@ -249,6 +256,8 @@ export default function Withdraw() {
         {/* Token popups start */}
         {openManageToken ? (
           <ManageToken
+            key={openManageToken}
+            bridge={openManageToken}
             setSelectedToken={setSelectedToken}
             setOpenManageToken={setOpenManageToken}
             setLoader={setLoader}
@@ -442,11 +451,17 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field ${!account ? "disabled" : ""}`}
+                                        className={`form-field position-relative fix-coin-field ${
+                                          !account ? "disabled" : ""
+                                        }`}
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken);
-                                          setTokenBalanceL2(0);
+                                          setOpenManageToken("deposit");
                                           setSelectedToken({});
+                                          setBalances({
+                                            ...balances,
+                                            l1Balance: 0,
+                                            l2Balance: 0,
+                                          });
                                           resetForm();
                                         }}
                                       >
@@ -469,8 +484,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800 w-100">
                                           <span className="lite-800 fw-bold wrap_selected_token">
-                                            {selectedToken?.key
-                                              ? selectedToken?.key
+                                            {selectedToken?.parentName
+                                              ? selectedToken?.parentName
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -695,12 +710,18 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field h-100  ${!account ? "disabled" : ""}`}
+                                        className={`form-field position-relative fix-coin-field h-100  ${
+                                          !account ? "disabled" : ""
+                                        }`}
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken);
-                                          resetForm(),
-                                          setTokenBalanceL2(0);
+                                          setOpenManageToken("withdraw");
+                                          setBalances({
+                                            ...balances,
+                                            l1Balance: 0,
+                                            l2Balance: 0,
+                                          });
                                           setSelectedToken({});
+                                          resetForm();
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -723,8 +744,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800 w-100">
                                           <span className="lite-800 fw-bold  wrap_selected_token">
-                                            {selectedToken?.key
-                                              ? selectedToken?.key
+                                            {selectedToken?.childName
+                                              ? selectedToken?.childName
                                               : "Select Token"}
                                           </span>
                                         </div>

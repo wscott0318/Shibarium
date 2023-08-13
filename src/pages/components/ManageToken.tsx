@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
 import { getWalletTokenList } from "../../services/apis/validator/index";
-import { getTokenBalance } from "../../hooks/useTokenBalance";
+import {
+  getL2TokenBalance,
+  getTokenBalance,
+} from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID, GOERLI_CHAIN_ID } from "../../config/constant";
 import Web3 from "web3";
@@ -81,6 +84,7 @@ export const Warning = ({
   );
 };
 export default function ManageToken({
+  bridge,
   setLoader,
   setOpenManageToken,
   setSelectedToken,
@@ -160,27 +164,23 @@ export default function ManageToken({
   const getTokensList = async () => {
     setIsLoading(true);
     try {
-      await getWalletTokenList().then((res) => {
+      await getWalletTokenList().then(async (res) => {
         let list = [...localTokens, ...res.data.message.tokens];
-
-        list.forEach(async (x: any) => {
+        for (const x of list) {
           let tokenAddress =
-            chainId === GOERLI_CHAIN_ID ? x?.parentContract : x?.childContract;
-          if (x?.parentName == "Ether" && chainId == GOERLI_CHAIN_ID) {
-            let bal = await web3.eth.getBalance(account);
+            bridge == "deposit" ? x?.parentContract : x?.childContract;
+          console.log("key => ", bridge, tokenAddress);
+          if (x?.parentName == "Ether" && bridge == "deposit") {
+            let bal = await web3L1.eth.getBalance(account);
             x.balance = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
-            // console.log("ether balance  => ", bal / Math.pow(10, 18));
           } else {
-            await getTokenBalance(lib, account, tokenAddress)
+            await getL2TokenBalance(bridge, account, tokenAddress)
               .then((res: any) => {
-                // console.log("token address ", tokenAddress, res);
                 x.balance = res > 0 ? res : "00.00";
               })
-              .catch((err: any) => {
-                // console.log("Error fetching balance => ", err);
-              });
+              .catch((err: any) => {});
           }
-        });
+        }
         console.log("list -> ", list);
         setTokenModalList([...list]);
         setTimeout(() => {
@@ -236,7 +236,7 @@ export default function ManageToken({
   };
   // console.log("searched ", searchedList);
   const handleTokenSelect = (token: any) => {
-    setOpenManageToken(false);
+    // setOpenManageToken(false);
     setLoader(false);
     setSelectedToken(token);
     setTokenModal(false);
@@ -564,6 +564,7 @@ export default function ManageToken({
                     >
                       {defChain && (
                         <TokenList
+                          bridge={bridge}
                           coinList={coinList}
                           DEFAULT_ITEM={DEFAULT_LIST}
                           // shouldReset={firstKey}
@@ -680,6 +681,7 @@ export default function ManageToken({
                     </>
                     {defChain && (
                       <TokenList
+                        bridge={bridge}
                         coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
                         // shouldReset={firstKey}

@@ -53,7 +53,9 @@ export default function Header() {
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
-        .then((res) => {})
+        .then((res) => {
+          console.log("getUserTypeAPI called");
+        })
         .catch((err) => {});
     }
   }, [account]);

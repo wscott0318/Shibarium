@@ -386,7 +386,12 @@ const DelegatePopup: React.FC<any> = ({
       return input;
     }
   };
-
+const imageOnErrorHandler = (
+  event: React.SyntheticEvent<HTMLImageElement, Event>
+) => {
+  event.currentTarget.src = "../../assets/images/Shib-Logo.png";
+  event.currentTarget.className = "error w-75";
+};
   return (
     <>
       <CommonModal
@@ -442,8 +447,9 @@ const DelegatePopup: React.FC<any> = ({
                               src={
                                 data.logoUrl || data?.image
                                   ? data.logoUrl || data?.image
-                                  : "../../assets/images/shiba-round-icon.png"
+                                  : "../../assets/images/American_Shib.png"
                               }
+                              onError={imageOnErrorHandler}
                             />
                           </span>
                         </div>

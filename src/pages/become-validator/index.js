@@ -6,7 +6,12 @@ import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import * as Sentry from "@sentry/nextjs";
-import { useUserType, useValCount, useValId, useValThreshold } from "../../state/user/hooks";
+import {
+  useUserType,
+  useValCount,
+  useValId,
+  useValThreshold,
+} from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { getValidatorInfo } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
@@ -20,8 +25,8 @@ const Rewards = () => {
   const [valId, setValId] = useValId();
   const router = useRouter();
   const { account, active } = useActiveWeb3React();
-    const [validatorThreshold] = useValThreshold();
-    const [totalValCount] = useValCount();
+  const [validatorThreshold] = useValThreshold();
+  const [totalValCount] = useValCount();
   const [activInput, setActivInput] = useState({
     name: false,
     website: false,
@@ -42,6 +47,7 @@ const Rewards = () => {
   });
 
   useEffect(() => {
+    router.push("/all-validator");
     if (
       (userStatus > 0 && userType === "Validator") ||
       userType === "Delegator" ||
@@ -80,7 +86,7 @@ const Rewards = () => {
         })
         .catch((err) => {});
     } catch (err) {
-      sentryErrors("getValInfo" , err);
+      sentryErrors("getValInfo", err);
     }
   };
 
@@ -97,7 +103,7 @@ const Rewards = () => {
         }
       });
     } catch (error) {
-      sentryErrors("getUsertypeAPI" , error);
+      sentryErrors("getUsertypeAPI", error);
       Sentry.captureMessage("getUsertypeAPI", error);
     }
   };
@@ -141,7 +147,7 @@ const Rewards = () => {
       setEditNsave(!editNsave);
     } catch (err) {
       Sentry.captureMessage("handleEdit", err);
-      sentryErrors("handleEdit" , err);
+      sentryErrors("handleEdit", err);
     }
   };
 
@@ -190,8 +196,7 @@ const Rewards = () => {
       }
     }
   };
-
-  console.log(valId, "valID");
+ 
 
   return (
     <>

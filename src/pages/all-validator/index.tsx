@@ -162,7 +162,7 @@ export const Allvalidator: React.FC = () => {
       <div className="main-content dark-bg-800 full-vh font-up ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         {/* banner section start */}
-        <section className="inner-banner dark-bg">
+        {/* <section className="inner-banner dark-bg">
           <div className="container">
             <div className="section-info">
               <div className="row align-items-center">
@@ -182,7 +182,7 @@ export const Allvalidator: React.FC = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         {/* banner section closed */}
 
         <div id="all-validators-section" ref={myRef} className=" ffms-inherit">

@@ -16,7 +16,7 @@ import { getClient } from "client/shibarium";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { putTransactions } from "../BridgeCalls";
-import { PUPPYNET_CHAIN_ID } from "app/config/constant";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import useTransactionCount from "app/hooks/useTransactionCount";
 
 const StepThree: React.FC<any> = ({
@@ -57,7 +57,7 @@ const StepThree: React.FC<any> = ({
     try {
       e.preventDefault();
       if (chainId === PUPPYNET_CHAIN_ID) {
-        await switchNetwork();
+        await switchNetwork(GOERLI_CHAIN_ID);
       }
       setStep("Completed");
       let user: any = account;
@@ -148,7 +148,7 @@ const StepThree: React.FC<any> = ({
   const startExitWithBurntTokens = async () => {
     try {
       if (chainId === PUPPYNET_CHAIN_ID) {
-        await switchNetwork();
+        await switchNetwork(GOERLI_CHAIN_ID);
       }
       let contract = process.env.NEXT_PUBLIC_WITHDRAW_PLASMA_EXIT_CONTRACT;
       let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
@@ -266,7 +266,7 @@ const StepThree: React.FC<any> = ({
   const posExit = async () => {
     try {
       if (chainId === PUPPYNET_CHAIN_ID) {
-        await switchNetwork();
+        await switchNetwork(GOERLI_CHAIN_ID);
       }
       console.log("entered pos exit");
       setStep("Completed");

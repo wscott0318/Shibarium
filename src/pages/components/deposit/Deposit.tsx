@@ -10,7 +10,7 @@ import {
   USER_REJECTED_TX,
 } from "web3/commonFunctions";
 import { useABI } from "app/hooks/useABI";
-import { dynamicChaining } from "web3/DynamicChaining";
+import { contractAddress, dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
@@ -54,6 +54,7 @@ const Deposit: React.FC<any> = ({
   const dispatch: any = useAppDispatch();
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
+  const [decimalformat, setDecimalformat] = useState(18);
   const [depModalState, setDepModState] = useState({
     step0: true,
     step1: false,
@@ -77,9 +78,9 @@ const Deposit: React.FC<any> = ({
         : selectedToken.childContract;
       let instanceContract: any;
       if (selectedToken?.bridgetype == "plasma") {
-        instanceContract = dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY;
+        instanceContract = contractAddress.DEPOSIT_MANAGER_PROXY;
       } else {
-        instanceContract = dynamicChaining[chainId].ERC20_PREDICATE;
+        instanceContract = contractAddress.ERC20_PREDICATE;
       }
       let amount = web3.utils.toWei(depositTokenInput, "ether");
       const amountWei = web3.utils.toBN(amount);
@@ -112,7 +113,7 @@ const Deposit: React.FC<any> = ({
   };
 
   const getFeeForEtherDeposit = async (currentprice: any, user: any) => {
-    let contract = dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+    let contract = contractAddress.ROOTCHAIN_MANAGER_PROXY;
     let abi = RootChainManagerABI;
     let instance = new web3.eth.Contract(abi, contract);
     console.log("token instance created ", instance);
@@ -164,8 +165,8 @@ const Deposit: React.FC<any> = ({
       setError("");
       let contract =
         selectedToken?.bridgetype == "plasma"
-          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+          ? contractAddress.DEPOSIT_MANAGER_PROXY
+          : contractAddress.ROOTCHAIN_MANAGER_PROXY;
 
       let abi =
         selectedToken?.bridgetype == "plasma"
@@ -220,14 +221,15 @@ const Deposit: React.FC<any> = ({
       let user: any = account;
       let senderAddress: any;
       if (selectedToken?.bridgetype == "plasma") {
-        senderAddress = dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY;
+        senderAddress = contractAddress.DEPOSIT_MANAGER_PROXY;
       } else {
-        senderAddress = dynamicChaining[chainId].ERC20_PREDICATE;
+        senderAddress = contractAddress.ERC20_PREDICATE;
       }
       let instance = new web3.eth.Contract(ERC20, token);
       console.log("token ", instance);
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
+      setDecimalformat(decimal);
       let amount = web3.utils.toWei(depositTokenInput, format);
       const amountWei = web3.utils.toBN(amount);
       await instance.methods
@@ -314,7 +316,7 @@ const Deposit: React.FC<any> = ({
         });
         let user: any = account;
         const amountWei = web3.utils.toBN(
-          fromExponential(+depositTokenInput * Math.pow(10, 18))
+          fromExponential(+depositTokenInput * Math.pow(10, decimalformat))
         );
         depositContract(user, amountWei);
       }
@@ -346,8 +348,8 @@ const Deposit: React.FC<any> = ({
     else {
       let contract =
         selectedToken?.bridgetype == "plasma"
-          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+          ? contractAddress.DEPOSIT_MANAGER_PROXY
+          : contractAddress.ROOTCHAIN_MANAGER_PROXY;
       if (selectedToken.parentName != "Ether") {
         await approvalForDeposit(selectedToken?.parentContract, contract);
       }
@@ -385,8 +387,8 @@ const Deposit: React.FC<any> = ({
     try {
       let contract =
         selectedToken?.bridgetype == "plasma"
-          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+          ? contractAddress.DEPOSIT_MANAGER_PROXY
+          : contractAddress.ROOTCHAIN_MANAGER_PROXY;
       let abi =
         selectedToken?.bridgetype == "plasma"
           ? depositManagerABI
@@ -407,7 +409,7 @@ const Deposit: React.FC<any> = ({
         );
         decimal = await tokenInstance.methods.decimals().call();
         format = getToWeiUnitFromDecimal(decimal);
-        amm = web3.utils.toWei(depositTokenInput, format);
+        amm = web3.utils.toWei(String(depositTokenInput), format);
         data = web3.eth.abi.encodeParameter("uint256", amm);
       }
 

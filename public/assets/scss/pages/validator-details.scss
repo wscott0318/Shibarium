@@ -99,8 +99,13 @@
     padding-top: 40px !important;
   }
   .image-wrap {
-    max-width: 100px;
+    max-width: 200px;
     margin: 0 auto;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 a.val_desc span {

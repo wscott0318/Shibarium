@@ -40,7 +40,7 @@ export default function Unbond() {
   const [slicedList, setSlicedList] = useState([]);
   const [transactionLink, setTransactionLink] = useState("");
   const dispatch = useAppDispatch();
-   const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
+  const ValidatorShareABI = useABI("abis/plasma/ValidatorShare.json");
   const [transactionState, setTransactionState] = useState(initialModalState);
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -505,8 +505,8 @@ export default function Unbond() {
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">
                                   <img
-                                    className="img-fluid"
-                                    src="../../assets/images/bear.png"
+                                    className="img-fluid valMiniImage"
+                                    src="../../assets/images/American_Shib.png"
                                     alt="coin"
                                     width={50}
                                     height={50}

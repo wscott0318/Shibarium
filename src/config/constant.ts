@@ -1,6 +1,6 @@
 import { ChainId } from "shibarium-get-chains";
 
-export const BONE_ID = "bone-shibaswap";
+export const BONE_ID = process.env.NEXT_PUBLIC_BONE_ID;
 // 18.216.5.132:3000/api/v1/ http://18.216.5.132:3000/api/v1/tokens/getList
 
 export const API_BASE_URL = `${process.env.NEXT_PUBLIC_STAKING_API_URL}/api/v1`; // dev

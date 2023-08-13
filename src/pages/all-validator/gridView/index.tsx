@@ -158,11 +158,11 @@ export default function ValidatorGrid({
                               src={
                                 validator.logoUrl?.startsWith("http")
                                   ? validator.logoUrl
-                                  : "../../assets/images/shiba-round-icon.png"
+                                  : "../../assets/images/American_Shib.png"
                               }
                               onError={imageOnErrorHandler}
+                              className="valMiniImage me-3"
                               alt="logo"
-                              className="me-3"
                             />
                           </span>
                         </div>

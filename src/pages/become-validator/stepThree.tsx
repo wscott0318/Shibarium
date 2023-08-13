@@ -33,6 +33,7 @@ import CommonModal from "pages/components/CommonModel";
 import { getExplorerLink } from "app/functions/explorer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { SHIBARIUM_CHAIN_ID } from "../../config/constant";
+
 function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
@@ -43,6 +44,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     state: false,
     title: "Pending",
   });
+
   const [hashLink, setHashLink] = useState("");
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const ethBalance = useEthBalance();
@@ -59,9 +61,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       .max(availBalance)
       .min(
         minStakeAmount,
-        `Minimum ${minStakeAmount} BONES required including Heimdal fee.`
+        `Minimum ${minStakeAmount} BONES required excluding Heimdal fee.`
       )
       .required("Amount is required."),
+    heimdallFee: yup
+      .number()
+      .typeError("Only digits are allowed.")
+      .min(1, `Heimdall fee cannot be less than 1`)
+      .required("Heimdall Fee is required."),
   });
   const [loader, setLoader] = useState("");
 
@@ -100,7 +107,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       sentryErrors("getMinimunFee", err);
     }
   };
-
+  console.log("min heimdall fee", minHeimdallFee);
   const checkWhitelisting = async () => {
     const contract = process.env.NEXT_PUBLIC_VALIDATOR_REGISTRY;
     const instance = new web3.eth.Contract(ValidatorRegistry, contract);
@@ -112,12 +119,15 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const user: any = account;
       const amount = web3.utils.toBN(
         fromExponential(
-          (parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)
+          (parseInt(values.amount) + parseInt(values.heimdallFee)) *
+            Math.pow(10, web3Decimals)
         )
       );
       const acceptDelegation = 1;
       const heimdallFee = web3.utils.toBN(
-        fromExponential(minHeimdallFee * Math.pow(10, web3Decimals))
+        fromExponential(
+          parseInt(values.heimdallFee) * Math.pow(10, web3Decimals)
+        )
       );
       const instance = new web3.eth.Contract(
         stakeManagerProxyABI,
@@ -158,6 +168,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 5000,
+      });
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
       });
     }
   };
@@ -229,6 +247,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             }
           })
           .on("error", (res: any) => {
+            setLoader("one");
+            setStepComplete({
+              ...StepComplete,
+              one: true,
+              two: false,
+              three: false,
+              four: false,
+            });
             if (res.code === 4001) {
               setTransactionState({ state: false, title: "" });
             }
@@ -237,6 +263,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     } catch (err: any) {
       setTransactionState({ state: false, title: "" });
       sentryErrors("approveAmount", err);
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+      });
     }
   };
 
@@ -245,12 +279,15 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const user: any = account;
       const amount = web3.utils.toBN(
         fromExponential(
-          (parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)
+          (parseInt(values.amount) + parseInt(values.heimdallFee)) *
+            Math.pow(10, web3Decimals)
         )
       );
       const acceptDelegation = 1;
       const heimdallFee = web3.utils.toBN(
-        fromExponential(minHeimdallFee * Math.pow(10, web3Decimals))
+        fromExponential(
+          parseInt(values.heimdallFee) * Math.pow(10, web3Decimals)
+        )
       );
       const instance = new web3.eth.Contract(
         stakeManagerProxyABI,
@@ -265,6 +302,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           becomeValidateData.publickey
         )
         .estimateGas({ from: user });
+      console.log("gasfee ", gasFee);
       const encodedAbi = await instance.methods
         .stakeFor(
           user,
@@ -320,22 +358,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         .on("error", (res: any) => {
           console.log(res, "error");
           setTransactionState({ state: false, title: "" });
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 0,
-              },
-            })
-          );
           if (res.code === 4001) {
             setTransactionState({ state: false, title: "" });
             toast.error("User denied this transaction", {
@@ -343,6 +365,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               autoClose: 5000,
             });
           }
+          setLoader("one");
+          setStepComplete({
+            ...StepComplete,
+            one: true,
+            two: false,
+            three: false,
+            four: false,
+          });
         });
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -351,6 +381,15 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           err
         );
       }
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+      });
+      console.log("stakefor errr ", err);
       sentryErrors("submitTransaction", err);
       setTransactionState({ state: false, title: "" });
     }
@@ -367,6 +406,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   } = useFormik({
     initialValues: {
       amount: "",
+      heimdallFee: "",
     },
     validationSchema: schema,
     onSubmit: async (values) => {
@@ -390,6 +430,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const handleTransaction = async (val: any) => {
     try {
+      if (availBalance < +val.amount + +val.heimdallFee) {
+        toast.error("Insufficient balance", {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 5000,
+        });
+        setTransactionState({ state: false, title: "" });
+        return;
+      }
       setLoader("one");
       setTransactionState({ state: true, title: "Checking for approval" });
       let user: any = account;
@@ -418,6 +466,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     } catch (err: any) {
       setTransactionState({ state: false, title: "" });
       sentryErrors("handleTransaction", err);
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+      });
     }
   };
 
@@ -427,7 +483,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       let data = new FormData();
       data.append("validatorName", becomeValidateData.name);
       data.append("public_key", becomeValidateData.publickey);
-      data.append("signerAddress", account || "");
+      data.append("stakerAddress", account || "");
       data.append("website", becomeValidateData.website);
       data.append("img", becomeValidateData.image);
       data.append("status", "0");
@@ -438,12 +494,21 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           await submitTransaction(values);
         })
         .catch((err: any) => {
+          console.log("error in call api ", err);
           notifyError();
           setTransactionState({ state: false, title: "" });
         });
     } catch (err) {
       setTransactionState({ state: false, title: "" });
       sentryErrors("callAPI", err);
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+      });
     }
   };
 
@@ -452,7 +517,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       let data = new FormData();
       data.append("validatorName", becomeValidateData.name);
       data.append("public_key", becomeValidateData.publickey);
-      data.append("signerAddress", account || "");
+      data.append("stakerAddress", account || "");
       data.append("website", becomeValidateData.website);
       data.append("img", becomeValidateData.image);
       data.append("status", "1");
@@ -464,12 +529,21 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           stepHandler("next");
         })
         .catch((err: any) => {
+          console.log("error in  update api ", err);
           notifyError();
           setTransactionState({ state: false, title: "" });
         });
     } catch (err) {
       sentryErrors("changeStatus", err);
       setTransactionState({ state: false, title: "" });
+      setLoader("one");
+      setStepComplete({
+        ...StepComplete,
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+      });
     }
   };
 
@@ -565,7 +639,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Signer’s address
+                Staker’s address
               </label>
               <input
                 type="text"
@@ -577,7 +651,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               />
             </div>
           </div>
-          <div className="col-sm-6 form-grid">
+          <div className="col-sm-12 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public Key <span className="get-info">i</span>
@@ -599,9 +673,37 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           <div className="col-sm-6 form-grid mx-field cus-tool">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
+                Enter the Heimdall fee
+              </label>
+              <div className="relative maxButtonFloat">
+                <input
+                  type="text"
+                  className="mb-2 form-control"
+                  placeholder="00.00"
+                  name="amount"
+                  value={values.heimdallFee}
+                  onChange={handleChange("heimdallFee")}
+                />
+              </div>
+              <div className="blk-dta cst-blk">
+                {touched.heimdallFee && errors.heimdallFee ? (
+                  <p className="primary-text">{errors.heimdallFee}</p>
+                ) : null}
+              </div>
+            </div>
+            <div className="row-st cst-row">
+              <div className="blk-dta">
+                <p className="amt-val bold">Minimum Heimdall fee is 1</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-6 form-grid mx-field cus-tool">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
                 <div className="tool-desc">
-                  Additional 1 Bone will be deducted for Heimdall fee
+                  Additional {values.heimdallFee || 1} Bone will be deducted for
+                  Heimdall fee
                 </div>
               </label>
               <div className="relative maxButtonFloat">

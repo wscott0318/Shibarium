@@ -38,7 +38,7 @@ const userAccount = ({
                 )}
               />
             </h4>
-            <div className="btns_sec val_all_bts row">
+            <div className="btns_sec val_all_bts row d-none">
               <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                 <Link href="all-validator" passHref>
                   <div className="cus-tooltip d-inline-block ps-0">

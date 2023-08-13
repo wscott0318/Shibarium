@@ -122,17 +122,17 @@ export default function ValidatorDetails() {
                       src={
                         validatorInfo?.logoUrl
                           ? checkImageType(validatorInfo?.logoUrl)
-                          : "../../assets/images/shib-borderd-icon.png"
+                          : "../../assets/images/American_Shib.png"
                       }
                       alt="fundborn-img"
                     />
                   </div>
-                  <h4 className="py-2 mt-2">
+                  <h4 className="py-0 mt-2">
                     <span className="text-white trs-3 ff-mos">
                       {validatorInfo?.name}
                     </span>
                   </h4>
-                  <h4 className="py-2">
+                  <h4 className="py-0">
                     <a
                       href={validatorInfo?.description}
                       target="_blank"

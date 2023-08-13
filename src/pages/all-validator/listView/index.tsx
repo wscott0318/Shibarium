@@ -162,15 +162,16 @@ export default function ListView({
                     <tr key={x?.signer}>
                       <td>
                         <div className="self-align">
-                          <span>
+                          <span className="valMiniImageWrapper">
                             <img
-                              style={{ height: 24, width: 24 }}
+                              style={{ height: 36, width: 36 }}
                               src={
                                 x.logoUrl?.startsWith("http")
                                   ? x.logoUrl
-                                  : "../../assets/images/shiba-round-icon.png"
+                                  : "../../assets/images/American_Shib.png"
                               }
                               onError={imageOnErrorHandler}
+                              className="valMiniImage"
                               // src={imagUrlChecking(x.logoUrl)}
                             />
                           </span>
