@@ -41,6 +41,7 @@ import {
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 import useTransactionCount from "app/hooks/useTransactionCount";
 import ERC20 from "../../../ABI/ERC20Abi.json";
+import axios from "axios";
 const WithdrawModal: React.FC<any> = ({
   page,
   dWState,
@@ -91,7 +92,29 @@ const WithdrawModal: React.FC<any> = ({
   // const ERC20PLASMA = useABI("abis/plasma/ERC20.json");
   const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
   // const MRC20 = useABI("abis/plasma/MRC20.json");
+  const [usdValue, setusdValue] = useState(0);
+  useEffect(() => {
+    getTokenUsdValue(selectedToken?.parentContract);
+  }, [selectedToken]);
 
+  const getTokenUsdValue = (token: string) => {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${token}&vs_currencies=usd`
+      )
+      .then((res: any) => {
+        console.log("token ", token);
+        let usdValue = 1;
+        Object.keys(res.data).map((key) => {
+          if (key.toLowerCase() == token.toLowerCase()) {
+            usdValue = res.data[key].usd;
+          }
+        });
+        console.log("coingecko respo ", res.data[token.toLowerCase()]);
+        setusdValue(usdValue);
+      })
+      .catch((err) => console.log(err));
+  };
   const switchNetwork = async (key: ChainId) => {
     if (error === null) {
       // let key =
@@ -298,7 +321,7 @@ const WithdrawModal: React.FC<any> = ({
               from: user,
               to: "",
               amount: +withdrawTokenInput,
-              usdValue: +withdrawTokenInput * boneUSDValue,
+              usdValue: +withdrawTokenInput * usdValue,
               txHash: res,
               status: 0,
               walletAddress: account,

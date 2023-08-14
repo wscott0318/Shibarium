@@ -33,7 +33,7 @@ import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { ethers } from "ethers";
 import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 // import { defaultAbiCoder as abi } from "ethers/utils/abi-coder";
-
+import axios from "axios";
 const Deposit: React.FC<any> = ({
   depositTokenInput,
   boneUSDValue,
@@ -66,6 +66,29 @@ const Deposit: React.FC<any> = ({
   const depositManagerABI = useABI("abis/plasma/DepositManager.json");
   const ERC20 = useABI("abis/pos/ERC20.json");
   const RootChainManagerABI = useABI("abis/pos/RootChainManager.json");
+  const [usdValue, setusdValue] = useState(0);
+  useEffect(() => {
+    getTokenUsdValue(selectedToken?.parentContract);
+  }, [selectedToken]);
+
+  const getTokenUsdValue = (token: string) => {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${token}&vs_currencies=usd`
+      )
+      .then((res: any) => {
+        console.log("token ", token);
+        let usdValue = 1;
+        Object.keys(res.data).map((key) => {
+          if (key.toLowerCase() == token.toLowerCase()) {
+            usdValue = res.data[key].usd;
+          }
+        });
+        console.log("coingecko respo ", res.data[token.toLowerCase()]);
+        setusdValue(usdValue);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     estGasFee();
@@ -467,7 +490,7 @@ const Deposit: React.FC<any> = ({
             from: user,
             to: "",
             amount: +depositTokenInput,
-            usdValue: +depositTokenInput * boneUSDValue,
+            usdValue: +depositTokenInput * usdValue,
             txHash: res,
             status: 0,
             walletAddress: account,

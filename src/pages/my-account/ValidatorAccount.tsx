@@ -33,7 +33,7 @@ import { getExplorerLink } from "app/functions";
 import DelegatePopup from "pages/delegate-popup";
 import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
-import { dynamicChaining } from "web3/DynamicChaining";
+import { contractAddress, dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
 import {
   useValId,
@@ -94,6 +94,7 @@ const ValidatorAccount = ({
     value2: false,
     address: "",
   });
+  const [withdrawalDelay, setWithdrawalDelay] = useState(0);
   const [migrateData, setMigrateData] = useMigrateStake(); //NOSONAR
   const [commiModal, setCommiModal] = useState({
     value: false,
@@ -155,7 +156,18 @@ const ValidatorAccount = ({
     }
   };
   console.log("stakeAmounts ", stakeAmounts);
-
+  const getCheckpointCount = async () => {
+    let instance = new web3.eth.Contract(
+      stakeManagerProxyABI,
+      contractAddress.STAKE_MANAGER_PROXY
+    );
+    let withdrawDelay = await instance.methods
+      .withdrawalDelay()
+      .call({ from: account });
+    console.log("withdraw delay ", withdrawDelay);
+    setWithdrawalDelay(withdrawDelay);
+    // withdrawDelay
+  };
   useEffect(() => {
     if (stakeAmounts.length) {
       let totalStake = stakeAmounts
@@ -210,7 +222,6 @@ const ValidatorAccount = ({
       Sentry.captureException("getDelegatorCardData ", err);
     }
   };
-  console.log("delegator list ", delegationsList);
   const handleModal = (
     btn: string,
     valAddress: any,
@@ -271,6 +282,7 @@ const ValidatorAccount = ({
     if (account && userType === "Delegator" && chainId === GOERLI_CHAIN_ID) {
       console.log("useEffect called ");
       getDelegatorCardData(account);
+      getCheckpointCount();
     }
     if (account && userType === "Validator") {
       if (valId && chainId === GOERLI_CHAIN_ID) {
@@ -1828,9 +1840,11 @@ const ValidatorAccount = ({
                       ) : null}
                     </div>
                   </div>
-                  <p className="mt-1 mb-0 info-txt">
-                    Your Funds will be locked for{" "}
-                    <p className="dark-text primary-text">Checkpoints</p>
+                  <p className="mt-1 mb-0 info-txt d-flex">
+                    Your Funds will be locked for
+                    <p className="dark-text primary-text ps-1">
+                      {withdrawalDelay} {" "} Checkpoints
+                    </p>
                   </p>
                 </div>
                 <button
