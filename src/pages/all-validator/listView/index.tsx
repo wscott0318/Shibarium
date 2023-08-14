@@ -215,8 +215,7 @@ export default function ListView({
                                 x.contractAddress ==
                                   migrateData.contractAddress ||
                                 (x.lastcheckpointsigned === 0 &&
-                                  x.fundamental === publicVal) ||
-                                x.validatorContractId <= 7
+                                  x.fundamental === publicVal)
                                   ? true
                                   : false
                               }

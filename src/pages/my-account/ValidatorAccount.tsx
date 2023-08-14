@@ -2590,14 +2590,18 @@ const ValidatorAccount = ({
                                 <div className="cus-tooltip d-inline-block">
                                   <button
                                     onClick={() => {
+                                      // console.log("item ", item);
                                       handleMigrateClick(item);
                                     }}
+                                    disabled={item.id <= 7 ? true : false}
                                     className="btn black-btn btn-small tool-ico"
                                   >
                                     Migrate Stake
                                   </button>
                                   <div className="tool-desc">
-                                    migrate your stake
+                                    {item.id <= 7
+                                      ? "Migration unavailable for fundamental validators."
+                                      : "Migrate your stake"}
                                   </div>
                                 </div>
                               </li>
