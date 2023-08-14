@@ -232,7 +232,8 @@ export default function ValidatorGrid({
                                 validator.contractAddress ==
                                   migrateData.contractAddress ||
                                 (validator.lastcheckpointsigned === 0 &&
-                                  validator.fundamental === publicVal)
+                                  validator.fundamental === publicVal) ||
+                                validator.validatorContractId <= 7
                                   ? true
                                   : false
                               }
