@@ -43,7 +43,8 @@ import {
   updateMigrateData,
   updateTotalValCount,
   updatePendingTransactionCount,
-  updateValidatorThreshold
+  updateValidatorThreshold,
+  updateBorBlockHeight
 } from "./actions";
 
 
@@ -527,4 +528,19 @@ export function useValThreshold(): [object, (newUseUserType: number) => object] 
   );
 
   return [validatorThreshold, setValidatorThreshold];
+}
+export function useBorBlockHeight(): [object, (newUseUserType: number) => object] {
+  const dispatch = useAppDispatch();
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const borBlockHeight = useSelector<AppState, AppState["borBlockHeight"]["setBorBlockHeight"]
+  >((state) => state.user.borBlockHeight);
+
+  const setBorBlockHeight = useCallback(
+    (borBlockHeight: number) =>
+      dispatch(updateBorBlockHeight({ borBlockHeight: borBlockHeight })),
+    [dispatch]
+  );
+
+  return [borBlockHeight, setBorBlockHeight];
 }

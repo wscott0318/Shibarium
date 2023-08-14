@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useUserType, useValId, useValInfo } from "../../state/user/hooks";
+import {
+  useBorBlockHeight,
+  useUserType,
+  useValId,
+  useValInfo,
+} from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import { ValInfoModals } from "pages/components/CommonModel";
 import Web3 from "web3";
@@ -27,6 +32,7 @@ const StakingHeader = (type: any) => {
   const [valInfo, setValInfo] = useValInfo(); //NOSONAR
   const [latestBlock, setLatestBlock] = useState<number>(0);
   const [stakingHeader, showStakingHeader] = useState(false);
+  const [borBlockHeight, setBorBlockHeight] = useBorBlockHeight();
   const getValInfoApi = async (id: any) => {
     try {
       await getValidatorInfo(id).then((res) => {
@@ -35,6 +41,7 @@ const StakingHeader = (type: any) => {
           // console.log("info ", info);
           setValInfo(info);
           setValidatorInfo(info?.valInfo);
+          setBorBlockHeight(info?.valInfo?.stakeBlock);
         }
       });
     } catch (error: any) {
@@ -49,13 +56,12 @@ const StakingHeader = (type: any) => {
     }
   }, [account, userType]);
 
-  useEffect(() => {
-    if (account) {
-      // console.log("step 1");
-      getDynsetyValue();
-    }
-  }, [router, account, userType]);
-
+  // useEffect(() => {
+  //   if (account) {
+  //     // console.log("step 1");
+  //     // getDynsetyValue();
+  //   }
+  // }, [router, account, userType]);
   const getDynsetyValue = async () => {
     try {
       if (chainId == GOERLI_CHAIN_ID) {
@@ -228,7 +234,7 @@ const StakingHeader = (type: any) => {
                     style={{ fontSize: "24px" }}
                     displayType="text"
                     thousandSeparator
-                    value={+dynasty + +latestBlock}
+                    value={+borBlockHeight + 2048}
                   />{" "}
                   blocks to see your account info...
                   <br />

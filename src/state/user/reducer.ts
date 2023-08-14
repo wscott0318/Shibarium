@@ -22,6 +22,7 @@ import {
   updateMigrateData,
   updateTotalValCount,
   updateValidatorThreshold,
+  updateBorBlockHeight,
 } from "./actions";
 import { updatePendingTransactionCount } from "../user/actions";
 
@@ -66,6 +67,7 @@ export interface UserState {
   totalValCount: number;
   pendingTransactionCount: number;
   validatorThreshold: number;
+  borBlockHeight: number;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -91,6 +93,7 @@ export const initialState: UserState = {
   totalValCount: 0,
   pendingTransactionCount: 0,
   validatorThreshold: 0,
+  borBlockHeight: 0,
 };
 
 export default createReducer(initialState, (builder) =>
@@ -187,5 +190,8 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updatePendingTransactionCount, (state, action) => {
       state.pendingTransactionCount = action.payload.pendingTransactionCount;
+    })
+    .addCase(updateBorBlockHeight, (state, action) => {
+      state.borBlockHeight = action.payload.borBlockHeight;
     })
 );

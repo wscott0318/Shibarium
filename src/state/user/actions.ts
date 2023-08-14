@@ -73,3 +73,6 @@ export const updatePendingTransactionCount = createAction<{
 export const updateValidatorThreshold = createAction<{
   validatorThreshold: number;
 }>("user/updateValidatorThreshold");
+export const updateBorBlockHeight = createAction<{
+  borBlockHeight: number;
+}>("user/updateBorBlockHeight");
