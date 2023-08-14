@@ -67,6 +67,9 @@ const Deposit: React.FC<any> = ({
   const ERC20 = useABI("abis/pos/ERC20.json");
   const RootChainManagerABI = useABI("abis/pos/RootChainManager.json");
 
+  useEffect(() => {
+    estGasFee();
+  }, [depositManagerABI, RootChainManagerABI]);
   const estGasFee = async () => {
     setAmountApproval(false);
     setEstGas(0);
@@ -113,6 +116,7 @@ const Deposit: React.FC<any> = ({
   };
 
   const getFeeForEtherDeposit = async (currentprice: any, user: any) => {
+    if (!RootChainManagerABI) return;
     let contract = contractAddress.ROOTCHAIN_MANAGER_PROXY;
     let abi = RootChainManagerABI;
     let instance = new web3.eth.Contract(abi, contract);
@@ -132,6 +136,7 @@ const Deposit: React.FC<any> = ({
   ) => {
     try {
       let allowGas: any = 0;
+      if (!ERC20) return;
       let approvalInstance = new web3.eth.Contract(
         ERC20,
         selectedToken?.parentContract
@@ -167,7 +172,7 @@ const Deposit: React.FC<any> = ({
         selectedToken?.bridgetype == "plasma"
           ? contractAddress.DEPOSIT_MANAGER_PROXY
           : contractAddress.ROOTCHAIN_MANAGER_PROXY;
-
+      if (!depositManagerABI || !RootChainManagerABI) return;
       let abi =
         selectedToken?.bridgetype == "plasma"
           ? depositManagerABI

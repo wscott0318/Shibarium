@@ -410,10 +410,10 @@ const WithdrawModal: React.FC<any> = ({
 
   useEffect(() => {
     estGasFee();
-  }, [ERC20, withdrawManagerABI, childERC20abi, MRC20]);
+  }, [withdrawManagerABI]);
 
   const estGasFee = async () => {
-    if (!ERC20 || !withdrawManagerABI || !childERC20abi || !MRC20) return;
+    if (!withdrawManagerABI) return;
     setLoader(true);
     setEstGas(0);
     let user: any = account;

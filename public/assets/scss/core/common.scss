@@ -3786,7 +3786,16 @@ input:-internal-autofill-selected {
     }
   }
 }
-
+.errorBoundary {
+  background: white;
+  width: 50%;
+  height: 30%;
+  position: absolute;
+  top: 50%;
+  color: #000;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .hd-sel {
   select {
     border: none;

@@ -1,41 +1,34 @@
-// @ts-nocheck
+//@ts-nocheck
 import React from "react";
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
+
+    // Define a state variable to track whether is an error or not
     this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    // Update state so the next render will show the fallback UI
+    return { hasError: true, error: error };
   }
 
-  componentDidCatch(error, info) {
-    // Example "componentStack":
-    //   in ComponentThatThrows (created by App)
-    //   in ErrorBoundary (created by App)
-    //   in div (created by App)
-    //   in App
-    logErrorToMyService(error, info.componentStack);
+  componentDidCatch(error, errorInfo) {
+    // You can use your own error logging service here
+    console.log({ error, errorInfo });
   }
 
   render() {
+    // Check if the error is thrown
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div
-        // style={{
-        //   background: "white",
-        //   width: "100vh",
-        //   height: "100vh",
-        //   position: "absolute",
-        //   top: "0",
-        //   left: 0,
-        // }}
-        >
+        <div className="errorBoundary">
           <h2>Oops, there is an error!</h2>
+          <span>{this.state.error}</span>
           <button
+            mt="4"
             type="button"
             onClick={() => this.setState({ hasError: false })}
           >
@@ -45,7 +38,9 @@ class ErrorBoundary extends React.Component {
       );
     }
 
+    // Return children components in case of no error
     return this.props.children;
   }
 }
+
 export default ErrorBoundary;
