@@ -72,6 +72,18 @@ const Deposit: React.FC<any> = ({
   }, [selectedToken]);
 
   const getTokenUsdValue = (token: string) => {
+    if (selectedToken?.key == "ETH") {
+      axios
+        .get(
+          `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`
+        )
+        .then((res: any) => {
+          console.log("coingecko respo eth ", res.data);
+          setusdValue(res.data["ethereum"].usd);
+        })
+        .catch((err) => console.log(err));
+      return;
+    }
     axios
       .get(
         `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${token}&vs_currencies=usd`
