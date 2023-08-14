@@ -29,7 +29,7 @@ const Valitotors: React.FC<any> = ({
   const [sortKey, setSortKey] = useState<string>("Uptime");
   const [userType, setUserType] = useUserType(); //NOSONAR
   const [isMobile, setIsMobile] = useState(true);
-  const [totalValCount, setTotalValCount] = useValCount();
+  // const [totalValCount, setTotalValCount] = useValCount();
   const requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -43,7 +43,7 @@ const Valitotors: React.FC<any> = ({
           setLoadingVal(false);
           console.log("total validators => ", res);
           if (res.status == 200) {
-            setTotalValCount(res.data.validatorsList.length);
+            // setTotalValCount(res.data.validatorsList.length);
             let activeList: any;
             setAllValidators(res.data.validatorsList);
             if (searchKey != "") {

@@ -27,7 +27,7 @@ const BoneStaking = () => {
   const router = useRouter();
   const web3 = new Web3(lib);
   const [validatorThreshold, setValidatorThreshold] = useValThreshold();
-  const [totalValCount] = useValCount();
+  const [totalValCount, setTotalValCount] = useValCount();
   // const [validatorThreshold, setValMaxCount] = useState(0);
   const [nodeSetup, setNodeSetup] = useState<any>("");
   const [valInfoLoader, setValInfoLoader] = useState(true);
@@ -55,15 +55,19 @@ const BoneStaking = () => {
         console.log("instance ", instance);
         const valThreshold = await instance.methods.validatorThreshold().call();
         console.log("validator threshold  ", valThreshold);
+        const validatorCount = await instance.methods
+          .currentValidatorSetSize()
+          .call();
         setValidatorThreshold(valThreshold);
-        console.log("executed validator threshold", valThreshold);
+        console.log("executed validatorCount", validatorCount);
+        setTotalValCount(validatorCount);
       }
     } catch (err: any) {
       Sentry.captureMessage("getValCount", err);
     }
   };
   // console.log("val count new", validatorThreshold, totalValCount);
-
+  console.log("total val count ", totalValCount);
   const getValInfo = async () => {
     try {
       let id: any = account;
