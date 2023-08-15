@@ -46,7 +46,7 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
               <div>
                 <b>{item?.transactionType == 1 ? "Deposit" : "Withdraw"}</b>
                 <b className="grey_txt">
-                  {item.createdAt.split("T")[1].split(".")[0]}
+                  {item.createdAt.split("T")[1].split(".")[0]} UTC
                 </b>
               </div>
             </div>
