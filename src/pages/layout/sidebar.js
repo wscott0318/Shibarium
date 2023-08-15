@@ -32,12 +32,12 @@ export default function Sidebar({
       isSelected: router.asPath == "/" ? true : false,
       img: "../../assets/images/sidebar/transaction.png",
     },
-    {
-      name: "Wallet",
-      route: "/wallet",
-      isSelected: router.asPath == "/wallet" ? true : false,
-      img: "../../assets/images/sidebar/wallet.png",
-    },
+    // {
+    //   name: "Wallet",
+    //   route: "/wallet",
+    //   isSelected: router.asPath == "/wallet" ? true : false,
+    //   img: "../../assets/images/sidebar/wallet.png",
+    // },
     {
       name: "Bridge",
       route: "/bridge",
