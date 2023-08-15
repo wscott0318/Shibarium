@@ -149,12 +149,12 @@
   padding: 9px 0px;
   border-bottom: 1px solid $grey-color-800;
   @media #{$max-lg} {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
   @media #{$max-sm} {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }
 .cstm_pagination {
