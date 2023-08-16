@@ -242,7 +242,7 @@ function NetworkDetails({ valCount }: any) {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                {/* <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -255,7 +255,7 @@ function NetworkDetails({ valCount }: any) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="row">
