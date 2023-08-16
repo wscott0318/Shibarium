@@ -25,6 +25,7 @@ import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
 import axios from "axios";
 // @ts-ignore TYPE NEEDS FIXING
 import cookie from "cookie-cutter";
+import { ChainId } from "shibarium-get-chains";
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const web3L2 = PUPPYNET517();
@@ -92,14 +93,14 @@ export default function Withdraw() {
         setDepositModal(true);
         setReset({ ...reset, method: resetForm });
       } else {
-        switchNetwork();
+        switchNetwork(GOERLI_CHAIN_ID);
       }
     } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
     }
   };
-  const switchNetwork = async () => {
-    let key = GOERLI_CHAIN_ID;
+  const switchNetwork = async (key:ChainId) => {
+    // let key = GOERLI_CHAIN_ID;
     console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
     const params = SUPPORTED_NETWORKS[key];
     cookie.set("chainId", key, params);
@@ -470,14 +471,21 @@ export default function Withdraw() {
                                           !account ? "disabled" : ""
                                         }`}
                                         onClick={() => {
-                                          setOpenManageToken("deposit");
-                                          setSelectedToken({});
-                                          setBalances({
-                                            ...balances,
-                                            l1Balance: 0,
-                                            l2Balance: 0,
-                                          });
-                                          resetForm();
+                                          if (
+                                            chainId == GOERLI_CHAIN_ID ||
+                                            chainId == PUPPYNET_CHAIN_ID
+                                          ) {
+                                            setOpenManageToken("deposit");
+                                            setSelectedToken({});
+                                            setBalances({
+                                              ...balances,
+                                              l1Balance: 0,
+                                              l2Balance: 0,
+                                            });
+                                            resetForm();
+                                          } else {
+                                            switchNetwork(GOERLI_CHAIN_ID);
+                                          }
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -729,14 +737,19 @@ export default function Withdraw() {
                                           !account ? "disabled" : ""
                                         }`}
                                         onClick={() => {
-                                          setOpenManageToken("withdraw");
-                                          setBalances({
-                                            ...balances,
-                                            l1Balance: 0,
-                                            l2Balance: 0,
-                                          });
-                                          setSelectedToken({});
-                                          resetForm();
+                                          if (chainId == GOERLI_CHAIN_ID || chainId == PUPPYNET_CHAIN_ID) {
+                                            setOpenManageToken("withdraw");
+                                            setBalances({
+                                              ...balances,
+                                              l1Balance: 0,
+                                              l2Balance: 0,
+                                            });
+                                            setSelectedToken({});
+                                            resetForm();
+                                          }
+                                          else {
+                                            switchNetwork(GOERLI_CHAIN_ID)
+                                          }
                                         }}
                                       >
                                         <div className="right-spacing">
