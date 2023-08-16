@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import InnerHeader from "../inner-header";
 // @ts-ignore
-import  { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Sidebar from "../layout/sidebar"
 import { useActiveWeb3React } from "app/services/web3";
 import { BONE_ID } from '../../config/constant';
@@ -32,13 +32,14 @@ export default function Wallet() {
 
 
   useEffect(() => {
+    router.push('/');
     if (tokenFilteredList.length) {
       let obj = tokenFilteredList.filter((x: any) => x.parentName === 'BONE').map((y: any) => y)[0]
       setSelectedToken(obj)
     }
   }, [tokenFilteredList, tokenList])
 
-  console.log(tokenModalList,selectedToken)
+  console.log(tokenModalList, selectedToken)
 
 
   const getTokensList = () => {
@@ -76,7 +77,7 @@ export default function Wallet() {
 
 
 
-  
+
 
 
   const handleMenuState = () => {
@@ -89,7 +90,7 @@ export default function Wallet() {
 
   return (
     <>
-       <main className="main-content">
+      <main className="main-content">
         <Sidebar
           handleMenuState={handleMenuState}
           onClickOutside={() => {
