@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import ComponentRouters from "./routes";
 import Head from "next/head";
 import ErrorBoundary from "../components/ErrorBoundary";
-const APP_NAME = "Shibarium Beta";
+const APP_NAME = "Shibarium";
 declare global {
   interface Window {
     walletLinkExtension?: any;
