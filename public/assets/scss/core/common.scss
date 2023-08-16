@@ -3788,6 +3788,9 @@ input:-internal-autofill-selected {
 }
 .validator_table p.tb-value {
   font-size: 14px;
+  width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .errorBoundary {
   background: white;

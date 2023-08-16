@@ -51,6 +51,7 @@ const WithdrawModal: React.FC<any> = ({
   boneUSDValue,
   show,
   reset,
+  EthValue,
 }) => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
@@ -560,7 +561,7 @@ const WithdrawModal: React.FC<any> = ({
       show={show}
       setshow={() => {
         setWithdrawModalOpen(false);
-        reset.method();
+        if (page != "tx") reset.method();
       }}
       externalCls="dark-modal-100 bridge-ht2"
     >
@@ -732,7 +733,7 @@ const WithdrawModal: React.FC<any> = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$"
-                                  value={(allowance * boneUSDValue).toFixed(8)}
+                                  value={(allowance * EthValue).toFixed(8)}
                                 />
                               </>
                             ) : (
@@ -771,7 +772,7 @@ const WithdrawModal: React.FC<any> = ({
                                 prefix="$"
                                 value={(
                                   (allowance ? +estGas + +allowance : +estGas) *
-                                  boneUSDValue
+                                  EthValue
                                 ).toFixed(8)}
                               />
                             </>
@@ -847,7 +848,7 @@ const WithdrawModal: React.FC<any> = ({
                             displayType={"text"}
                             prefix="$ "
                             value={(
-                              (+withdrawTokenInput || 0) * boneUSDValue
+                              (+withdrawTokenInput || 0) * usdValue
                             ).toFixed(tokenDecimal)}
                           />
                         </p>
@@ -933,7 +934,7 @@ const WithdrawModal: React.FC<any> = ({
                             prefix="$"
                             value={(
                               (allowance > 0 ? +estGas + +allowance : +estGas) *
-                              boneUSDValue
+                              EthValue
                             ).toFixed(8)}
                           />
                         </p>

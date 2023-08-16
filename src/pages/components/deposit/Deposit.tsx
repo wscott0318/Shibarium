@@ -44,6 +44,7 @@ const Deposit: React.FC<any> = ({
   hashLink,
   setHashLink,
   reset,
+  EthValue,
 }) => {
   const [amountApproval, setAmountApproval] = useState(false);
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -409,7 +410,7 @@ const Deposit: React.FC<any> = ({
           thousandSeparator
           displayType={"text"}
           prefix="$"
-          value={(allowance * boneUSDValue).toFixed(6)}
+          value={(allowance * EthValue).toFixed(6)}
         />
       );
     } else if (allowance == -1) {
@@ -757,7 +758,7 @@ const Deposit: React.FC<any> = ({
                         thousandSeparator
                         displayType={"text"}
                         prefix="$"
-                        value={(estGas * boneUSDValue).toFixed(6)}
+                        value={(estGas * EthValue).toFixed(6)}
                       />
                     </div>
                   </div>
@@ -825,9 +826,9 @@ const Deposit: React.FC<any> = ({
                         thousandSeparator
                         displayType={"text"}
                         prefix="$ "
-                        value={(
-                          (+depositTokenInput || 0) * boneUSDValue
-                        ).toFixed(tokenDecimal)}
+                        value={((+depositTokenInput || 0) * usdValue).toFixed(
+                          tokenDecimal
+                        )}
                       />
                     </p>
                   </div>
@@ -914,7 +915,7 @@ const Deposit: React.FC<any> = ({
                         thousandSeparator
                         displayType={"text"}
                         prefix="$"
-                        value={(estGas * boneUSDValue).toFixed(6)}
+                        value={(estGas * EthValue).toFixed(6)}
                       />
                     </p>
                   </div>
@@ -960,7 +961,7 @@ const Deposit: React.FC<any> = ({
                         displayType={"text"}
                         prefix="$ "
                         value={(
-                          (+depositTokenInput || 0) * boneUSDValue
+                          (+depositTokenInput || 0) * usdValue
                         ).toFixed(tokenDecimal)}
                       />
                     </p>
@@ -1083,7 +1084,7 @@ const Deposit: React.FC<any> = ({
                         displayType={"text"}
                         prefix="$ "
                         value={(
-                          (+depositTokenInput || 0) * boneUSDValue
+                          (+depositTokenInput || 0) * usdValue
                         ).toFixed(tokenDecimal)}
                       />
                     </p>

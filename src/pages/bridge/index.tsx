@@ -22,6 +22,7 @@ import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
 import Loader from "app/components/Loader";
 import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
+import axios from "axios";
 // @ts-ignore TYPE NEEDS FIXING
 import cookie from "cookie-cutter";
 export default function Withdraw() {
@@ -44,6 +45,7 @@ export default function Withdraw() {
   const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
+  const [EthValue, setEthValue] = useState(0);
   const [openManageToken, setOpenManageToken] = useState<
     "deposit" | "withdraw" | undefined
   >();
@@ -63,6 +65,7 @@ export default function Withdraw() {
     getBoneUSDValue().then((res: any) => {
       setBoneUSDValue(res);
     });
+    getEthUsdValue();
   }, [account]);
   const depositValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
@@ -129,7 +132,17 @@ export default function Withdraw() {
       Sentry.captureMessage("callWithdrawModal", err);
     }
   };
-
+  const getEthUsdValue = () => {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`
+      )
+      .then((res: any) => {
+        console.log("coingecko respo eth ", res.data);
+        setEthValue(res.data["ethereum"].usd);
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     if (Object.keys(selectedToken).length) {
       setLoader(true);
@@ -232,6 +245,7 @@ export default function Withdraw() {
               hashLink,
               setHashLink,
               reset,
+              EthValue,
             }}
           />
         ) : null}
@@ -249,6 +263,7 @@ export default function Withdraw() {
             withdrawTokenInput={withdrawTokenInput}
             boneUSDValue={boneUSDValue}
             reset={reset}
+            EthValue={EthValue}
           />
         ) : null}
         {/* Withdraw tab popups end */}

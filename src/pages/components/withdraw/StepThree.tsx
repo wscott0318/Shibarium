@@ -126,12 +126,7 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-          // if (postResp) {
-          //   toast.success("Withdraw data updated successfully.", {
-          //     position: toast.POSITION.TOP_RIGHT,
-          //     autoClose: 5000,
-          //   });
-          // }
+       
           setTxState({ ...txState, processExit: true, finalHash: res });
         })
         .on("error", (res: any) => {
@@ -166,6 +161,7 @@ const StepThree: React.FC<any> = ({
           0
         );
       }
+      
       console.log("step erc 20  ", erc20Token);
       let gasFee = await instance.methods
         .startExitWithBurntTokens(erc20Token)
@@ -228,12 +224,7 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-          if (postResp) {
-            toast.success("Withdraw data updated successfully.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
-          }
+         
           setTxState({
             ...txState,
             checkpointSigned: true,
@@ -349,12 +340,7 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-          if (postResp) {
-            toast.success("Withdraw data updated successfully.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
-          }
+          
           setTxState({
             ...txState,
             checkpointSigned: true,

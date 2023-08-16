@@ -75,7 +75,7 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
                     overflow: "hidden",
                   }}
                 >
-                  {item.usdValue.toFixed(2)}$
+                  ${item.usdValue.toFixed(4)}
                 </b>
               </div>
             </div>
