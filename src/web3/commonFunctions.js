@@ -13,6 +13,7 @@ import {
 import { ChainId } from "shibarium-get-chains";
 
 export const validatorThresholdCount = 20;
+export const defaultvalidatorCount = 8;
 export const getAllowanceAmount = async (library, token, account, contract) => {
   // const ERC20 = useABI("abis/pos/ERC20.json");
   if (account) {

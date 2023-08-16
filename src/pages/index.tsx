@@ -9,7 +9,7 @@ import NetworkDetails from "./home/NetworkDetails";
 import ValidatorsCard from "./all-validator/valitotors";
 import { useActiveWeb3React } from "../services/web3";
 // import stakeManagerProxyABI from "../ABI/StakeManagerProxy.json";
-import { dynamicChaining } from "web3/DynamicChaining";
+import { contractAddress, dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId } from "app/hooks/L1Block";
@@ -17,7 +17,10 @@ import { queryProvider } from "Apollo/client";
 import { validators } from "Apollo/queries";
 import Web3 from "web3";
 import { useABI } from "app/hooks/useABI";
-import { validatorThresholdCount } from "web3/commonFunctions";
+import {
+  defaultvalidatorCount,
+  validatorThresholdCount,
+} from "web3/commonFunctions";
 import { GOERLI_CHAIN_ID } from "app/config/constant";
 
 const BoneStaking = () => {
@@ -37,37 +40,36 @@ const BoneStaking = () => {
     if (account) {
       getValInfo();
     }
-    getValCount();
   }, [account, chainId]);
+  useEffect(() => {
+    getValCount();
+  }, [account, chainId, stakeManagerABI]);
 
   const getValCount = async () => {
     try {
-      if (chainId == GOERLI_CHAIN_ID) {
-        const id = await ChainId();
-        console.log("entered getValCount");
-        const address = dynamicChaining[id]?.STAKE_MANAGER_PROXY;
-        if (!stakeManagerABI) {
-          console.log("executed");
-          setValidatorThreshold(validatorThresholdCount);
-          return;
-        }
-        let instance = new web3.eth.Contract(stakeManagerABI, address);
-        console.log("instance ", instance);
-        const valThreshold = await instance.methods.validatorThreshold().call();
-        console.log("validator threshold  ", valThreshold);
-        const validatorCount = await instance.methods
-          .currentValidatorSetSize()
-          .call();
-        setValidatorThreshold(valThreshold);
-        console.log("executed validatorCount", validatorCount);
-        setTotalValCount(validatorCount);
+      const address = contractAddress.STAKE_MANAGER_PROXY;
+      if (!stakeManagerABI) {
+        setValidatorThreshold(validatorThresholdCount);
+        setTotalValCount(defaultvalidatorCount);
+        return;
       }
+      let instance = new web3test.eth.Contract(stakeManagerABI, address);
+      console.log("instance ", instance);
+      const valThreshold = await instance.methods.validatorThreshold().call();
+      console.log("validator threshold  ", valThreshold);
+      const validatorCount = await instance.methods
+        .currentValidatorSetSize()
+        .call();
+      setValidatorThreshold(valThreshold);
+      console.log("executed validatorCount", validatorCount);
+      setTotalValCount(validatorCount);
+      // }
     } catch (err: any) {
       Sentry.captureMessage("getValCount", err);
     }
   };
   // console.log("val count new", validatorThreshold, totalValCount);
-  console.log("total val count ", totalValCount);
+  // console.log("total val count ", totalValCount);
   const getValInfo = async () => {
     try {
       let id: any = account;
