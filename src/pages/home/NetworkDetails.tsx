@@ -149,7 +149,7 @@ function NetworkDetails({ valCount }: any) {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 col-custum">
+                {/* <div className="col-md-6 col-xl-4 col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -166,7 +166,7 @@ function NetworkDetails({ valCount }: any) {
                       </div>
                       <div className="mid-head">
                         <span>
-                          {/* <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((networkDetails?.totalReward || 0) * boneUSDValue)} /> */}
+                          
                         </span>
                       </div>
                     </div>
@@ -176,7 +176,7 @@ function NetworkDetails({ valCount }: any) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
