@@ -37,6 +37,11 @@ export default function ListView({
   const tootlTipDesc = (x: any) => {
     // console.log("account ", account);
     if (account) {
+      if (x.validatorContractId == 8) {
+        return (
+          <div className="tool-desc tool-desc-sm">Delegation is disabled.</div>
+        );
+      }
       if (
         x.checkpointstatus === 0 &&
         +x.missedLatestCheckpointcount >= 500 &&
@@ -56,10 +61,6 @@ export default function ListView({
               ? "Stakes cannot be migrated to same Validator."
               : "Migrate Your Stakes here."}
           </div>
-        );
-      } else if (x.uptimePercent <= inActiveCount) {
-        return (
-          <div className="tool-desc tool-desc-sm">Delegation is disabled.</div>
         );
       } else {
         return (
@@ -111,8 +112,6 @@ export default function ListView({
             Not signing checkpoints.
           </p>
         );
-      } else if (x.uptimePercent <= inActiveCount) {
-        return "Delegation Disabled";
       } else {
         return "Delegate";
       }
@@ -172,7 +171,7 @@ export default function ListView({
                               }
                               onError={imageOnErrorHandler}
                               className="valMiniImage"
-                              // src={imagUrlChecking(x.logoUrl)}
+                            // src={imagUrlChecking(x.logoUrl)}
                             />
                           </span>
                           <Link href={`/all-validator/${x.signer}`} passHref>
@@ -210,12 +209,11 @@ export default function ListView({
                             <button
                               className={`btn primary-btn w-100 text-wrap`}
                               disabled={
-                                !account ||
-                                x.uptimePercent <= inActiveCount ||
-                                x.contractAddress ==
+                                !account || x.validatorContractId == 8 ||
+                                  x.contractAddress ==
                                   migrateData.contractAddress ||
-                                (x.lastcheckpointsigned === 0 &&
-                                  x.fundamental === publicVal)
+                                  (x.lastcheckpointsigned === 0 &&
+                                    x.fundamental === publicVal)
                                   ? true
                                   : false
                               }

@@ -227,12 +227,11 @@ export default function ValidatorGrid({
                           <div className="delegate_btn">
                             <button
                               disabled={
-                                !account ||
-                                validator.uptimePercent <= inActiveCount ||
-                                validator.contractAddress ==
+                                !account || validator.validatorContractId == 8 ||
+                                  validator.contractAddress ==
                                   migrateData.contractAddress ||
-                                (validator.lastcheckpointsigned === 0 &&
-                                  validator.fundamental === publicVal)
+                                  (validator.lastcheckpointsigned === 0 &&
+                                    validator.fundamental === publicVal)
                                   ? true
                                   : false
                               }
