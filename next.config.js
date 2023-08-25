@@ -44,7 +44,7 @@ const nextConfig = {
         type: 'javascript/auto',
       },
     ]
-    
+
     return config
   },
   devIndicators: {
@@ -59,8 +59,8 @@ const nextConfig = {
   pwa: {
     dest: 'public',
     // runtimeCaching,
-    dynamicStartUrlRedirect: '/',
-    disable: process.env.NODE_ENV === 'development',
+    //dynamicStartUrlRedirect: '/',
+    //disable: process.env.NODE_ENV === 'development',
   },
   images: {
     loader: 'cloudinary',
@@ -121,7 +121,7 @@ const SentryWebpackPluginOptions = {
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withSentryConfig(nextConfig,SentryWebpackPluginOptions)
+module.exports = withSentryConfig(nextConfig, SentryWebpackPluginOptions)
 
 
 // Don't delete this console log, useful to see the config in Vercel deployments
