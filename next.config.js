@@ -56,12 +56,12 @@ const nextConfig = {
   // },
   swcMinify: false,
   reactStrictMode: true,
-  pwa: {
-    dest: 'public',
-    // runtimeCaching,
-    dynamicStartUrlRedirect: '/',
-    disable: process.env.NODE_ENV === 'development',
-  },
+  // pwa: {
+  //   dest: 'public',
+  //   // runtimeCaching,
+  //   dynamicStartUrlRedirect: '/',
+  //   disable: process.env.NODE_ENV === 'development',
+  // },
   images: {
     loader: 'cloudinary',
     path: 'https://res.cloudinary.com/sushi-cdn/image/fetch/',
