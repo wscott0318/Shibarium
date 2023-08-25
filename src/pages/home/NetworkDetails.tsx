@@ -43,6 +43,7 @@ function NetworkDetails({ valCount }: any) {
       if (chainId == GOERLI_CHAIN_ID) {
         console.log("entered getBlockNumber");
         web3test?.eth?.getBlockNumber().then((lastBlock: number) => {
+          console.log(lastBlock, '46');
           setLatestBlock(lastBlock);
         });
       }
