@@ -76,7 +76,7 @@ export const inActiveCount = 5;
 export const fundamental = 1;
 export const publicVal = 2;
 
-export const mobileWalletEndpoint = "beta.shibariumtech.com";
+export const mobileWalletEndpoint = "shibarium.shib.io";
 
 export const imagUrlChecking = (imgURL) => {
   if ((imgURL && imgURL.split("/")[0] === "http") || "https") {

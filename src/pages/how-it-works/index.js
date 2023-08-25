@@ -49,14 +49,14 @@ export default function HowitWorks() {
               To log into the Shibarium Wallet Suite you need to access the
               following URL:{" "}
               <a className="underline" href="/;">
-                https://beta.shibariumtech.com/.
+                https://shibarium.shib.io/.
               </a>
             </p>
             <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
               To log into the testnet version of Shibarium Wallet Suite, you
               need to access the following URL:{" "}
               <a className="underline" href="/;">
-                https://beta.shibariumtech.com/.
+                https://shibarium.shib.io/.
               </a>
             </p>
             <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
