@@ -59,8 +59,8 @@ const nextConfig = {
   pwa: {
     dest: 'public',
     // runtimeCaching,
-    //dynamicStartUrlRedirect: '/',
-    //disable: process.env.NODE_ENV === 'development',
+    dynamicStartUrlRedirect: '/',
+    disable: process.env.NODE_ENV === 'development',
   },
   images: {
     loader: 'cloudinary',
