@@ -534,7 +534,7 @@ const StepThree: React.FC<any> = ({
                       />
                       <h5 className="pt-4 pb-2">Checkpoint Arrived</h5>
                       <p className="pb-3">
-                        Your transaction has been checkpointed on the Sepolia
+                        Your transaction has been checkpointed on the Ethereum Mainnet
                         network. Please proceed to the next transaction.
                       </p>
                       <a
@@ -656,10 +656,10 @@ const StepThree: React.FC<any> = ({
                   <div className="pop-grid flex-column align-items-center justify-content-center text-center">
                     <img src="../../assets/images/cmpete-step.png" alt="" />
                     <h5 className="pt-4 pb-2">
-                      Transfer completed successfully
+                      Transfer Is In Progress
                     </h5>
                     <p className="pb-3 ps-2 pe-2">
-                      Your transfer is completed successfully.
+                      Your transfer is in Progress and in the Queue, It will take Up To 7 Days to get Completed.
                     </p>
                     <a
                       href={
