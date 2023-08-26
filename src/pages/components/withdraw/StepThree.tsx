@@ -126,18 +126,27 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-       
+
           setTxState({ ...txState, processExit: true, finalHash: res });
         })
         .on("error", (res: any) => {
           console.log("processExit ", res);
+          setStep("Challenge Period");
         });
     } catch (err: any) {
       console.log("processExit ", err);
+      setStep("Challenge Period");
+      toast.error("Something went wrong. Please try again later.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+      if (err?.code === 4001) {
+        toast.error("User denied transaction.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
+      }
     }
-    // await finalise(txState?.token?.parentContract, account).then((res: any) => {
-
-    // }).catch((err: any) => console.log(err));
   };
 
   const startExitWithBurntTokens = async () => {
@@ -161,7 +170,7 @@ const StepThree: React.FC<any> = ({
           0
         );
       }
-      
+
       console.log("step erc 20  ", erc20Token);
       let gasFee = await instance.methods
         .startExitWithBurntTokens(erc20Token)
@@ -224,7 +233,7 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-         
+
           setTxState({
             ...txState,
             checkpointSigned: true,
@@ -241,13 +250,16 @@ const StepThree: React.FC<any> = ({
         });
     } catch (err: any) {
       console.log("startExitWithBurntTokens ", err);
-      // let error = parseError(err);
       setStep("Checkpoint");
       toast.error("Something went wrong. Try again later.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
       });
       if (err?.code === 4001) {
+        toast.error("User denied transaction.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
         console.log("user denied transaction");
         setChallengePeriodCompleted(false);
       }
@@ -269,6 +281,7 @@ const StepThree: React.FC<any> = ({
       const instance = new web3.eth.Contract(POSExitABI, contract);
       console.log("instance done", instance);
       const data = txState?.txData?.Transfer?.signature;
+      console.log("data -> ", txState);
       let erc20Token: any;
       if (client) {
         erc20Token = await client.exitUtil.buildPayloadForExit(
@@ -340,7 +353,7 @@ const StepThree: React.FC<any> = ({
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
-          
+
           setTxState({
             ...txState,
             checkpointSigned: true,
@@ -361,6 +374,10 @@ const StepThree: React.FC<any> = ({
       console.log("posExit error ", err);
       setStep("Checkpoint");
       setChallengePeriodCompleted(false);
+      toast.error("Something went wrong. Try again later.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     }
   };
 

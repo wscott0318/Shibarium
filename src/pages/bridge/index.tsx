@@ -99,7 +99,7 @@ export default function Withdraw() {
       Sentry.captureMessage("callDepositModal", err);
     }
   };
-  const switchNetwork = async (key:ChainId) => {
+  const switchNetwork = async (key: ChainId) => {
     // let key = GOERLI_CHAIN_ID;
     console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
     const params = SUPPORTED_NETWORKS[key];
@@ -737,7 +737,10 @@ export default function Withdraw() {
                                           !account ? "disabled" : ""
                                         }`}
                                         onClick={() => {
-                                          if (chainId == GOERLI_CHAIN_ID || chainId == PUPPYNET_CHAIN_ID) {
+                                          if (
+                                            chainId == GOERLI_CHAIN_ID ||
+                                            chainId == PUPPYNET_CHAIN_ID
+                                          ) {
                                             setOpenManageToken("withdraw");
                                             setBalances({
                                               ...balances,
@@ -746,9 +749,8 @@ export default function Withdraw() {
                                             });
                                             setSelectedToken({});
                                             resetForm();
-                                          }
-                                          else {
-                                            switchNetwork(GOERLI_CHAIN_ID)
+                                          } else {
+                                            switchNetwork(GOERLI_CHAIN_ID);
                                           }
                                         }}
                                       >
@@ -793,9 +795,9 @@ export default function Withdraw() {
                                             placeholder="0.00"
                                             name="withdrawAmount"
                                             disabled={
-                                              selectedToken?.type == undefined
-                                                ? true
-                                                : false
+                                              !!(
+                                                selectedToken?.type == undefined
+                                              )
                                             }
                                             value={values.withdrawAmount}
                                             onChange={handleChange(
@@ -909,9 +911,18 @@ export default function Withdraw() {
                               </div>
                               <div className="wrap-bottom">
                                 <div className="btn-modify">
+                                  {selectedToken?.bridgetype == "plasma" && (
+                                    <small className="primary-text text-center d-inline-block fs-7 w-100">
+                                      Plasma withdrawals are currently
+                                      unavailable. Will be back soon.
+                                    </small>
+                                  )}
                                   <button
                                     onClick={() => handleSubmit()}
                                     type="submit"
+                                    disabled={
+                                      selectedToken?.bridgetype == "plasma"
+                                    }
                                     className="btn primary-btn w-100"
                                   >
                                     Transfer
