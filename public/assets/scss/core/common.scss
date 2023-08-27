@@ -171,41 +171,50 @@ span.transactionLoader {
   padding: 9px;
   border-radius: 50px;
 }
+
 span.transactionLoader.failed {
   background-color: red;
 }
 
 .valInfoPage.staking-main {
   padding-top: 130px;
+
   @media #{$max-sm} {
     padding-top: 124px !important;
   }
+
   @media #{$max-xsm} {
     padding-top: 113px !important;
   }
 }
+
 .wrapped-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   span {
     font-size: 12px;
   }
+
   @media #{$max-xsm} {
     flex-direction: column;
     align-items: flex-start;
   }
 }
+
 small.errorMsg {
   display: inline-block;
   text-align: center;
   width: 100%;
   color: red;
 }
+
 .right_block ul.pagination li {
   width: 55px;
   text-align: center;
 }
+
 .flex-img-box {
   width: 100%;
   text-align: center;
@@ -213,6 +222,7 @@ small.errorMsg {
   display: flex !important;
   align-items: center;
   justify-content: center;
+
   img {
     @media #{$max-lg} {
       max-width: 100% !important;
@@ -341,6 +351,7 @@ small.errorMsg {
 
 .ng-16 {
   margin-top: -6px !important;
+
   @media #{$max-sm} {
     margin-top: 0 !important;
   }
@@ -473,6 +484,7 @@ small.errorMsg {
   }
 
   .dropdown-toggle {
+
     &:focus,
     &:hover,
     &:visited {
@@ -510,12 +522,12 @@ small.errorMsg {
   position: relative;
 }
 
-#account-dropdown ~ .dropdown-menu.show {
+#account-dropdown~.dropdown-menu.show {
   left: 0;
   transform: translate(-90%);
 }
 
-.inner-header-dropwdown #account-dropdown ~ .dropdown-menu.show {
+.inner-header-dropwdown #account-dropdown~.dropdown-menu.show {
   left: 0;
   transform: translate(-84%);
 }
@@ -707,15 +719,15 @@ small.errorMsg {
   top: 2px;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #f28102;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(22px);
   -ms-transform: translateX(22px);
   transform: translateX(22px);
@@ -785,6 +797,7 @@ input:checked + .slider:before {
   color: #f17501;
   font-size: 20px;
 }
+
 .head-md {
   font-size: 34px;
 }
@@ -1097,11 +1110,11 @@ input:checked + .slider:before {
   transition: all 0.4s ease-in-out;
 }
 
-.toggle input:checked + .slider {
+.toggle input:checked+.slider {
   background-color: $primary-three;
 }
 
-.toggle input:checked + .slider::before {
+.toggle input:checked+.slider::before {
   transform: translateX(calc(var(--width) - var(--height)));
 }
 
@@ -1136,11 +1149,11 @@ input:checked + .slider:before {
   transition: all 0.4s ease-in-out;
 }
 
-.toggle input:checked ~ .labels::after {
+.toggle input:checked~.labels::after {
   opacity: 0;
 }
 
-.toggle input:checked ~ .labels::before {
+.toggle input:checked~.labels::before {
   opacity: 1;
 }
 
@@ -1178,6 +1191,7 @@ input:checked + .slider:before {
 
 /** On Off Switch **/
 .cmn-input-bg {
+
   .cmn_modal input[type="email"],
   .cmn_modal input[type="text"] {
     background-color: $body-bg-800;
@@ -1622,7 +1636,7 @@ input:checked + .slider:before {
 
 .bridge-ht2 {
   .modal-content {
-    height: auto;
+    height: 608px;
     min-height: 608px;
 
     @media #{$max-xxl} {
@@ -1644,10 +1658,12 @@ input:checked + .slider:before {
   overflow: hidden;
   white-space: nowrap;
   height: 18px;
+
   @media #{$max-lg} {
     max-width: 100%;
   }
 }
+
 .tkn-ht {
   .modal-content {
     height: 680px;
@@ -2903,10 +2919,7 @@ input:checked + .slider:before {
   }
 }
 
-.reward-calculator
-  .rewards-section-cal
-  .side-card
-  .card-list-item:nth-child(odd) {
+.reward-calculator .rewards-section-cal .side-card .card-list-item:nth-child(odd) {
   border-right: none;
 }
 
@@ -3066,7 +3079,7 @@ input:checked + .slider:before {
   }
 }
 
-.captcha-wrap > div > div > div {
+.captcha-wrap>div>div>div {
   margin: 0 auto;
 }
 
@@ -3341,12 +3354,10 @@ input:-internal-autofill-selected {
 
 .cus-shimer {
   .shimmer {
-    background: linear-gradient(
-      to right,
-      #f6f6f6 -62%,
-      #f0f0f0 -42%,
-      #596380 60%
-    );
+    background: linear-gradient(to right,
+        #f6f6f6 -62%,
+        #f0f0f0 -42%,
+        #596380 60%);
     animation: shimmer 5s linear infinite forwards;
   }
 
@@ -3685,6 +3696,7 @@ input:-internal-autofill-selected {
   width: 100%;
 
   .tool-ico {
+
     // width: 25px;
     // height: 25px;
     // background:$primary;
@@ -3700,7 +3712,7 @@ input:-internal-autofill-selected {
     //     font-size: 14px;
     //     font-weight: bold;
     // }
-    ~ .tool-desc {
+    ~.tool-desc {
       display: none;
       position: absolute;
       background-color: #fff;
@@ -3766,14 +3778,14 @@ input:-internal-autofill-selected {
     }
 
     &:hover {
-      ~ .tool-desc {
+      ~.tool-desc {
         display: block;
         opacity: 1;
         z-index: 1;
       }
     }
 
-    ~ .tool-desc.tool-desc-grid {
+    ~.tool-desc.tool-desc-grid {
       top: -100%;
       left: 3%;
 
@@ -3789,12 +3801,14 @@ input:-internal-autofill-selected {
     }
   }
 }
+
 .validator_table p.tb-value {
   font-size: 14px;
   width: 75%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .errorBoundary {
   background: white;
   width: 50%;
@@ -3805,6 +3819,7 @@ input:-internal-autofill-selected {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .hd-sel {
   select {
     border: none;
@@ -3867,7 +3882,7 @@ input:-internal-autofill-selected {
   }
 }
 
-.ff-mos .get-info:hover ~ .tool-desc {
+.ff-mos .get-info:hover~.tool-desc {
   display: block;
 }
 
@@ -3883,11 +3898,11 @@ input:-internal-autofill-selected {
   left: -4%;
 }
 
-.innerDivBgBlack > div {
+.innerDivBgBlack>div {
   background-color: black !important;
 }
 
-.innerDivBgBlack > a {
+.innerDivBgBlack>a {
   line-height: 1.25rem;
   // font-family: "MADE Okine Sans PERSONAL USE" !important;
   font-size: 16px !important;
@@ -4294,6 +4309,7 @@ input:-internal-autofill-selected {
 }
 
 .fix-coin-field {
+
   // .lite-color{
   //     // width: 100px;
   //     // overflow: hidden;
@@ -5092,6 +5108,7 @@ section.del-grid-section .txt-emp {
 }
 
 .blk-dta {
+
   label,
   .amt-val {
     font-size: 16px;
@@ -5215,7 +5232,7 @@ section.del-grid-section .txt-emp {
   height: 88%;
 }
 
-.loading-steps .step_wrapper > div {
+.loading-steps .step_wrapper>div {
   width: 33px;
   background: #666;
   border-radius: 50px;
@@ -5233,15 +5250,12 @@ section.del-grid-section .txt-emp {
   justify-content: space-evenly;
 }
 
-.loading-steps
-  .step_wrapper
-  > div
-  .MuiCircularProgress-root.MuiCircularProgress-indeterminate {
+.loading-steps .step_wrapper>div .MuiCircularProgress-root.MuiCircularProgress-indeterminate {
   width: 75% !important;
   height: 75% !important;
 }
 
-.loading-steps > div::after {
+.loading-steps>div::after {
   content: "";
   position: absolute;
   width: 2px;
@@ -5286,7 +5300,7 @@ section.del-grid-section .txt-emp {
   padding-bottom: 4px;
 }
 
-.step_wrapper.completed > div {
+.step_wrapper.completed>div {
   background: #f16e0f;
 }
 
@@ -5307,11 +5321,11 @@ section.del-grid-section .txt-emp {
   color: #ccc;
 }
 
-.loading-steps > div.completed::after {
+.loading-steps>div.completed::after {
   background-color: #f1740f;
 }
 
-.loading-steps > div:last-of-type::after {
+.loading-steps>div:last-of-type::after {
   display: none;
 }
 
@@ -5612,6 +5626,7 @@ section.del-grid-section .txt-emp {
 }
 
 .sec-format {
+
   h6,
   .over-text {
     font-size: 16px;
@@ -5738,10 +5753,12 @@ body::-webkit-scrollbar,
 .fade.shib-popup.stak-pop.unbd-info-pop.modal.show::-webkit-scrollbar {
   display: none;
 }
+
 .network_Icon_Wrapper {
   width: 26px;
   height: 26px;
 }
+
 .no-found.no-records-wrapper {
   width: 100%;
   height: 100%;
@@ -5752,7 +5769,7 @@ body::-webkit-scrollbar,
   background: #151b28;
 }
 
-.del-tab-content > div > h5 {
+.del-tab-content>div>h5 {
   line-height: 30px;
   margin-bottom: 25px !important;
 }
@@ -5773,24 +5790,15 @@ body::-webkit-scrollbar,
     flex-direction: column-reverse;
   }
 
-  .reward-calculator
-    section.rewards-section-cal
-    .main-container
-    .custom-column:first-of-type {
+  .reward-calculator section.rewards-section-cal .main-container .custom-column:first-of-type {
     border-right: none;
   }
 
-  .reward-calculator
-    .rewards-section-cal
-    .side-card
-    .card-list-item:nth-child(3) {
+  .reward-calculator .rewards-section-cal .side-card .card-list-item:nth-child(3) {
     border-right: 1px solid #666;
   }
 
-  .reward-calculator
-    section.rewards-section-cal
-    .main-container
-    .custom-column:last-of-type {
+  .reward-calculator section.rewards-section-cal .main-container .custom-column:last-of-type {
     margin-bottom: 0 !important;
   }
 
@@ -5798,11 +5806,7 @@ body::-webkit-scrollbar,
     padding-bottom: 20px;
   }
 
-  .reward-calculator
-    section.rewards-section-cal
-    .card-list-item:first-of-type
-    h2
-    span {
+  .reward-calculator section.rewards-section-cal .card-list-item:first-of-type h2 span {
     font-size: 40px;
   }
 }
@@ -5888,6 +5892,7 @@ body::-webkit-scrollbar,
 
 .burn-table {
   table {
+
     th,
     td {
       color: rgba($white, 0.8);
