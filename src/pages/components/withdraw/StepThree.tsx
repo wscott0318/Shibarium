@@ -409,17 +409,15 @@ const StepThree: React.FC<any> = ({
             </div>
             <hr />
             <ul
-              className={`stepper mt-3 del-step withdraw_steps ${
-                (selectedToken && selectedToken?.bridgetype == "pos") ||
+              className={`stepper mt-3 del-step withdraw_steps ${(selectedToken && selectedToken?.bridgetype == "pos") ||
                 (txState && txState?.token?.bridgetype == "pos")
-                  ? "pos_view"
-                  : ""
-              }`}
+                ? "pos_view"
+                : ""
+                }`}
             >
               <li
-                className={`step ${
-                  processing.includes("Initialized") && "active"
-                }`}
+                className={`step ${processing.includes("Initialized") && "active"
+                  }`}
               >
                 <div className="step-ico">
                   <img
@@ -431,11 +429,10 @@ const StepThree: React.FC<any> = ({
                 <div className="step-title">Initialized</div>
               </li>
               <li
-                className={`step ${
-                  (processing.includes("Checkpoint") ||
-                    txState?.checkpointSigned) &&
+                className={`step ${(processing.includes("Checkpoint") ||
+                  txState?.checkpointSigned) &&
                   "active"
-                }`}
+                  }`}
               >
                 <div className="step-ico">
                   <img
@@ -448,48 +445,45 @@ const StepThree: React.FC<any> = ({
               </li>
               {page === "bridge"
                 ? selectedToken &&
-                  selectedToken?.bridgetype === "plasma" && (
-                    <li
-                      className={`step ${
-                        (processing.includes("Challenge Period") ||
-                          txState?.challengePeriod) &&
-                        "active"
+                selectedToken?.bridgetype === "plasma" && (
+                  <li
+                    className={`step ${(processing.includes("Challenge Period") ||
+                      txState?.challengePeriod) &&
+                      "active"
                       }`}
-                    >
-                      <div className="step-ico">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/tick-yes.png"
-                          alt="check-icon"
-                        />
-                      </div>
-                      <div className="step-title">Challenge Period</div>
-                    </li>
-                  )
+                  >
+                    <div className="step-ico">
+                      <img
+                        className="img-fluid"
+                        src="../../assets/images/tick-yes.png"
+                        alt="check-icon"
+                      />
+                    </div>
+                    <div className="step-title">Challenge Period</div>
+                  </li>
+                )
                 : txState &&
-                  txState?.token?.bridgetype === "plasma" && (
-                    <li
-                      className={`step ${
-                        (processing.includes("Challenge Period") ||
-                          txState?.challengePeriod) &&
-                        "active"
+                txState?.token?.bridgetype === "plasma" && (
+                  <li
+                    className={`step ${(processing.includes("Challenge Period") ||
+                      txState?.challengePeriod) &&
+                      "active"
                       }`}
-                    >
-                      <div className="step-ico">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/tick-yes.png"
-                          alt="check-icon"
-                        />
-                      </div>
-                      <div className="step-title">Challenge Period</div>
-                    </li>
-                  )}
+                  >
+                    <div className="step-ico">
+                      <img
+                        className="img-fluid"
+                        src="../../assets/images/tick-yes.png"
+                        alt="check-icon"
+                      />
+                    </div>
+                    <div className="step-title">Challenge Period</div>
+                  </li>
+                )}
               <li
-                className={`step ${
-                  (processing.includes("Completed") || txState?.processExit) &&
+                className={`step ${(processing.includes("Completed") || txState?.processExit) &&
                   "active"
-                }`}
+                  }`}
               >
                 <div className="step-ico">
                   <img
@@ -626,7 +620,7 @@ const StepThree: React.FC<any> = ({
                       </a>
                     </div>
                     <div className="pop-bottom">
-                      {today.isBefore(updatedAt.add(7, "days")) && (
+                      {txState?.bridgeType == "plasma" && today.isBefore(updatedAt.add(7, "days")) && (
                         <p
                           className="text-center d-flex w-100 justify-content-center align-items-center primary-text"
                           style={{ fontSize: "13px" }}
@@ -647,7 +641,7 @@ const StepThree: React.FC<any> = ({
                       )}
                       <div>
                         <button
-                          disabled={today.isBefore(updatedAt.add(7, "days"))}
+                          disabled={txState?.bridgeType == "plasma" && today.isBefore(updatedAt.add(7, "days"))}
                           onClick={(e) => {
                             processExit(e);
                           }}
