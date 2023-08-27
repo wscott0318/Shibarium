@@ -70,18 +70,19 @@ const StepThree: React.FC<any> = ({
       let token =
         selectedToken?.parentContract || txState?.token?.parentContract;
       console.log("token ", instance);
-      await instance.methods
+      let gasFee = await instance.methods
         .processExits(token)
-        .estimateGas({ from: user })
-        .then((res: any) => {
-          console.log("gas fee calculated =>", res);
+        .estimateGas({ from: user });
+      let encodedAbi = await instance.methods.processExits(token).encodeABI();
+      let CurrentgasPrice: any = await currentGasPrice(web3);
+      await web3.eth
+        .sendTransaction({
+          from: account,
+          to: dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY,
+          gas: parseInt(gasFee + 300000).toString(),
+          gasPrice: CurrentgasPrice,
+          data: encodedAbi,
         })
-        .catch((err: any) => {
-          console.log("error calculating gas fee", err);
-        });
-      await instance.methods
-        .processExits(token)
-        .send({ from: account })
         .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
