@@ -1622,14 +1622,17 @@ input:checked + .slider:before {
 
 .bridge-ht2 {
   .modal-content {
-    height: 608px;
+    height: auto;
+    min-height: 608px;
 
     @media #{$max-xxl} {
-      height: 590px;
+      min-height: 590px;
+      height: auto;
     }
 
     @media #{$max-xl} {
-      height: 580px;
+      height: auto;
+      min-height: 580px;
     }
   }
 }

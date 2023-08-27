@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { putTransactions } from "../BridgeCalls";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import useTransactionCount from "app/hooks/useTransactionCount";
-
+import dayjs from "dayjs";
 const StepThree: React.FC<any> = ({
   withdrawTokenInput,
   selectedToken,
@@ -46,6 +46,8 @@ const StepThree: React.FC<any> = ({
   const PlasmaExitABI = useABI("abis/plasma/ERC20PredicateBurnOnly.json");
   const withdrawManagerABI = useABI("abis/plasma/WithdrawManager.json");
   const dispatch: any = useAppDispatch();
+  const today = dayjs();
+  const updatedAt = dayjs(txState?.updatedAt);
   useEffect(() => {
     if (txState && page == "tx") {
       let link = getExplorerLink(chainId, txState?.txHash, "transaction");
@@ -265,7 +267,6 @@ const StepThree: React.FC<any> = ({
       }
     }
   };
-
   const posExit = async () => {
     try {
       if (chainId === PUPPYNET_CHAIN_ID) {
@@ -407,15 +408,17 @@ const StepThree: React.FC<any> = ({
             </div>
             <hr />
             <ul
-              className={`stepper mt-3 del-step withdraw_steps ${(selectedToken && selectedToken?.bridgetype == "pos") ||
-                  (txState && txState?.token?.bridgetype == "pos")
+              className={`stepper mt-3 del-step withdraw_steps ${
+                (selectedToken && selectedToken?.bridgetype == "pos") ||
+                (txState && txState?.token?.bridgetype == "pos")
                   ? "pos_view"
                   : ""
-                }`}
+              }`}
             >
               <li
-                className={`step ${processing.includes("Initialized") && "active"
-                  }`}
+                className={`step ${
+                  processing.includes("Initialized") && "active"
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -427,10 +430,11 @@ const StepThree: React.FC<any> = ({
                 <div className="step-title">Initialized</div>
               </li>
               <li
-                className={`step ${(processing.includes("Checkpoint") ||
+                className={`step ${
+                  (processing.includes("Checkpoint") ||
                     txState?.checkpointSigned) &&
                   "active"
-                  }`}
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -443,45 +447,48 @@ const StepThree: React.FC<any> = ({
               </li>
               {page === "bridge"
                 ? selectedToken &&
-                selectedToken?.bridgetype === "plasma" && (
-                  <li
-                    className={`step ${(processing.includes("Challenge Period") ||
-                        txState?.challengePeriod) &&
-                      "active"
+                  selectedToken?.bridgetype === "plasma" && (
+                    <li
+                      className={`step ${
+                        (processing.includes("Challenge Period") ||
+                          txState?.challengePeriod) &&
+                        "active"
                       }`}
-                  >
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Challenge Period</div>
-                  </li>
-                )
+                    >
+                      <div className="step-ico">
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/tick-yes.png"
+                          alt="check-icon"
+                        />
+                      </div>
+                      <div className="step-title">Challenge Period</div>
+                    </li>
+                  )
                 : txState &&
-                txState?.token?.bridgetype === "plasma" && (
-                  <li
-                    className={`step ${(processing.includes("Challenge Period") ||
-                        txState?.challengePeriod) &&
-                      "active"
+                  txState?.token?.bridgetype === "plasma" && (
+                    <li
+                      className={`step ${
+                        (processing.includes("Challenge Period") ||
+                          txState?.challengePeriod) &&
+                        "active"
                       }`}
-                  >
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Challenge Period</div>
-                  </li>
-                )}
+                    >
+                      <div className="step-ico">
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/tick-yes.png"
+                          alt="check-icon"
+                        />
+                      </div>
+                      <div className="step-title">Challenge Period</div>
+                    </li>
+                  )}
               <li
-                className={`step ${(processing.includes("Completed") || txState?.processExit) &&
+                className={`step ${
+                  (processing.includes("Completed") || txState?.processExit) &&
                   "active"
-                  }`}
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -534,8 +541,8 @@ const StepThree: React.FC<any> = ({
                       />
                       <h5 className="pt-4 pb-2">Checkpoint Arrived</h5>
                       <p className="pb-3">
-                        Your transaction has been checkpointed on the Ethereum Mainnet
-                        network. Please proceed to the next transaction.
+                        Your transaction has been checkpointed on the Ethereum
+                        Mainnet. Please proceed to the next transaction.
                       </p>
                       <a
                         href={getExplorerLink(
@@ -618,15 +625,22 @@ const StepThree: React.FC<any> = ({
                       </a>
                     </div>
                     <div className="pop-bottom">
+                      {today.isBefore(updatedAt.add(7, "days")) && (
+                        <small className="text-center d-inline-block w-100">
+                          Your plasma bridge BONE token unlocks after{" "}
+                          {updatedAt.add(7, "days").format("DD-MM-YYYY")}
+                        </small>
+                      )}
                       <div>
-                        <a
+                        <button
+                          disabled={today.isBefore(updatedAt.add(7, "days"))}
                           onClick={(e) => {
                             processExit(e);
                           }}
                           className={`btn primary w-100 primary-btn`}
                         >
                           Continue
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </>
@@ -655,11 +669,10 @@ const StepThree: React.FC<any> = ({
                 {txState?.processExit || completed ? (
                   <div className="pop-grid flex-column align-items-center justify-content-center text-center">
                     <img src="../../assets/images/cmpete-step.png" alt="" />
-                    <h5 className="pt-4 pb-2">
-                      Transfer Is In Progress
-                    </h5>
+                    <h5 className="pt-4 pb-2">Transfer Is In Progress</h5>
                     <p className="pb-3 ps-2 pe-2">
-                      Your transfer is in Progress and in the Queue, It will take Up To 7 Days to get Completed.
+                      Your transfer is in Progress and in the Queue, It will
+                      take Up To 7 Days to get Completed.
                     </p>
                     <a
                       href={
