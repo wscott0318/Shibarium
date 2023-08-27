@@ -96,7 +96,7 @@ const StepThree: React.FC<any> = ({
           setHashLink(link);
           let body = {
             txHash: txState.txHash,
-            finalHash: res.transactionHash,
+            finalHash: res,
           };
           await putTransactions(body);
         })
@@ -319,7 +319,7 @@ const StepThree: React.FC<any> = ({
           let body = {
             txHash: txState.txHash,
             withdrawHash: res,
-            finalHash: res.transactionHash,
+            finalHash: res,
           };
           await putTransactions(body);
         })
