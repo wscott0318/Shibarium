@@ -626,10 +626,23 @@ const StepThree: React.FC<any> = ({
                     </div>
                     <div className="pop-bottom">
                       {today.isBefore(updatedAt.add(7, "days")) && (
-                        <small className="text-center d-inline-block w-100">
-                          Your plasma bridge BONE token unlocks after{" "}
-                          {updatedAt.add(7, "days").format("DD-MM-YYYY")}
-                        </small>
+                        <p
+                          className="text-center d-flex w-100 justify-content-center align-items-center primary-text"
+                          style={{ fontSize: "13px" }}
+                        >
+                          Your plasma bridge{" "}
+                          {/* <p
+                            className="primary-text ps-1 pe-1 mb-0"
+                            style={{ fontSize: "14px" }}
+                          > */}
+                          BONE token unlocks after{" "}
+                          {/* <p
+                            className="primary-text ps-1 pe-1"
+                            style={{ fontSize: "14px" }}
+                          > */}
+                          {updatedAt.add(7, "days").format("DD MMMM YYYY")}
+                          {/* </p> */}
+                        </p>
                       )}
                       <div>
                         <button
