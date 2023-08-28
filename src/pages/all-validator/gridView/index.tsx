@@ -227,7 +227,7 @@ export default function ValidatorGrid({
                           <div className="delegate_btn">
                             <button
                               disabled={
-                                !account || validator.validatorContractId == 8 ||
+                                !account ||
                                   validator.contractAddress ==
                                   migrateData.contractAddress ||
                                   (validator.lastcheckpointsigned === 0 &&

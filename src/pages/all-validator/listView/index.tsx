@@ -37,11 +37,6 @@ export default function ListView({
   const tootlTipDesc = (x: any) => {
     // console.log("account ", account);
     if (account) {
-      if (x.validatorContractId == 8) {
-        return (
-          <div className="tool-desc tool-desc-sm">Delegation is disabled.</div>
-        );
-      }
       if (
         x.checkpointstatus === 0 &&
         +x.missedLatestCheckpointcount >= 500 &&
@@ -209,7 +204,7 @@ export default function ListView({
                             <button
                               className={`btn primary-btn w-100 text-wrap`}
                               disabled={
-                                !account || x.validatorContractId == 8 ||
+                                !account ||
                                   x.contractAddress ==
                                   migrateData.contractAddress ||
                                   (x.lastcheckpointsigned === 0 &&
