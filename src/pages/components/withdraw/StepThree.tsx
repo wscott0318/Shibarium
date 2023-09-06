@@ -58,84 +58,86 @@ const StepThree: React.FC<any> = ({
   const processExit = async (e: any) => {
     try {
       e.preventDefault();
-      if (chainId === PUPPYNET_CHAIN_ID) {
+      if (chainId !== GOERLI_CHAIN_ID) {
         await switchNetwork(GOERLI_CHAIN_ID);
       }
-      setStep("Completed");
-      let user: any = account;
-      let instance = new web3.eth.Contract(
-        withdrawManagerABI,
-        dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-      );
-      let token =
-        selectedToken?.parentContract || txState?.token?.parentContract;
-      console.log("token ", instance);
-      let gasFee = await instance.methods
-        .processExits(token)
-        .estimateGas({ from: user });
-      let encodedAbi = await instance.methods.processExits(token).encodeABI();
-      let CurrentgasPrice: any = await currentGasPrice(web3);
-      await web3.eth
-        .sendTransaction({
-          from: account,
-          to: dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY,
-          gas: parseInt(gasFee + 300000).toString(),
-          gasPrice: CurrentgasPrice,
-          data: encodedAbi,
-        })
-        .on("transactionHash", async (res: any) => {
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
-          );
-          let link = getExplorerLink(chainId, res, "transaction");
-          setHashLink(link);
-          let body = {
-            txHash: txState.txHash,
-            finalHash: res,
-          };
-          await putTransactions(body);
-        })
-        .on("receipt", async (res: any) => {
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1,
-              },
-            })
-          );
-          getTransactionsCount();
-          setProcessing((processing: any) => [...processing, "Completed"]);
-          setCompleted(true);
-          let body = {
-            stepPoint: "0",
-            processExit: true,
-            status: 1,
-            txHash: txState.txHash,
-            checkProcessExitStatus: true,
-          };
-          let postResp = await putTransactions(body);
-          console.log("post resp", postResp);
+      if (chainId == GOERLI_CHAIN_ID) {
+        setStep("Completed");
+        let user: any = account;
+        let instance = new web3.eth.Contract(
+          withdrawManagerABI,
+          dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+        );
+        let token =
+          selectedToken?.parentContract || txState?.token?.parentContract;
+        console.log("token ", instance);
+        let gasFee = await instance.methods
+          .processExits(token)
+          .estimateGas({ from: user });
+        let encodedAbi = await instance.methods.processExits(token).encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        await web3.eth
+          .sendTransaction({
+            from: account,
+            to: dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY,
+            gas: parseInt(gasFee + 300000).toString(),
+            gasPrice: CurrentgasPrice,
+            data: encodedAbi,
+          })
+          .on("transactionHash", async (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            let link = getExplorerLink(chainId, res, "transaction");
+            setHashLink(link);
+            let body = {
+              txHash: txState.txHash,
+              finalHash: res,
+            };
+            await putTransactions(body);
+          })
+          .on("receipt", async (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            getTransactionsCount();
+            setProcessing((processing: any) => [...processing, "Completed"]);
+            setCompleted(true);
+            let body = {
+              stepPoint: "0",
+              processExit: true,
+              status: 1,
+              txHash: txState.txHash,
+              checkProcessExitStatus: true,
+            };
+            let postResp = await putTransactions(body);
+            console.log("post resp", postResp);
 
-          setTxState({ ...txState, processExit: true, finalHash: res });
-        })
-        .on("error", (res: any) => {
-          console.log("processExit ", res);
-          setStep("Challenge Period");
-        });
+            setTxState({ ...txState, processExit: true, finalHash: res });
+          })
+          .on("error", (res: any) => {
+            console.log("processExit ", res);
+            setStep("Challenge Period");
+          });
+      }
     } catch (err: any) {
       console.log("processExit ", err);
       setStep("Challenge Period");
@@ -154,103 +156,104 @@ const StepThree: React.FC<any> = ({
 
   const startExitWithBurntTokens = async () => {
     try {
-      if (chainId === PUPPYNET_CHAIN_ID) {
+      if (chainId !== GOERLI_CHAIN_ID) {
         await switchNetwork(GOERLI_CHAIN_ID);
       }
-      let contract = process.env.NEXT_PUBLIC_WITHDRAW_PLASMA_EXIT_CONTRACT;
-      let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-      setStep("Challenge Period");
-      let user: any = account;
-      const client = await getClient(type);
-      let erc20Token: any;
-      const instance = new web3.eth.Contract(PlasmaExitABI, contract);
-      const data = txState?.txData?.Withdraw?.signature;
-      if (client) {
-        erc20Token = await client.exitUtil.buildPayloadForExit(
-          txState?.txHash,
-          data.toLowerCase(),
-          false,
-          0
-        );
-      }
-
-      console.log("step erc 20  ", erc20Token);
-      let gasFee = await instance.methods
-        .startExitWithBurntTokens(erc20Token)
-        .estimateGas({ from: account });
-      console.log("step erc20 token=>", gasFee, user, account);
-      let encodedAbi = await instance.methods
-        .startExitWithBurntTokens(erc20Token)
-        .encodeABI();
-      let CurrentgasPrice: any = await currentGasPrice(web3);
-      await web3.eth
-        .sendTransaction({
-          from: account,
-          to: contract,
-          gas: parseInt(gasFee).toString(),
-          gasPrice: CurrentgasPrice,
-          data: encodedAbi,
-        })
-        .on("transactionHash", async (res: any) => {
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
+      if (chainId === GOERLI_CHAIN_ID) {
+        let contract = process.env.NEXT_PUBLIC_WITHDRAW_PLASMA_EXIT_CONTRACT;
+        let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+        setStep("Challenge Period");
+        let user: any = account;
+        const client = await getClient(type);
+        let erc20Token: any;
+        const instance = new web3.eth.Contract(PlasmaExitABI, contract);
+        const data = txState?.txData?.Withdraw?.signature;
+        if (client) {
+          erc20Token = await client.exitUtil.buildPayloadForExit(
+            txState?.txHash,
+            data.toLowerCase(),
+            false,
+            0
           );
-          let body = {
-            txHash: txState.txHash,
-            withdrawHash: res,
-          };
-          await putTransactions(body);
-        })
-        .on("receipt", async (res: any) => {
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1,
-              },
-            })
-          );
-          setChallengePeriodCompleted(true);
-          setProcessing((processing: any) => [
-            ...processing,
-            "Challenge Period",
-          ]);
-          let body = {
-            stepPoint: "1 step",
-            challengePeriod: true,
-            txHash: txState.txHash,
-            checkChallengePeriodStatus: true,
-          };
-          let postResp = await putTransactions(body);
-          console.log("post resp", postResp);
+        }
+        console.log("step erc 20  ", erc20Token);
+        let gasFee = await instance.methods
+          .startExitWithBurntTokens(erc20Token)
+          .estimateGas({ from: account });
+        console.log("step erc20 token=>", gasFee, user, account);
+        let encodedAbi = await instance.methods
+          .startExitWithBurntTokens(erc20Token)
+          .encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        await web3.eth
+          .sendTransaction({
+            from: account,
+            to: contract,
+            gas: parseInt(gasFee).toString(),
+            gasPrice: CurrentgasPrice,
+            data: encodedAbi,
+          })
+          .on("transactionHash", async (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            let body = {
+              txHash: txState.txHash,
+              withdrawHash: res,
+            };
+            await putTransactions(body);
+          })
+          .on("receipt", async (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            setChallengePeriodCompleted(true);
+            setProcessing((processing: any) => [
+              ...processing,
+              "Challenge Period",
+            ]);
+            let body = {
+              stepPoint: "1 step",
+              challengePeriod: true,
+              txHash: txState.txHash,
+              checkChallengePeriodStatus: true,
+            };
+            let postResp = await putTransactions(body);
+            console.log("post resp", postResp);
 
-          setTxState({
-            ...txState,
-            checkpointSigned: true,
-            challengePeriod: true,
-            withdrawHash: res,
+            setTxState({
+              ...txState,
+              checkpointSigned: true,
+              challengePeriod: true,
+              withdrawHash: res,
+            });
+          })
+          .on("error", async (res: any) => {
+            setStep("Checkpoint");
+            if (res.code === 4001) {
+              console.log("user denied transaction");
+              setChallengePeriodCompleted(false);
+            }
           });
-        })
-        .on("error", async (res: any) => {
-          setStep("Checkpoint");
-          if (res.code === 4001) {
-            console.log("user denied transaction");
-            setChallengePeriodCompleted(false);
-          }
-        });
+      }
     } catch (err: any) {
       console.log("startExitWithBurntTokens ", err);
       setStep("Checkpoint");
@@ -268,110 +271,113 @@ const StepThree: React.FC<any> = ({
       }
     }
   };
+
   const posExit = async () => {
     try {
-      if (chainId === PUPPYNET_CHAIN_ID) {
+      if (chainId !== GOERLI_CHAIN_ID) {
         await switchNetwork(GOERLI_CHAIN_ID);
       }
-      console.log("entered pos exit");
-      setStep("Completed");
-      const user: any = account;
-      const type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-      const client = await getClient(type);
-      console.log("client done", client);
-      let contract = process.env.NEXT_PUBLIC_WITHDRAW_POS_EXIT_CONTRACT;
-      const instance = new web3.eth.Contract(POSExitABI, contract);
-      console.log("instance done", instance);
-      const data = txState?.txData?.Transfer?.signature;
-      console.log("data -> ", txState);
-      let erc20Token: any;
-      if (client) {
-        erc20Token = await client.exitUtil.buildPayloadForExit(
-          txState?.txHash,
-          data.toLowerCase(),
-          false,
-          0
-        );
-      }
-      console.log("erx 20 token data ", erc20Token);
-      let gasFee = await instance.methods
-        .exit(erc20Token)
-        .estimateGas({ from: user });
-      let encodedAbi = await instance.methods.exit(erc20Token).encodeABI();
-      let CurrentgasPrice: any = await currentGasPrice(web3);
-      await web3.eth
-        .sendTransaction({
-          from: user,
-          to: contract,
-          gas: (parseInt(gasFee) + 30000).toString(),
-          gasPrice: CurrentgasPrice,
-          data: encodedAbi,
-        })
-        .on("transactionHash", async (res: any) => {
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
+      if (chainId === GOERLI_CHAIN_ID) {
+        console.log("entered pos exit");
+        setStep("Completed");
+        const user: any = account;
+        const type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+        const client = await getClient(type);
+        console.log("client done", client);
+        let contract = process.env.NEXT_PUBLIC_WITHDRAW_POS_EXIT_CONTRACT;
+        const instance = new web3.eth.Contract(POSExitABI, contract);
+        console.log("instance done", instance);
+        const data = txState?.txData?.Transfer?.signature;
+        console.log("data -> ", txState);
+        let erc20Token: any;
+        if (client) {
+          erc20Token = await client.exitUtil.buildPayloadForExit(
+            txState?.txHash,
+            data.toLowerCase(),
+            false,
+            0
           );
-          let body = {
-            txHash: txState.txHash,
-            withdrawHash: res,
-            finalHash: res,
-          };
-          await putTransactions(body);
-        })
-        .on("receipt", async (res: any) => {
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1,
-              },
-            })
-          );
-          getTransactionsCount();
-          setProcessing((processing: any) => [...processing, "Completed"]);
-          setStep("Completed");
-          setCompleted(true);
-          let body = {
-            stepPoint: "0",
-            challengePeriod: true,
-            processExit: true,
-            status: 1,
-            txHash: txState.txHash,
-            checkProcessExitStatus: true,
-            checkChallengePeriodStatus: true,
-          };
-          let postResp = await putTransactions(body);
-          console.log("post resp", postResp);
+        }
+        console.log("erx 20 token data ", erc20Token);
+        let gasFee = await instance.methods
+          .exit(erc20Token)
+          .estimateGas({ from: user });
+        let encodedAbi = await instance.methods.exit(erc20Token).encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        await web3.eth
+          .sendTransaction({
+            from: user,
+            to: contract,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            data: encodedAbi,
+          })
+          .on("transactionHash", async (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            let body = {
+              txHash: txState.txHash,
+              withdrawHash: res,
+              finalHash: res,
+            };
+            await putTransactions(body);
+          })
+          .on("receipt", async (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            getTransactionsCount();
+            setProcessing((processing: any) => [...processing, "Completed"]);
+            setStep("Completed");
+            setCompleted(true);
+            let body = {
+              stepPoint: "0",
+              challengePeriod: true,
+              processExit: true,
+              status: 1,
+              txHash: txState.txHash,
+              checkProcessExitStatus: true,
+              checkChallengePeriodStatus: true,
+            };
+            let postResp = await putTransactions(body);
+            console.log("post resp", postResp);
 
-          setTxState({
-            ...txState,
-            checkpointSigned: true,
-            challengePeriod: true,
-            processExit: true,
-            withdrawHash: res,
+            setTxState({
+              ...txState,
+              checkpointSigned: true,
+              challengePeriod: true,
+              processExit: true,
+              withdrawHash: res,
+            });
+          })
+          .on("error", (res: any) => {
+            console.log("posExit ", res);
+            setStep("Checkpoint");
+            if (res.code === 4001) {
+              console.log("user denied transaction");
+              setChallengePeriodCompleted(false);
+            }
           });
-        })
-        .on("error", (res: any) => {
-          console.log("posExit ", res);
-          setStep("Checkpoint");
-          if (res.code === 4001) {
-            console.log("user denied transaction");
-            setChallengePeriodCompleted(false);
-          }
-        });
+      }
     } catch (err: any) {
       console.log("posExit error ", err);
       setStep("Checkpoint");
@@ -409,15 +415,17 @@ const StepThree: React.FC<any> = ({
             </div>
             <hr />
             <ul
-              className={`stepper mt-3 del-step withdraw_steps ${(selectedToken && selectedToken?.bridgetype == "pos") ||
+              className={`stepper mt-3 del-step withdraw_steps ${
+                (selectedToken && selectedToken?.bridgetype == "pos") ||
                 (txState && txState?.token?.bridgetype == "pos")
-                ? "pos_view"
-                : ""
-                }`}
+                  ? "pos_view"
+                  : ""
+              }`}
             >
               <li
-                className={`step ${processing.includes("Initialized") && "active"
-                  }`}
+                className={`step ${
+                  processing.includes("Initialized") && "active"
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -429,10 +437,11 @@ const StepThree: React.FC<any> = ({
                 <div className="step-title">Initialized</div>
               </li>
               <li
-                className={`step ${(processing.includes("Checkpoint") ||
-                  txState?.checkpointSigned) &&
+                className={`step ${
+                  (processing.includes("Checkpoint") ||
+                    txState?.checkpointSigned) &&
                   "active"
-                  }`}
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -445,45 +454,48 @@ const StepThree: React.FC<any> = ({
               </li>
               {page === "bridge"
                 ? selectedToken &&
-                selectedToken?.bridgetype === "plasma" && (
-                  <li
-                    className={`step ${(processing.includes("Challenge Period") ||
-                      txState?.challengePeriod) &&
-                      "active"
+                  selectedToken?.bridgetype === "plasma" && (
+                    <li
+                      className={`step ${
+                        (processing.includes("Challenge Period") ||
+                          txState?.challengePeriod) &&
+                        "active"
                       }`}
-                  >
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Challenge Period</div>
-                  </li>
-                )
+                    >
+                      <div className="step-ico">
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/tick-yes.png"
+                          alt="check-icon"
+                        />
+                      </div>
+                      <div className="step-title">Challenge Period</div>
+                    </li>
+                  )
                 : txState &&
-                txState?.token?.bridgetype === "plasma" && (
-                  <li
-                    className={`step ${(processing.includes("Challenge Period") ||
-                      txState?.challengePeriod) &&
-                      "active"
+                  txState?.token?.bridgetype === "plasma" && (
+                    <li
+                      className={`step ${
+                        (processing.includes("Challenge Period") ||
+                          txState?.challengePeriod) &&
+                        "active"
                       }`}
-                  >
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Challenge Period</div>
-                  </li>
-                )}
+                    >
+                      <div className="step-ico">
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/tick-yes.png"
+                          alt="check-icon"
+                        />
+                      </div>
+                      <div className="step-title">Challenge Period</div>
+                    </li>
+                  )}
               <li
-                className={`step ${(processing.includes("Completed") || txState?.processExit) &&
+                className={`step ${
+                  (processing.includes("Completed") || txState?.processExit) &&
                   "active"
-                  }`}
+                }`}
               >
                 <div className="step-ico">
                   <img
@@ -620,28 +632,32 @@ const StepThree: React.FC<any> = ({
                       </a>
                     </div>
                     <div className="pop-bottom">
-                      {txState?.bridgeType == "plasma" && today.isBefore(updatedAt.add(7, "days")) && (
-                        <p
-                          className="text-center d-flex w-100 justify-content-center align-items-center primary-text"
-                          style={{ fontSize: "13px" }}
-                        >
-                          Your plasma bridge{" "}
-                          {/* <p
+                      {txState?.bridgeType == "plasma" &&
+                        today.isBefore(updatedAt.add(7, "days")) && (
+                          <p
+                            className="text-center d-flex w-100 justify-content-center align-items-center primary-text"
+                            style={{ fontSize: "13px" }}
+                          >
+                            Your plasma bridge{" "}
+                            {/* <p
                             className="primary-text ps-1 pe-1 mb-0"
                             style={{ fontSize: "14px" }}
                           > */}
-                          BONE token unlocks after{" "}
-                          {/* <p
+                            BONE token unlocks after{" "}
+                            {/* <p
                             className="primary-text ps-1 pe-1"
                             style={{ fontSize: "14px" }}
                           > */}
-                          {updatedAt.add(7, "days").format("DD MMMM YYYY")}
-                          {/* </p> */}
-                        </p>
-                      )}
+                            {updatedAt.add(7, "days").format("DD MMMM YYYY")}
+                            {/* </p> */}
+                          </p>
+                        )}
                       <div>
                         <button
-                          disabled={txState?.bridgeType == "plasma" && today.isBefore(updatedAt.add(7, "days"))}
+                          disabled={
+                            txState?.bridgeType == "plasma" &&
+                            today.isBefore(updatedAt.add(7, "days"))
+                          }
                           onClick={(e) => {
                             processExit(e);
                           }}
