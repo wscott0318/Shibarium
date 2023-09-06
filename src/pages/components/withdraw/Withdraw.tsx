@@ -664,7 +664,7 @@ const WithdrawModal: React.FC<any> = ({
                 >
                   <ArrowCircleLeftIcon />
                 </div>
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div
                       className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto"
