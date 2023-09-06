@@ -153,7 +153,7 @@ const WithdrawModal: React.FC<any> = ({
       if (account) {
         setButtonLoader(true);
         let isAllowed = false;
-        if (chainId !== PUPPYNET_CHAIN_ID) {
+        if (chainId !== GOERLI_CHAIN_ID && chainId !== PUPPYNET_CHAIN_ID) {
           await switchNetwork(PUPPYNET_CHAIN_ID);
           setButtonLoader(false);
         }
