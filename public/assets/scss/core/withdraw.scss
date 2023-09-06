@@ -551,6 +551,13 @@
     }
   }
 }
+.pop-block,
+.popmodal-body {
+  height: 100%;
+}
+.pop-block.withdraw_pop {
+    min-height: 455px;
+}
 .cryoto-box {
   position: absolute;
   left: 4px;
