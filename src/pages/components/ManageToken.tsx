@@ -172,11 +172,12 @@ export default function ManageToken({
           console.log("key => ", bridge, tokenAddress);
           if (x?.parentName == "Ether" && bridge == "deposit") {
             let bal = await web3L1.eth.getBalance(account);
-            x.balance = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
+            bal = +(+bal / Math.pow(10, 18)).toFixed(tokenDecimal);
+            x.balance = Math.floor(+bal * 100) / 100;
           } else {
             await getL2TokenBalance(bridge, account, tokenAddress)
               .then((res: any) => {
-                x.balance = res > 0 ? res : "00.00";
+                x.balance = res > 0 ? Math.floor(+res * 100) / 100 : "00.00";
               })
               .catch((err: any) => {});
           }

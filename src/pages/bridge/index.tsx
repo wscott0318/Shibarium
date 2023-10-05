@@ -197,14 +197,14 @@ export default function Withdraw() {
       setTokenBalanceL2(bal);
       setBalances({
         ...balances,
-        l1Balance: parseInt(selectedToken?.balance) || 0,
-        l2Balance: bal,
+        l1Balance: Math.floor(+selectedToken?.balance * 100) / 100 || 0,
+        l2Balance: Math.floor(+bal * 100) / 100,
       });
       if (openManageToken == "withdraw") {
         setBalances({
           ...balances,
-          l1Balance: bal,
-          l2Balance: parseInt(selectedToken?.balance) || 0,
+          l1Balance: Math.floor(+bal * 100) / 100,
+          l2Balance: Math.floor(+selectedToken?.balance * 100) / 100 || 0,
         });
       }
       setOpenManageToken(undefined);
