@@ -121,7 +121,7 @@ const Deposit: React.FC<any> = ({
       } else {
         instanceContract = contractAddress.ERC20_PREDICATE;
       }
-      let amount = web3.utils.toWei(depositTokenInput, "ether");
+      let amount = web3.utils.toWei(String(depositTokenInput), "ether");
       const amountWei = web3.utils.toBN(amount);
 
       let checkAllowance =
@@ -132,6 +132,7 @@ const Deposit: React.FC<any> = ({
           instanceContract
         )) ?? 0;
       let allowanceGas: any = 0;
+      console.log({ checkAllowance });
       if (+checkAllowance < +depositTokenInput) {
         console.log("amount is greater than allowance step 2");
         allowanceGas = await getFeeForApproval(
@@ -230,16 +231,18 @@ const Deposit: React.FC<any> = ({
         );
         let decimal = await tokenInstance.methods.decimals().call();
         const format = getToWeiUnitFromDecimal(decimal);
-        const amm = web3.utils.toWei(depositTokenInput, format);
+        const amm = web3.utils.toWei(String(depositTokenInput), format);
         let data = web3.eth.abi.encodeParameter("uint256", amm);
         gasFee = await instance.methods
           .depositFor(user, selectedToken?.parentContract, data)
           .estimateGas({ from: user });
+        console.log("gas fee for plasma ", gasFee);
       }
       if (+allowanceGas > 0)
         gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
       else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
       setEstGas(+gasFee);
+      console.log({ gasFee });
     } catch (error: any) {
       setEstGas(0);
       let err: any;
@@ -271,7 +274,7 @@ const Deposit: React.FC<any> = ({
       let decimal = await instance.methods.decimals().call();
       let format = getToWeiUnitFromDecimal(decimal);
       setDecimalformat(decimal);
-      let amount = web3.utils.toWei(depositTokenInput, format);
+      let amount = web3.utils.toWei(String(depositTokenInput), format);
       const amountWei = web3.utils.toBN(amount);
       await instance.methods
         .approve(senderAddress, amountWei)
@@ -960,9 +963,9 @@ const Deposit: React.FC<any> = ({
                         thousandSeparator
                         displayType={"text"}
                         prefix="$ "
-                        value={(
-                          (+depositTokenInput || 0) * usdValue
-                        ).toFixed(tokenDecimal)}
+                        value={((+depositTokenInput || 0) * usdValue).toFixed(
+                          tokenDecimal
+                        )}
                       />
                     </p>
                   </div>
@@ -1083,9 +1086,9 @@ const Deposit: React.FC<any> = ({
                         thousandSeparator
                         displayType={"text"}
                         prefix="$ "
-                        value={(
-                          (+depositTokenInput || 0) * usdValue
-                        ).toFixed(tokenDecimal)}
+                        value={((+depositTokenInput || 0) * usdValue).toFixed(
+                          tokenDecimal
+                        )}
                       />
                     </p>
                   </div>

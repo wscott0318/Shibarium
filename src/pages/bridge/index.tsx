@@ -197,14 +197,14 @@ export default function Withdraw() {
       setTokenBalanceL2(bal);
       setBalances({
         ...balances,
-        l1Balance: selectedToken?.balance || 0,
+        l1Balance: parseInt(selectedToken?.balance) || 0,
         l2Balance: bal,
       });
       if (openManageToken == "withdraw") {
         setBalances({
           ...balances,
           l1Balance: bal,
-          l2Balance: selectedToken?.balance || 0,
+          l2Balance: parseInt(selectedToken?.balance) || 0,
         });
       }
       setOpenManageToken(undefined);
@@ -326,8 +326,9 @@ export default function Withdraw() {
                     )}
                     {
                       <div
-                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
-                          }`}
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -466,8 +467,9 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field ${!account ? "disabled" : ""
-                                          }`}
+                                        className={`form-field position-relative fix-coin-field ${
+                                          !account ? "disabled" : ""
+                                        }`}
                                         onClick={() => {
                                           if (
                                             chainId == GOERLI_CHAIN_ID ||
@@ -493,9 +495,9 @@ export default function Withdraw() {
                                               width={24}
                                               src={
                                                 selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                selectedToken?.logoURI
                                                   ? selectedToken.logo ||
-                                                  selectedToken?.logoURI
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/eth_logo.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -520,14 +522,16 @@ export default function Withdraw() {
                                     <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
                                       <div className="form-field position-relative two-fld">
                                         <div
-                                          className={`mid-chain w-100 ${selectedToken?.type == undefined &&
+                                          className={`mid-chain w-100 ${
+                                            selectedToken?.type == undefined &&
                                             "disabled"
-                                            }`}
+                                          }`}
                                         >
                                           <input
-                                            className={`w-100 ${selectedToken?.type ==
-                                              undefined && "disabled"
-                                              }`}
+                                            className={`w-100 ${
+                                              selectedToken?.type ==
+                                                undefined && "disabled"
+                                            }`}
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
@@ -729,8 +733,9 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className={`form-field position-relative fix-coin-field h-100  ${!account ? "disabled" : ""
-                                          }`}
+                                        className={`form-field position-relative fix-coin-field h-100  ${
+                                          !account ? "disabled" : ""
+                                        }`}
                                         onClick={() => {
                                           if (
                                             chainId == GOERLI_CHAIN_ID ||
@@ -757,9 +762,9 @@ export default function Withdraw() {
                                               className="img-fluid"
                                               src={
                                                 selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                selectedToken?.logoURI
                                                   ? selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -821,7 +826,7 @@ export default function Withdraw() {
                                         </p>
                                       ) : null} */}
                                       {touched.withdrawAmount &&
-                                        errors.withdrawAmount ? (
+                                      errors.withdrawAmount ? (
                                         <p className="pt-0 pl-2 primary-text">
                                           {errors.withdrawAmount}
                                         </p>
@@ -834,7 +839,7 @@ export default function Withdraw() {
                                     <label className="mb-2 mb-xxl-3 mb-md-2 d-flex justify-content-between wrapped-label">
                                       To
                                       {selectedToken?.key &&
-                                        values.withdrawAmount ? (
+                                      values.withdrawAmount ? (
                                         <span className="grey-txts">
                                           You will receive{" "}
                                           {values.withdrawAmount}{" "}
