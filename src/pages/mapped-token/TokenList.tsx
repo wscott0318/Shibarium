@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Dropdown, Nav } from "react-bootstrap";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -6,9 +6,10 @@ import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 import { getExplorerLink } from "app/functions";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Shimmer from "app/components/Shimmer/Shimmer";
+import { ChainId } from "shibarium-get-chains";
 
 const TokenList = ({
-  handleSearchToken,
+  network,
   filterKey,
   setFilterKey,
   tokenList,
@@ -18,12 +19,25 @@ const TokenList = ({
   pageCount,
   ChangePagination,
   loader,
+  searchToken,
+  setSearchToken,
 }: any) => {
+  const [chain, setChain] = useState({
+    l1: GOERLI_CHAIN_ID,
+    l2: PUPPYNET_CHAIN_ID,
+  });
+
+  useEffect(() => {
+    if (network == "Mainnet") {
+      setChain({ l1: GOERLI_CHAIN_ID, l2: PUPPYNET_CHAIN_ID });
+    } else {
+      setChain({ l1: ChainId.GÖRLI, l2: ChainId.PUPPYNET719 });
+    }
+  }, [network]);
   const getLink = (chainId: number, contract: any) => {
     return getExplorerLink(chainId, contract, "address");
   };
 
-  console.log({ tokenList, loader });
   return (
     <>
       <div className="mapped-token-table-wrapper">
@@ -34,7 +48,8 @@ const TokenList = ({
               className="custum-search w-100 me-2 "
               type="search"
               placeholder="Search Here"
-              onChange={(e) => handleSearchToken(e.target.value)}
+              value={searchToken}
+              onChange={(e) => setSearchToken(e.target.value)}
             />
             <div className=" drop-sec dropdwn-sec">
               <label className="head-xsm fw-600" htmlFor="Auction">
@@ -110,10 +125,7 @@ const TokenList = ({
                         <td>{token.key || "-"}</td>
                         <td>
                           <a
-                            href={getLink(
-                              GOERLI_CHAIN_ID,
-                              token.parentContract
-                            )}
+                            href={getLink(chain.l1, token.parentContract)}
                             className="redirect-link"
                             target="_blank"
                           >
@@ -122,10 +134,7 @@ const TokenList = ({
                         </td>
                         <td>
                           <a
-                            href={getLink(
-                              PUPPYNET_CHAIN_ID,
-                              token.childContract
-                            )}
+                            href={getLink(chain.l2, token.childContract)}
                             className="redirect-link"
                             target="_blank"
                           >

@@ -23,6 +23,7 @@ function MappedToken() {
   const mainnetTokens: any = useMappedTokens();
   const [mainTokenList, setMainTokenList] = useState<any>(mainnetTokens.data);
   const [fixedTokens, setFixedTokens] = useState<any>();
+  const [searchToken, setSearchToken] = useState("");
   const [filterKey, setFilterKey] = useState<any>({
     key: 0,
     value: "Show All",
@@ -62,6 +63,8 @@ function MappedToken() {
     } else {
       setMainTokenList(testnetTokens.data);
     }
+    setFilterKey({ key: 0, value: "Show All" });
+    setSearchToken("");
   };
   const handleSearchToken = (key: any) => {
     try {
@@ -88,6 +91,9 @@ function MappedToken() {
       Sentry.captureMessage("handleSearchToken", err);
     }
   };
+  useEffect(() => {
+    handleSearchToken(searchToken);
+  }, [searchToken]);
 
   useEffect(() => {
     onFilter();
@@ -116,7 +122,6 @@ function MappedToken() {
   };
 
   const propsToTokenList = {
-    handleSearchToken,
     filterKey,
     setFilterKey,
     tokenList,
@@ -126,6 +131,9 @@ function MappedToken() {
     pageCount,
     ChangePagination,
     loader,
+    network,
+    searchToken,
+    setSearchToken,
   };
   return (
     <>
@@ -133,7 +141,7 @@ function MappedToken() {
         <div className="mapped-token-header">
           <img src="../../../assets/images/Shibarium white@2x.png" alt="" />
           <Link href="/map">
-            <a className="btn primary-btn ff-mos">Map New Token</a>
+            <a className="btn primary-btn ff-mos d-none">Map New Token</a>
           </Link>
         </div>
         <div className="bottom-pad mapped-token-wrapper">
