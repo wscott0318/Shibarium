@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import ComponentRouters from "./routes";
 import Head from "next/head";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const APP_NAME = "Shibarium";
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: any) {
   if (process.env.NODE_ENV === "production") {
     console.log = () => {};
   }
+  let queryClient = new QueryClient();
   // useEffect(() => {
   //  console.log(screen.orientation );
 
@@ -52,10 +54,12 @@ function MyApp({ Component, pageProps }: any) {
               <ReduxProvider store={store}>
                 <SnackbarProvider>
                   <ErrorBoundary>
-                    <ComponentRouters
-                      Component={Component}
-                      pageProps={pageProps}
-                    />
+                    <QueryClientProvider client={queryClient}>
+                      <ComponentRouters
+                        Component={Component}
+                        pageProps={pageProps}
+                      />
+                    </QueryClientProvider>
                   </ErrorBoundary>
                 </SnackbarProvider>
               </ReduxProvider>
