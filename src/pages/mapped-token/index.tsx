@@ -40,18 +40,19 @@ function MappedToken() {
     setAllTokens(mainTokenList);
     setFixedTokens(mainTokenList);
     const slice = mainTokenList?.slice(limit, limit + perPage);
-    setTokenList(slice);
     console.log({ slice });
+    setTokenList(slice);
     setPageCount(Math.ceil(mainTokenList?.length / perPage));
     if (filterKey.key != 0) onFilter();
     if (slice?.length > 0) {
       setLoader(false);
     }
   };
+  console.log({ tokenList, fixedTokens });
 
   useEffect(() => {
     getTokenList();
-  }, [currentPage, mainTokenList]);
+  }, [currentPage, mainTokenList, fixedTokens]);
 
   useEffect(() => {
     handletabChange();
@@ -110,9 +111,11 @@ function MappedToken() {
     } else {
       filtered = fixedTokens;
     }
+    console.log({ filtered, fixedTokens });
     setTokenCount(filtered?.length);
     setPageCount(Math.ceil(filtered?.length / perPage));
     slice = filtered?.slice(limit, limit + perPage);
+    console.log("infilter slice", { slice });
     setTokenList(slice);
     setAllTokens(filtered);
     if (filtered?.length < perPage * currentPage) {

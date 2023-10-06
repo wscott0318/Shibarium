@@ -22,6 +22,7 @@ const TokenList = ({
   searchToken,
   setSearchToken,
 }: any) => {
+  console.log({ tokenList });
   const [chain, setChain] = useState({
     l1: GOERLI_CHAIN_ID,
     l2: PUPPYNET_CHAIN_ID,
